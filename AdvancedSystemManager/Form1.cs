@@ -19,6 +19,7 @@ namespace AdvancedSystemManager
         {
             SystemInfo sysinfo = new SystemInfo();
             MessageBox.Show(sysinfo.HOSTNAME);
+            MessageBox.Show(RegistryParser.ParseRegistry());
         }
     }
 }
