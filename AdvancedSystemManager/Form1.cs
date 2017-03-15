@@ -14,5 +14,11 @@ namespace AdvancedSystemManager
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            SystemInfo sysinfo = new SystemInfo();
+            MessageBox.Show(sysinfo.HOSTNAME);
+        }
     }
 }
