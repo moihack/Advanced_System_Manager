@@ -18,8 +18,9 @@ namespace AdvancedSystemManager
         private void Form1_Load(object sender, EventArgs e)
         {
             SystemInfo sysinfo = new SystemInfo();
-            MessageBox.Show(sysinfo.HOSTNAME);
-            MessageBox.Show(RegistryParser.ParseRegistry());
+            Console.WriteLine("main entry");
+            //Console.WriteLine(sysinfo.RAM);
+            //Console.WriteLine(sysinfo.OSVERSION);
         }
     }
 }

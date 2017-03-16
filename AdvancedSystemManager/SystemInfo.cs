@@ -1,8 +1,8 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Management;
+using System.IO;
 
 namespace AdvancedSystemManager
 {
@@ -11,41 +11,39 @@ namespace AdvancedSystemManager
         public String HOSTNAME { get; }
         public String USERNAME { get; }
         public String OSVERSION { get; }
+        public String MB { get; }
         public String CPU { get; }
         public String RAM { get; }
         public String GPU { get; }
-
+        public String VRAM { get; }
+        public String HDD { get; }
         public SystemInfo()
         {
             this.HOSTNAME = Environment.MachineName;
             this.USERNAME = Environment.UserName;
-            this.OSVERSION = WindowsVersion();
-
-            //ManagementObjectSearcher
+            this.OSVERSION = RegistryParser.WindowsVersion();
+            this.MB = WMIFinder("Product", "Win32_BaseBoard");
+            this.CPU = WMIFinder("Name", "Win32_Processor");
+            this.RAM = WMIFinder("TotalPhysicalMemory", "Win32_ComputerSystem");
+            this.GPU = WMIFinder("Name", "Win32_VideoController");
+            this.VRAM = WMIFinder("AdapterRAM", "Win32_VideoController");
+            this.HDD = WMIFinder("Size", "Win32_DiskDrive");
         }
-
-        private string HKLM_GetString(string path, string key)
+       
+        private String WMIFinder(String propertyName,String wmiClass)
         {
-            try
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT " + propertyName + " FROM " + wmiClass);
+            
+            string retVal = "";
+            foreach (ManagementObject mo in searcher.Get())
             {
-                RegistryKey rk = Registry.LocalMachine.OpenSubKey(path);
-                if (rk == null) return "";
-                return (string)rk.GetValue(key);
+                foreach (PropertyData property in mo.Properties)
+                {
+                    Console.WriteLine(property.Value);
+                    retVal = property.Value.ToString();                   
+                }
             }
-            catch { return ""; }
+            return retVal;
         }
-
-        private String WindowsVersion()
-        {
-            string ProductName = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
-            string CSDVersion = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CSDVersion");
-            if (ProductName != "")
-            {
-                return (ProductName.StartsWith("Microsoft") ? "" : "Microsoft ") + ProductName +
-                            (CSDVersion != "" ? " " + CSDVersion : "");
-            }
-            return "";
-        }
-
     }
 }
