@@ -21,6 +21,8 @@ namespace AdvancedSystemManager
             Console.WriteLine("main entry");
             //Console.WriteLine(sysinfo.RAM);
             //Console.WriteLine(sysinfo.OSVERSION);
+            //RegistryParser.getPrograms();
+            //ProcessManager.installTest();
         }
     }
 }
