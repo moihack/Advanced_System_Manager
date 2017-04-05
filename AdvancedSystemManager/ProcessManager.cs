@@ -7,7 +7,7 @@ namespace AdvancedSystemManager
     class ProcessManager
     {
 
-        public static void uninstallTest()
+        public static void UninstallTest()
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -22,7 +22,7 @@ namespace AdvancedSystemManager
             process.Start();
         }
 
-        public static void installTest()
+        public static void InstallTest()
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();

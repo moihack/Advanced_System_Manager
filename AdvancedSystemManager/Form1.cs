@@ -17,12 +17,19 @@ namespace AdvancedSystemManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SystemInfo sysinfo = new SystemInfo();
+            //SystemInfo sysinfo = new SystemInfo();
             Console.WriteLine("main entry");
             //Console.WriteLine(sysinfo.RAM);
             //Console.WriteLine(sysinfo.OSVERSION);
             //RegistryParser.getPrograms();
             //ProcessManager.installTest();
-        }
+            //CleanUpManager man = new CleanUpManager();
+            //DiskCleanUp.findFiles(@"C:\Windows", "*.dmp");
+            //DiskCleanUp.findFiles(@"C:\Windows\Minidump", "*.dmp");
+            DiskCleanUp.FindFiles(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "tsirko*.*");
+            //MessageBox.Show(Environment.UserName);
+
+
+        }       
     }
 }
