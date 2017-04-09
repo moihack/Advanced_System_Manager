@@ -11,6 +11,7 @@ namespace AdvancedSystemManager
         public String HOSTNAME { get; }
         public String USERNAME { get; }
         public String OSVERSION { get; }
+        public String OSBITNESS { get; }
         public String MB { get; }
         public String CPU { get; }
         public String RAM { get; }
@@ -22,6 +23,7 @@ namespace AdvancedSystemManager
             this.HOSTNAME = Environment.MachineName;
             this.USERNAME = Environment.UserName;
             this.OSVERSION = RegistryParser.WindowsVersion();
+            this.OSBITNESS = WMIFinder("OSArchitecture", "Win32_OperatingSystem");
             this.MB = WMIFinder("Product", "Win32_BaseBoard");
             this.CPU = WMIFinder("Name", "Win32_Processor");
             this.RAM = WMIFinder("TotalPhysicalMemory", "Win32_ComputerSystem");
@@ -40,6 +42,7 @@ namespace AdvancedSystemManager
                 foreach (PropertyData property in mo.Properties)
                 {
                     Console.WriteLine(property.Value);
+                    MyLogger.WriteLog(property.Value);
                     retVal = property.Value.ToString();                   
                 }
             }

@@ -13,6 +13,7 @@ namespace AdvancedSystemManager
         [STAThread]
         static void Main()
         {
+            MyLogger.CleanLog();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

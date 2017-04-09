@@ -16,11 +16,11 @@ namespace AdvancedSystemManager
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
-            //SystemInfo sysinfo = new SystemInfo();
+        {            
+            SystemInfo sysinfo = new SystemInfo();
             Console.WriteLine("main entry");
             //Console.WriteLine(sysinfo.RAM);
-            //Console.WriteLine(sysinfo.OSVERSION);
+            Console.WriteLine(sysinfo.OSBITNESS);
             //RegistryParser.getPrograms();
             //ProcessManager.installTest();
             //CleanUpManager man = new CleanUpManager();
