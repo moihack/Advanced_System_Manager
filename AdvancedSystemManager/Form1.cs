@@ -26,10 +26,11 @@ namespace AdvancedSystemManager
             //CleanUpManager man = new CleanUpManager();
             //DiskCleanUp.findFiles(@"C:\Windows", "*.dmp");
             //DiskCleanUp.findFiles(@"C:\Windows\Minidump", "*.dmp");
-            DiskCleanUp.FindFiles(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "tsirko*.*");
+            //DiskCleanUp.FindFiles(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "tsirko*.*");
             //MessageBox.Show(Environment.UserName);
-
-
+            //RegistryParser.getPrograms();
+            //RegistryParser.getPrograms2();
+            //RegistryParser.getWin64Programs();
         }       
     }
 }
