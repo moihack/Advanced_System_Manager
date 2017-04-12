@@ -22,7 +22,12 @@ namespace AdvancedSystemManager
             //Console.WriteLine(sysinfo.RAM);
             Console.WriteLine(sysinfo.OSBITNESS);
             //RegistryParser.getPrograms();
-            //ProcessManager.installTest();
+            ProcessManager.NeoUni();
+            ProcessManager.NeoUniQbit();
+            MessageBox.Show("block test");
+            //ProcessManager.UninstallTest();
+            ProcessManager.InstallTest();
+            ProcessManager.InstallTestQ();
             //CleanUpManager man = new CleanUpManager();
             //DiskCleanUp.findFiles(@"C:\Windows", "*.dmp");
             //DiskCleanUp.findFiles(@"C:\Windows\Minidump", "*.dmp");
