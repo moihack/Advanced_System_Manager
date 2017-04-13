@@ -5,8 +5,120 @@ using System.Text;
 
 namespace AdvancedSystemManager
 {
-    class ProcessManager
+    class PackageManager
     {
+        public static void MSI_Install(String filePath)
+        {
+            Process myProcess = new Process();
+
+            try
+            {
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.StartInfo.FileName = "MsiExec.exe";
+                myProcess.StartInfo.Arguments = "/I " + filePath + " /qn /li+ C:\\package.log";
+                myProcess.StartInfo.CreateNoWindow = true;
+                myProcess.StartInfo.RedirectStandardError = true;
+                myProcess.StartInfo.RedirectStandardOutput = true;
+
+                myProcess.Start();
+
+                /*while (!myProcess.StandardOutput.EndOfStream)
+                {
+                    string line = myProcess.StandardOutput.ReadLine();
+                    Console.WriteLine(line);                    
+                } */
+                //myProcess.WaitForExit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        public static void MSI_Uninstall(String productCode)
+        {
+            Process myProcess = new Process();
+
+            try
+            {
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.StartInfo.FileName = "MsiExec.exe";
+                myProcess.StartInfo.Arguments =  "/X" + productCode + " /qn /li+ C:\\package.log";
+                myProcess.StartInfo.CreateNoWindow = true;
+                myProcess.StartInfo.RedirectStandardError = true;
+                myProcess.StartInfo.RedirectStandardOutput = true;
+
+                myProcess.Start();
+
+                /*while (!myProcess.StandardOutput.EndOfStream)
+                {
+                    string line = myProcess.StandardOutput.ReadLine();
+                    Console.WriteLine(line);                    
+                } */
+                //myProcess.WaitForExit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+
+        public static void EXE_Install(String inEXEpath,String arg)
+        {
+            Process myProcess = new Process();
+
+            try
+            {
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.StartInfo.FileName = inEXEpath;
+                myProcess.StartInfo.Arguments = arg; //arg may be /S , /SILENT and other??
+                myProcess.StartInfo.CreateNoWindow = true;
+                myProcess.StartInfo.RedirectStandardError = true;
+                myProcess.StartInfo.RedirectStandardOutput = true;
+
+                myProcess.Start();
+
+                while (!myProcess.StandardOutput.EndOfStream)
+                {
+                    string line = myProcess.StandardOutput.ReadLine();
+                    Console.WriteLine(line);
+                }
+                //myProcess.WaitForExit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public static void EXE_Uninstall(String uniEXEpath,String arg)
+        {
+            Process myProcess = new Process();
+
+            try
+            {
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.StartInfo.FileName = uniEXEpath;
+                myProcess.StartInfo.Arguments = arg; //arg may be /S , /SILENT and other??
+                myProcess.StartInfo.CreateNoWindow = true;
+                myProcess.StartInfo.RedirectStandardError = true;
+                myProcess.StartInfo.RedirectStandardOutput = true;
+
+                myProcess.Start();
+
+                while (!myProcess.StandardOutput.EndOfStream)
+                {
+                    string line = myProcess.StandardOutput.ReadLine();
+                    Console.WriteLine(line);
+                }
+                //myProcess.WaitForExit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
 
         public static void UninstallTest()
         {
@@ -101,7 +213,7 @@ namespace AdvancedSystemManager
             {
                 myProcess.StartInfo.UseShellExecute = false;
                 myProcess.StartInfo.FileName = "MsiExec.exe";
-                myProcess.StartInfo.Arguments = "/X{23170F69-40C1-2702-1604-000001000000} /qn /li C:\\package.log ";
+                myProcess.StartInfo.Arguments = "/X{23170F69-40C1-2702-1604-000001000000} /qn /li+ C:\\package.log ";
                 myProcess.StartInfo.CreateNoWindow = true;
                 myProcess.StartInfo.RedirectStandardError = true;
                 myProcess.StartInfo.RedirectStandardOutput = true;
