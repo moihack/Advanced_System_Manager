@@ -35,13 +35,14 @@
             this.mbLbl = new System.Windows.Forms.Label();
             this.osLbl = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.osTB = new System.Windows.Forms.TextBox();
-            this.mbTB = new System.Windows.Forms.TextBox();
-            this.cpuTB = new System.Windows.Forms.TextBox();
-            this.ramTB = new System.Windows.Forms.TextBox();
-            this.gpuTB = new System.Windows.Forms.TextBox();
-            this.hddTB = new System.Windows.Forms.TextBox();
             this.updatesInfo = new System.Windows.Forms.TextBox();
+            this.hddTB = new System.Windows.Forms.TextBox();
+            this.gpuTB = new System.Windows.Forms.TextBox();
+            this.ramTB = new System.Windows.Forms.TextBox();
+            this.cpuTB = new System.Windows.Forms.TextBox();
+            this.mbTB = new System.Windows.Forms.TextBox();
+            this.osTB = new System.Windows.Forms.TextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,54 +119,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(488, 382);
             this.panel1.TabIndex = 6;
-            // 
-            // osTB
-            // 
-            this.osTB.Location = new System.Drawing.Point(81, 18);
-            this.osTB.Name = "osTB";
-            this.osTB.ReadOnly = true;
-            this.osTB.Size = new System.Drawing.Size(372, 20);
-            this.osTB.TabIndex = 6;
-            // 
-            // mbTB
-            // 
-            this.mbTB.Location = new System.Drawing.Point(81, 57);
-            this.mbTB.Name = "mbTB";
-            this.mbTB.ReadOnly = true;
-            this.mbTB.Size = new System.Drawing.Size(372, 20);
-            this.mbTB.TabIndex = 7;
-            // 
-            // cpuTB
-            // 
-            this.cpuTB.Location = new System.Drawing.Point(81, 90);
-            this.cpuTB.Name = "cpuTB";
-            this.cpuTB.ReadOnly = true;
-            this.cpuTB.Size = new System.Drawing.Size(372, 20);
-            this.cpuTB.TabIndex = 8;
-            // 
-            // ramTB
-            // 
-            this.ramTB.Location = new System.Drawing.Point(81, 132);
-            this.ramTB.Name = "ramTB";
-            this.ramTB.ReadOnly = true;
-            this.ramTB.Size = new System.Drawing.Size(372, 20);
-            this.ramTB.TabIndex = 9;
-            // 
-            // gpuTB
-            // 
-            this.gpuTB.Location = new System.Drawing.Point(81, 174);
-            this.gpuTB.Name = "gpuTB";
-            this.gpuTB.ReadOnly = true;
-            this.gpuTB.Size = new System.Drawing.Size(372, 20);
-            this.gpuTB.TabIndex = 10;
-            // 
-            // hddTB
-            // 
-            this.hddTB.Location = new System.Drawing.Point(81, 219);
-            this.hddTB.Name = "hddTB";
-            this.hddTB.ReadOnly = true;
-            this.hddTB.Size = new System.Drawing.Size(372, 20);
-            this.hddTB.TabIndex = 11;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // updatesInfo
             // 
@@ -175,6 +129,59 @@
             this.updatesInfo.ReadOnly = true;
             this.updatesInfo.Size = new System.Drawing.Size(438, 97);
             this.updatesInfo.TabIndex = 12;
+            // 
+            // hddTB
+            // 
+            this.hddTB.Location = new System.Drawing.Point(81, 219);
+            this.hddTB.Name = "hddTB";
+            this.hddTB.ReadOnly = true;
+            this.hddTB.Size = new System.Drawing.Size(372, 20);
+            this.hddTB.TabIndex = 11;
+            // 
+            // gpuTB
+            // 
+            this.gpuTB.Location = new System.Drawing.Point(81, 174);
+            this.gpuTB.Name = "gpuTB";
+            this.gpuTB.ReadOnly = true;
+            this.gpuTB.Size = new System.Drawing.Size(372, 20);
+            this.gpuTB.TabIndex = 10;
+            // 
+            // ramTB
+            // 
+            this.ramTB.Location = new System.Drawing.Point(81, 132);
+            this.ramTB.Name = "ramTB";
+            this.ramTB.ReadOnly = true;
+            this.ramTB.Size = new System.Drawing.Size(372, 20);
+            this.ramTB.TabIndex = 9;
+            // 
+            // cpuTB
+            // 
+            this.cpuTB.Location = new System.Drawing.Point(81, 90);
+            this.cpuTB.Name = "cpuTB";
+            this.cpuTB.ReadOnly = true;
+            this.cpuTB.Size = new System.Drawing.Size(372, 20);
+            this.cpuTB.TabIndex = 8;
+            // 
+            // mbTB
+            // 
+            this.mbTB.Location = new System.Drawing.Point(81, 57);
+            this.mbTB.Name = "mbTB";
+            this.mbTB.ReadOnly = true;
+            this.mbTB.Size = new System.Drawing.Size(372, 20);
+            this.mbTB.TabIndex = 7;
+            // 
+            // osTB
+            // 
+            this.osTB.Location = new System.Drawing.Point(81, 18);
+            this.osTB.Name = "osTB";
+            this.osTB.ReadOnly = true;
+            this.osTB.Size = new System.Drawing.Size(372, 20);
+            this.osTB.TabIndex = 6;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // SystemInfoUserControl
             // 
@@ -206,5 +213,6 @@
         private System.Windows.Forms.TextBox cpuTB;
         private System.Windows.Forms.TextBox mbTB;
         private System.Windows.Forms.TextBox updatesInfo;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

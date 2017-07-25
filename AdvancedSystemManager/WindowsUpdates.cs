@@ -19,7 +19,7 @@ namespace AdvancedSystemManager
                 installedUpdatesList.Add(hotfix["HotFixID"].ToString());      
         }
 
-        public String UpdateChecker(String updateID)
+        public static String UpdateChecker(String updateID)
         {
             bool updateInstalled = false;
             String msg = "";

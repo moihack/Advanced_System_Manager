@@ -20,21 +20,18 @@ namespace AdvancedSystemManager
         //Show shadows under windows
         private static UInt32 SPI_SETDROPSHADOW = 0x1025;
 
-        private static UInt32 SPI_SETFONTSMOOTHING = 0x004B;
+        //private static UInt32 SPI_SETFONTSMOOTHING = 0x004B;
 
         private static UInt32 SPI_SETMENUFADE = 0x1013;
 
         private static UInt32 SPI_SETCOMBOBOXANIMATION = 0x1005;
         private static UInt32 SPI_SETCURSORSHADOW = 0x101B;
         private static UInt32 SPI_SETLISTBOXSMOOTHSCROLLING = 0x1007;
-        private static UInt32 SPI_SETMENUANIMATION = 0x1003; //? setmenufade?
+        private static UInt32 SPI_SETMENUANIMATION = 0x1003;
         private static UInt32 SPI_SETSELECTIONFADE = 0x1015;
         private static UInt32 SPI_SETTOOLTIPANIMATION = 0x1017;
         private static UInt32 SPI_SETTOOLTIPFADE = 0x1019;
         //private static UInt32
-
-
-
 
         //private static UInt32 SPI_GETDROPSHADOW = 0x1024;
 

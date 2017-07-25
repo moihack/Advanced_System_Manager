@@ -23,12 +23,6 @@ namespace AdvancedSystemManager
             //Console.WriteLine(this.Parent.Parent.Parent.Name);
             //osLbl.Text = osLbl.Text + myParent.sysinfo.OSVERSION;
 
-            String up1 = "KB3020369";
-            String up2 = "KB3172605";
-
-            WindowsUpdates winUp = new WindowsUpdates();
-            //winUp.UpdatesFinder();
-
             SystemInfo sysInfo = new SystemInfo();
 
             osTB.Text += sysInfo.OSVERSION + " - " + sysInfo.OSBITNESS;
@@ -38,9 +32,29 @@ namespace AdvancedSystemManager
             gpuTB.Text += sysInfo.GPU + " with " + Convert.ToUInt64(sysInfo.VRAM)/1024/1024 + " MB of VRAM";
             hddTB.Text += sysInfo.HDDModel + " with " + Convert.ToUInt64(sysInfo.HDD)/1000/1000/1000 + " GB of storage";
 
-            updatesInfo.Text = winUp.UpdateChecker(up1);
-            updatesInfo.Text +=  winUp.UpdateChecker(up2);
+            updatesInfo.Text = "Please wait...Searching for installed updates";
+            backgroundWorker1.RunWorkerAsync();
+
         }
-       
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WindowsUpdates winUp = new WindowsUpdates();
+            winUp.UpdatesFinder();
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            String up1 = "KB3020369";
+            String up2 = "KB3172605";
+
+            updatesInfo.Text = WindowsUpdates.UpdateChecker(up1) + "\n";
+            updatesInfo.Text += WindowsUpdates.UpdateChecker(up2);
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
