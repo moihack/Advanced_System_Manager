@@ -18,6 +18,7 @@ namespace AdvancedSystemManager
         public String GPU { get; }
         public String VRAM { get; }
         public String HDD { get; }
+        public String HDDModel { get; }
         public SystemInfo()
         {
             this.HOSTNAME = Environment.MachineName;
@@ -30,9 +31,10 @@ namespace AdvancedSystemManager
             this.GPU = WMIFinder("Name", "Win32_VideoController");
             this.VRAM = WMIFinder("AdapterRAM", "Win32_VideoController");
             this.HDD = WMIFinder("Size", "Win32_DiskDrive");
+            this.HDDModel = WMIFinder("Model", "Win32_DiskDrive");
         }
        
-        private String WMIFinder(String propertyName,String wmiClass)
+        private static String WMIFinder(String propertyName,String wmiClass)
         {
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT " + propertyName + " FROM " + wmiClass);
             
@@ -48,5 +50,15 @@ namespace AdvancedSystemManager
             }
             return retVal;
         }
+
+        
+
+        public void UpdatesFinder2()
+        {
+            string x = WMIFinder("HotFixID", "Win32_QuickFixEngineering");
+            Console.WriteLine("test");
+            //Console.WriteLine(x);
+        }
+
     }
 }

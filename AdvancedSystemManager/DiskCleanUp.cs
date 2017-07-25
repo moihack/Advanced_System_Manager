@@ -45,6 +45,9 @@ namespace AdvancedSystemManager
             }
         }
 
+        //firefox & chrome profile delete!
+
+
     }
 
 }

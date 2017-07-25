@@ -31,5 +31,15 @@ namespace AdvancedSystemManager
                 file.Write("");
             }
         }
+        public static void WriteProgramList(Object messageLog)
+        {
+            //true is append - create if not exists!
+            using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter(Application.StartupPath + "\\programs.txt", true))
+            {
+                file.WriteLine(messageLog);
+            }
+        }
+
     }
 }

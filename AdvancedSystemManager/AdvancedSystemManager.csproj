@@ -61,6 +61,7 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -73,15 +74,53 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="OptimizeUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OptimizeUserControl.Designer.cs">
+      <DependentUpon>OptimizeUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceManager.cs" />
+    <Compile Include="IntegrityChecker.cs" />
     <Compile Include="MyLogger.cs" />
     <Compile Include="Package.cs" />
     <Compile Include="PackageManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistryParser.cs" />
+    <Compile Include="ProgramsManagerUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProgramsManagerUserControl.Designer.cs">
+      <DependentUpon>ProgramsManagerUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceManagerUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ServiceManagerUserControl.Designer.cs">
+      <DependentUpon>ServiceManagerUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="SystemInfo.cs" />
+    <Compile Include="SystemInfoUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SystemInfoUserControl.Designer.cs">
+      <DependentUpon>SystemInfoUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolsUserControl.Designer.cs">
+      <DependentUpon>ToolsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VisualEffects.cs" />
+    <Compile Include="WindowsService.cs" />
+    <Compile Include="WindowsUpdates.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptimizeUserControl.resx">
+      <DependentUpon>OptimizeUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -91,7 +130,21 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ProgramsManagerUserControl.resx">
+      <DependentUpon>ProgramsManagerUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceManagerUserControl.resx">
+      <DependentUpon>ServiceManagerUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemInfoUserControl.resx">
+      <DependentUpon>SystemInfoUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolsUserControl.resx">
+      <DependentUpon>ToolsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="AdvancedSystemManager.config" />
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
