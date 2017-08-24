@@ -18,12 +18,15 @@ namespace AdvancedSystemManager
                 try
                 {
                     //String serviceName = service.ServiceName;
+                    
                     RegistryKey regKey1 = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\services\\" + service.ServiceName);
                     String imgPath = regKey1.GetValue("ImagePath").ToString();
                     //String desc = "";
-                    String desc = regKey1.GetValue("Description").ToString();
+                    String desc = regKey1.GetValue("Description","noDescription").ToString(); //fix exception
                     //Console.WriteLine(imgPath);
-                    int startType =  Convert.ToInt32(regKey1.GetValue("Start"));                  
+                    int startType =  Convert.ToInt32(regKey1.GetValue("Start"));
+                    //int serviceType = Convert.ToInt32(regKey1.GetValue("Type"));
+                    //Console.WriteLine(serviceType);
                     regKey1.Close();
                     //Console.WriteLine(service.DisplayName + " " + service.Status.ToString());
 
@@ -31,6 +34,7 @@ namespace AdvancedSystemManager
                     //{
                     //if (service.DisplayName.Contains("Driver"))
                     //if (!  (    (imgPath.Contains("Microsoft")) || (imgPath.Contains("svchost.exe"))      )     )
+                   // if(serviceType==1 || serviceType==2 || serviceType == 4)
                     {
                         //Console.WriteLine(service.DisplayName);
                         WindowsService winServ = new WindowsService(service.DisplayName, service.ServiceName, startType, service.Status.ToString());
