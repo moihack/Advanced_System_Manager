@@ -18,7 +18,8 @@ namespace AdvancedSystemManager
         private void ServiceManagerUserControl_Load(object sender, EventArgs e)
         {
             //Console.WriteLine("test");
-            MarkForRemoval();
+            //MarkForRemoval();
+            backgroundWorker1.RunWorkerAsync();
         }
 
         public void MarkForRemoval()
@@ -91,35 +92,74 @@ namespace AdvancedSystemManager
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {/*
-            /*foreach (ListViewItem item in listView1.Items)
-            {             
-                if (item.Checked)
-                {
-                    String rem = item.SubItems[0].Text;
-                    //Console.WriteLine(rem); 
-                    PackageManager.installedProgramsList.Find(rem);
-                }
-            } 
-
-            for (int i = 0; i < listView1.Items.Count; i++)
-            {
-                /////////HAZARD ALERT IF UNCOMMENTED PackageManager.CheckUninstallationMethod(PackageManager.installedProgramsList[i]);
-                //Console.WriteLine(PackageManager.installedProgramsList[i].UninstallString);
-                if (listView1.Items[i].Checked)
-                {
-                    PackageManager.CheckUninstallationMethod(PackageManager.installedProgramsList[i]);
-                }
-
-            }
-            //MessageBox.Show("Done!!!!");
-            //PackageManager.removeMPC();
-            */
+        {
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void svBtn_Click(object sender, EventArgs e)
+        {
+            SaveList();
+            MessageBox.Show("Programs list saved to programs.txt");
+        }
+
+        private void defBtn_Click(object sender, EventArgs e)
+        {
+            MarkForRemoval();
+        }
+
+        private void allBtn_Click(object sender, EventArgs e)
+        {
+            MarkAll();
+        }
+
+        private void noBtn_Click(object sender, EventArgs e)
+        {
+            MarkNone();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+         //   RegistryParser.GetPrograms();
+          //  RegistryParser.GetPrograms2();
+
+            RegistryParser.GetWin64Programs();
+            RegistryParser.GetPrograms();
+            RegistryParser.GetPrograms2();
+
+            //PackageManager.DuplicatesFinder();
+            //PackageManager.ShowNormal();
+
+            PackageManager.ShowNormal();
+
+            PackageManager.DuplicatesFinder();
+
+            PackageManager.SortPackages();
+            
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MarkForRemoval();
+        }
+
+        private void possibleEqual()
+        {
+            RegistryParser.GetWin64Programs();
+            RegistryParser.GetPrograms();
+            //   RegistryParser.GetPrograms2();
+
+            //PackageManager.DuplicatesFinder();
+            //PackageManager.ShowNormal();
+
+            PackageManager.DuplicatesFinder();
+
+            PackageManager.SortPackages();
+            PackageManager.ShowNormal();
+        }
+
     }
 }

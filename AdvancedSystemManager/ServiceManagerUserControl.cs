@@ -18,32 +18,7 @@ namespace AdvancedSystemManager
 
         private void ServiceManagerUserControl_Load(object sender, EventArgs e)
         {
-            ServiceManager.GetServices();
-
-            foreach (WindowsService ser in ServiceManager.servicesList)
-            {
-                dataGridView1.Rows.Add(ser.DisplayName, ser.ServiceName, ser.Status);
-
-                int currentRow = dataGridView1.RowCount - 1; //dirty one-line hack! :D
-
-                //Console.WriteLine(dataGridView1.RowCount);
-                switch (ser.StartType)
-                {
-                    case 2:
-                        dataGridView1.Rows[currentRow].Cells[3].Value = "2 - Automatic"; //set the value member here
-                        break;
-                    case 3:
-                        dataGridView1.Rows[currentRow].Cells[3].Value = "3 - Manual";
-                        break;
-                    case 4:
-                        dataGridView1.Rows[currentRow].Cells[3].Value = "4 - Disabled";
-                        break;
-                }
-            }
-
-            // Add the events to listen for
-            dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(dataGridView1_CellValueChanged);
-            dataGridView1.CurrentCellDirtyStateChanged += new EventHandler(dataGridView1_CurrentCellDirtyStateChanged);
+            backgroundWorker1.RunWorkerAsync();
         }
 
         // This event handler manually raises the CellValueChanged event 
@@ -133,6 +108,46 @@ namespace AdvancedSystemManager
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ServiceManager.GetServices();
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+
+            foreach (WindowsService ser in ServiceManager.servicesList)
+            {
+                dataGridView1.Rows.Add(ser.DisplayName, ser.ServiceName, ser.Status);
+
+                int currentRow = dataGridView1.RowCount - 1; //dirty one-line hack! :D
+
+                //Console.WriteLine(dataGridView1.RowCount);
+                switch (ser.StartType)
+                {
+                    case 2:
+                        dataGridView1.Rows[currentRow].Cells[3].Value = "2 - Automatic"; //set the value member here
+                        break;
+                    case 3:
+                        dataGridView1.Rows[currentRow].Cells[3].Value = "3 - Manual";
+                        break;
+                    case 4:
+                        dataGridView1.Rows[currentRow].Cells[3].Value = "4 - Disabled";
+                        break;
+                }
+            }
+
+            // Add the events to listen for
+            dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(dataGridView1_CellValueChanged);
+            dataGridView1.CurrentCellDirtyStateChanged += new EventHandler(dataGridView1_CurrentCellDirtyStateChanged);
         }
     }
 }

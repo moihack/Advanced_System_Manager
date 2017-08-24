@@ -34,7 +34,7 @@ namespace AdvancedSystemManager
 
             if (updateInstalled)
             {
-               msg = ("Update " + updateID + " is installed.");
+                 msg = ("Update " + updateID + " is installed.");
             }
             else
             {

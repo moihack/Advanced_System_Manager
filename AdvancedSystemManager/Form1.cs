@@ -22,11 +22,7 @@ namespace AdvancedSystemManager
             Console.WriteLine("main entry");
             //Console.WriteLine(sysinfo.RAM);
             //Console.WriteLine(sysinfo.OSBITNESS);
-            RegistryParser.GetPrograms();
-            RegistryParser.GetPrograms2();
-            RegistryParser.GetWin64Programs();
-            PackageManager.DuplicatesFinder();
-            PackageManager.ShowNormal();
+
             //PackageManager.NeoUni();
             //PackageManager.NeoUniQbit();
             //MessageBox.Show("block test");
@@ -58,6 +54,11 @@ namespace AdvancedSystemManager
             //RegistryParser.ApplyVisualEffects();
             //VisualEffects.ApplySettings();
             //PackageManager.UnattendedInstall();
+            //CPUPower.SetCPUStates();
+            // DiskCleanUp.FindFiles("%WINDIR%", "*.dll");
+            //DiskCleanUp.FindFiles(@"C:\Windows\msdownld.tmp|?:\msdownld.tmp", "*.tmp");
+            //RegistryParser.GetVolumeCaches();
+            //DiskCleanUp.FirefoxCleanup();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -76,7 +77,11 @@ namespace AdvancedSystemManager
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            //RegistryParser.GetPrograms();
+            //RegistryParser.GetPrograms2();
+            //RegistryParser.GetWin64Programs();
+            //PackageManager.DuplicatesFinder();
+            //PackageManager.ShowNormal();
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -85,6 +90,11 @@ namespace AdvancedSystemManager
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        private void tweaksUserControl1_Load(object sender, EventArgs e)
         {
 
         }

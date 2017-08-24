@@ -32,6 +32,11 @@
             this.ProgramName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Publisher = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EstSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.noBtn = new System.Windows.Forms.Button();
+            this.allBtn = new System.Windows.Forms.Button();
+            this.svBtn = new System.Windows.Forms.Button();
+            this.defBtn = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // listView1
@@ -42,10 +47,9 @@
             this.ProgramName,
             this.Publisher,
             this.EstSize});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(409, 245);
+            this.listView1.Size = new System.Drawing.Size(400, 245);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -66,13 +70,62 @@
             this.EstSize.Text = "Size";
             this.EstSize.Width = 95;
             // 
+            // noBtn
+            // 
+            this.noBtn.Location = new System.Drawing.Point(434, 90);
+            this.noBtn.Name = "noBtn";
+            this.noBtn.Size = new System.Drawing.Size(75, 23);
+            this.noBtn.TabIndex = 8;
+            this.noBtn.Text = "Select None";
+            this.noBtn.UseVisualStyleBackColor = true;
+            this.noBtn.Click += new System.EventHandler(this.noBtn_Click);
+            // 
+            // allBtn
+            // 
+            this.allBtn.Location = new System.Drawing.Point(434, 61);
+            this.allBtn.Name = "allBtn";
+            this.allBtn.Size = new System.Drawing.Size(75, 23);
+            this.allBtn.TabIndex = 7;
+            this.allBtn.Text = "Select All";
+            this.allBtn.UseVisualStyleBackColor = true;
+            this.allBtn.Click += new System.EventHandler(this.allBtn_Click);
+            // 
+            // svBtn
+            // 
+            this.svBtn.Location = new System.Drawing.Point(434, 3);
+            this.svBtn.Name = "svBtn";
+            this.svBtn.Size = new System.Drawing.Size(75, 23);
+            this.svBtn.TabIndex = 6;
+            this.svBtn.Text = "Save List";
+            this.svBtn.UseVisualStyleBackColor = true;
+            this.svBtn.Click += new System.EventHandler(this.svBtn_Click);
+            // 
+            // defBtn
+            // 
+            this.defBtn.Location = new System.Drawing.Point(434, 32);
+            this.defBtn.Name = "defBtn";
+            this.defBtn.Size = new System.Drawing.Size(75, 23);
+            this.defBtn.TabIndex = 5;
+            this.defBtn.Text = "Defaults";
+            this.defBtn.UseVisualStyleBackColor = true;
+            this.defBtn.Click += new System.EventHandler(this.defBtn_Click);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
             // ProgramsManagerUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.noBtn);
+            this.Controls.Add(this.allBtn);
+            this.Controls.Add(this.svBtn);
+            this.Controls.Add(this.defBtn);
             this.Controls.Add(this.listView1);
             this.Name = "ProgramsManagerUserControl";
-            this.Size = new System.Drawing.Size(409, 245);
+            this.Size = new System.Drawing.Size(540, 245);
             this.Load += new System.EventHandler(this.ServiceManagerUserControl_Load);
             this.ResumeLayout(false);
 
@@ -84,5 +137,10 @@
         private System.Windows.Forms.ColumnHeader ProgramName;
         private System.Windows.Forms.ColumnHeader Publisher;
         private System.Windows.Forms.ColumnHeader EstSize;
+        private System.Windows.Forms.Button noBtn;
+        private System.Windows.Forms.Button allBtn;
+        private System.Windows.Forms.Button svBtn;
+        private System.Windows.Forms.Button defBtn;
+        public System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

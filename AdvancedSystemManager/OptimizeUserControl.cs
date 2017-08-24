@@ -47,7 +47,7 @@ namespace AdvancedSystemManager
             TabControl myParent = (TabControl)this.Parent.Parent; // disable the tab controls so we can mimimize and close!
             Console.WriteLine(myParent.Name);
             //myParent.Enabled = false; //disable the UI
-            textBox1.Text = "test after";
+            //textBox1.Text = "test after";
 
 
             for (int i = 0; i < programsManagerUserControl1.listView1.Items.Count; i++)
@@ -71,6 +71,11 @@ namespace AdvancedSystemManager
                 //    Console.WriteLine(PackageManager.installedProgramsList[i].PackageName);
                   //  Console.WriteLine(" h loupa einai sto i: ", i);
                 }
+                else
+                {
+                    //workaround for markfromtext
+                    PackageManager.installedProgramsList[i].ToRemove = false;
+                }
             }
 
             backgroundWorker1.RunWorkerAsync();
@@ -84,7 +89,7 @@ namespace AdvancedSystemManager
             
         }
 
-        private void ManagePrograms()
+        public static void ManagePrograms()
         {
             //console write line does not help much here
             // we avoid accessing controls of the ui thread
@@ -102,7 +107,7 @@ namespace AdvancedSystemManager
             //if sth true call
             if(PackageManager.doUnattendedInstall)
             {
-                PackageManager.UnattendedInstall();
+             //   PackageManager.UnattendedInstall();
             }                           
 
         }
@@ -125,6 +130,40 @@ namespace AdvancedSystemManager
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
+        { /*
+            RegistryParser.GetPrograms();
+            RegistryParser.GetPrograms2();
+            RegistryParser.GetWin64Programs();
+            PackageManager.DuplicatesFinder();
+            PackageManager.ShowNormal(); */
+        }
+
+        private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker2_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void programsManagerUserControl1_Load(object sender, EventArgs e)
+        {
+            //backgroundWorker2.RunWorkerAsync();
+        }
+
+        private void backgroundWorker2_DoWork_1(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void tweaksUserControl1_Load(object sender, EventArgs e)
         {
 
         }

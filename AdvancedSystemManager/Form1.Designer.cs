@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.Optimize = new System.Windows.Forms.TabPage();
-            this.optimizeUserControl1 = new AdvancedSystemManager.OptimizeUserControl();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.programsManagerUserControl1 = new AdvancedSystemManager.ProgramsManagerUserControl();
+            this.tweaksUserControl1 = new AdvancedSystemManager.TweaksUserControl();
             this.Services = new System.Windows.Forms.TabPage();
             this.serviceManagerUserControl1 = new AdvancedSystemManager.ServiceManagerUserControl();
             this.Tools = new System.Windows.Forms.TabPage();
@@ -39,6 +41,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.Optimize.SuspendLayout();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.Services.SuspendLayout();
             this.Tools.SuspendLayout();
             this.Info.SuspendLayout();
@@ -47,7 +52,7 @@
             // 
             // Optimize
             // 
-            this.Optimize.Controls.Add(this.optimizeUserControl1);
+            this.Optimize.Controls.Add(this.splitContainer1);
             this.Optimize.Location = new System.Drawing.Point(4, 22);
             this.Optimize.Name = "Optimize";
             this.Optimize.Size = new System.Drawing.Size(541, 379);
@@ -55,13 +60,38 @@
             this.Optimize.Text = "Optimize";
             this.Optimize.UseVisualStyleBackColor = true;
             // 
-            // optimizeUserControl1
+            // splitContainer1
             // 
-            this.optimizeUserControl1.Location = new System.Drawing.Point(-3, 0);
-            this.optimizeUserControl1.Name = "optimizeUserControl1";
-            this.optimizeUserControl1.Size = new System.Drawing.Size(541, 379);
-            this.optimizeUserControl1.TabIndex = 0;
-            this.optimizeUserControl1.Load += new System.EventHandler(this.optimizeUserControl1_Load);
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.programsManagerUserControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.tweaksUserControl1);
+            this.splitContainer1.Size = new System.Drawing.Size(541, 379);
+            this.splitContainer1.SplitterDistance = 256;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // programsManagerUserControl1
+            // 
+            this.programsManagerUserControl1.Location = new System.Drawing.Point(-2, 3);
+            this.programsManagerUserControl1.Name = "programsManagerUserControl1";
+            this.programsManagerUserControl1.Size = new System.Drawing.Size(540, 245);
+            this.programsManagerUserControl1.TabIndex = 0;
+            // 
+            // tweaksUserControl1
+            // 
+            this.tweaksUserControl1.Location = new System.Drawing.Point(1, -6);
+            this.tweaksUserControl1.Name = "tweaksUserControl1";
+            this.tweaksUserControl1.Size = new System.Drawing.Size(540, 129);
+            this.tweaksUserControl1.TabIndex = 0;
+            this.tweaksUserControl1.Load += new System.EventHandler(this.tweaksUserControl1_Load);
             // 
             // Services
             // 
@@ -148,6 +178,9 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Optimize.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
             this.Services.ResumeLayout(false);
             this.Tools.ResumeLayout(false);
             this.Info.ResumeLayout(false);
@@ -166,8 +199,10 @@
         private System.Windows.Forms.TabPage Info;
         private SystemInfoUserControl systemInfoUserControl1;
         private System.Windows.Forms.TabControl tabControl1;
-        private OptimizeUserControl optimizeUserControl1;
         public System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private ProgramsManagerUserControl programsManagerUserControl1;
+        private TweaksUserControl tweaksUserControl1;
     }
 }
 

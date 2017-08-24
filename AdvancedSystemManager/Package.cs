@@ -11,19 +11,48 @@ namespace AdvancedSystemManager
         public String Publisher { set; get; }
         public String UninstallString { set; get; }
         public String QuietUninstallString { set; get; }
-        public UInt32 EstimatedSizeInKB { set; get; }
+        public String EstimatedSizeInKB { set; get; }
         public Boolean IsSystemComponent { set; get; }
         public Boolean isSafeToRemove { set; get; }
         //public Boolean isInnoSetup { set; get; }
         public Boolean ToRemove { set; get; }
 
        // Package pack = new Package(productName, publisher, estSize, unString, quietUnString);
-        public Package(String packName,String pub,Boolean sysComp, UInt32 size,String uniString,String quietUniString)
+        public Package(String packName,String pub,Boolean sysComp, decimal size,String uniString,String quietUniString)
         {
             this.PackageName = packName;
             //this.DisplayVersion = dispVer;
             this.Publisher = pub;
-            this.EstimatedSizeInKB = size;
+          
+            if(size<1000) //KB
+            {
+                // this.EstimatedSizeInKB = size;
+                //Math.Round(this.EstimatedSizeInKB,2);
+                decimal tempsize = size;
+                tempsize = Math.Round(tempsize, 2);
+                this.EstimatedSizeInKB = tempsize.ToString() + " KB";
+            }
+            if(size/1024 < 1000) //MB
+            {
+                //  this.EstimatedSizeInKB = size / 1024;
+                // Math.Round(this.EstimatedSizeInKB,2);
+                decimal tempsize = size/1024;
+                tempsize = Math.Round(tempsize, 2);
+                this.EstimatedSizeInKB = tempsize.ToString() + " MB";
+            }
+            if (size / 1024 > 1000) //GB
+            {
+                //  this.EstimatedSizeInKB = size / 1024 / 1024;
+                //  Math.Round(this.EstimatedSizeInKB,2);
+                decimal tempsize = size/1024/1024;
+                tempsize = Math.Round(tempsize, 2);
+                this.EstimatedSizeInKB = tempsize.ToString() + " GB";
+            }
+            if (size == 0)
+            {
+                this.EstimatedSizeInKB = "";
+            }
+
             this.UninstallString = uniString;
             this.QuietUninstallString = quietUniString;
             this.IsSystemComponent = sysComp;

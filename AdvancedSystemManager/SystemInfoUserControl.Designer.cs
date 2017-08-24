@@ -43,13 +43,14 @@
             this.mbTB = new System.Windows.Forms.TextBox();
             this.osTB = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.SaveBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cpuLbl
             // 
             this.cpuLbl.AutoSize = true;
-            this.cpuLbl.Location = new System.Drawing.Point(12, 93);
+            this.cpuLbl.Location = new System.Drawing.Point(12, 87);
             this.cpuLbl.Name = "cpuLbl";
             this.cpuLbl.Size = new System.Drawing.Size(35, 13);
             this.cpuLbl.TabIndex = 0;
@@ -58,7 +59,7 @@
             // ramLbl
             // 
             this.ramLbl.AutoSize = true;
-            this.ramLbl.Location = new System.Drawing.Point(13, 139);
+            this.ramLbl.Location = new System.Drawing.Point(13, 133);
             this.ramLbl.Name = "ramLbl";
             this.ramLbl.Size = new System.Drawing.Size(37, 13);
             this.ramLbl.TabIndex = 1;
@@ -67,7 +68,7 @@
             // gpuLbl
             // 
             this.gpuLbl.AutoSize = true;
-            this.gpuLbl.Location = new System.Drawing.Point(13, 181);
+            this.gpuLbl.Location = new System.Drawing.Point(13, 175);
             this.gpuLbl.Name = "gpuLbl";
             this.gpuLbl.Size = new System.Drawing.Size(36, 13);
             this.gpuLbl.TabIndex = 2;
@@ -76,7 +77,7 @@
             // hddLbl
             // 
             this.hddLbl.AutoSize = true;
-            this.hddLbl.Location = new System.Drawing.Point(12, 226);
+            this.hddLbl.Location = new System.Drawing.Point(12, 220);
             this.hddLbl.Name = "hddLbl";
             this.hddLbl.Size = new System.Drawing.Size(37, 13);
             this.hddLbl.TabIndex = 3;
@@ -85,7 +86,7 @@
             // mbLbl
             // 
             this.mbLbl.AutoSize = true;
-            this.mbLbl.Location = new System.Drawing.Point(3, 57);
+            this.mbLbl.Location = new System.Drawing.Point(3, 51);
             this.mbLbl.Name = "mbLbl";
             this.mbLbl.Size = new System.Drawing.Size(73, 13);
             this.mbLbl.TabIndex = 4;
@@ -94,7 +95,7 @@
             // osLbl
             // 
             this.osLbl.AutoSize = true;
-            this.osLbl.Location = new System.Drawing.Point(16, 21);
+            this.osLbl.Location = new System.Drawing.Point(16, 15);
             this.osLbl.Name = "osLbl";
             this.osLbl.Size = new System.Drawing.Size(28, 13);
             this.osLbl.TabIndex = 5;
@@ -102,6 +103,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.SaveBtn);
             this.panel1.Controls.Add(this.updatesInfo);
             this.panel1.Controls.Add(this.hddTB);
             this.panel1.Controls.Add(this.gpuTB);
@@ -123,16 +125,17 @@
             // 
             // updatesInfo
             // 
-            this.updatesInfo.Location = new System.Drawing.Point(15, 263);
+            this.updatesInfo.Location = new System.Drawing.Point(19, 248);
             this.updatesInfo.Multiline = true;
             this.updatesInfo.Name = "updatesInfo";
             this.updatesInfo.ReadOnly = true;
-            this.updatesInfo.Size = new System.Drawing.Size(438, 97);
+            this.updatesInfo.Size = new System.Drawing.Size(438, 87);
             this.updatesInfo.TabIndex = 12;
+            this.updatesInfo.TextChanged += new System.EventHandler(this.updatesInfo_TextChanged);
             // 
             // hddTB
             // 
-            this.hddTB.Location = new System.Drawing.Point(81, 219);
+            this.hddTB.Location = new System.Drawing.Point(81, 213);
             this.hddTB.Name = "hddTB";
             this.hddTB.ReadOnly = true;
             this.hddTB.Size = new System.Drawing.Size(372, 20);
@@ -140,7 +143,7 @@
             // 
             // gpuTB
             // 
-            this.gpuTB.Location = new System.Drawing.Point(81, 174);
+            this.gpuTB.Location = new System.Drawing.Point(81, 168);
             this.gpuTB.Name = "gpuTB";
             this.gpuTB.ReadOnly = true;
             this.gpuTB.Size = new System.Drawing.Size(372, 20);
@@ -148,7 +151,7 @@
             // 
             // ramTB
             // 
-            this.ramTB.Location = new System.Drawing.Point(81, 132);
+            this.ramTB.Location = new System.Drawing.Point(81, 126);
             this.ramTB.Name = "ramTB";
             this.ramTB.ReadOnly = true;
             this.ramTB.Size = new System.Drawing.Size(372, 20);
@@ -156,7 +159,7 @@
             // 
             // cpuTB
             // 
-            this.cpuTB.Location = new System.Drawing.Point(81, 90);
+            this.cpuTB.Location = new System.Drawing.Point(81, 84);
             this.cpuTB.Name = "cpuTB";
             this.cpuTB.ReadOnly = true;
             this.cpuTB.Size = new System.Drawing.Size(372, 20);
@@ -164,7 +167,7 @@
             // 
             // mbTB
             // 
-            this.mbTB.Location = new System.Drawing.Point(81, 57);
+            this.mbTB.Location = new System.Drawing.Point(81, 51);
             this.mbTB.Name = "mbTB";
             this.mbTB.ReadOnly = true;
             this.mbTB.Size = new System.Drawing.Size(372, 20);
@@ -172,7 +175,7 @@
             // 
             // osTB
             // 
-            this.osTB.Location = new System.Drawing.Point(81, 18);
+            this.osTB.Location = new System.Drawing.Point(81, 12);
             this.osTB.Name = "osTB";
             this.osTB.ReadOnly = true;
             this.osTB.Size = new System.Drawing.Size(372, 20);
@@ -182,6 +185,16 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // SaveBtn
+            // 
+            this.SaveBtn.Location = new System.Drawing.Point(382, 341);
+            this.SaveBtn.Name = "SaveBtn";
+            this.SaveBtn.Size = new System.Drawing.Size(75, 23);
+            this.SaveBtn.TabIndex = 13;
+            this.SaveBtn.Text = "Save Info";
+            this.SaveBtn.UseVisualStyleBackColor = true;
+            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
             // 
             // SystemInfoUserControl
             // 
@@ -214,5 +227,6 @@
         private System.Windows.Forms.TextBox mbTB;
         private System.Windows.Forms.TextBox updatesInfo;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button SaveBtn;
     }
 }

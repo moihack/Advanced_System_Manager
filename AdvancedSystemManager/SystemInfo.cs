@@ -45,19 +45,26 @@ namespace AdvancedSystemManager
                 {
                     Console.WriteLine(property.Value);
                     MyLogger.WriteLog(property.Value);
-                    retVal = property.Value.ToString();                   
+                    retVal = property.Value.ToString();
                 }
+                break;
             }
             return retVal;
         }
 
-        
-
-        public void UpdatesFinder2()
+        public override string ToString()
         {
-            string x = WMIFinder("HotFixID", "Win32_QuickFixEngineering");
-            Console.WriteLine("test");
-            //Console.WriteLine(x);
+            string res = "========SYSTEM INFO========" + "\r\n";
+            res += "\r\n" + "Hostname: " + this.HOSTNAME + "\r\n";
+            res += "\r\n" + "Operating System: " + this.OSVERSION + " - " + this.OSBITNESS + "\r\n";
+            res += "\r\n" + "Motherboard: " + this.MB + "\r\n";
+            res += "\r\n" + "CPU: " + this.CPU + "\r\n";
+            res += "\r\n" + "RAM: " + this.RAM + "\r\n";
+            res += "\r\n" + "GPU: " + this.GPU + "\r\n";
+            res += "\r\n" + "HDD: " + this.HDD + " - " + this.HDDModel + "\r\n";
+            res += "\r\n" + "========SYSTEM INFO========" + "\r\n";
+
+            return res;
         }
 
     }
