@@ -123,22 +123,24 @@ namespace AdvancedSystemManager
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-         //   RegistryParser.GetPrograms();
-          //  RegistryParser.GetPrograms2();
+            //   RegistryParser.GetPrograms();
+            //  RegistryParser.GetPrograms2();
 
-            RegistryParser.GetWin64Programs();
-            RegistryParser.GetPrograms();
-            RegistryParser.GetPrograms2();
+            /*   RegistryParser.GetWin64Programs();
+               RegistryParser.GetPrograms();
+               RegistryParser.GetPrograms2();
 
-            //PackageManager.DuplicatesFinder();
-            //PackageManager.ShowNormal();
+               //PackageManager.DuplicatesFinder();
+               //PackageManager.ShowNormal();
 
-            PackageManager.ShowNormal();
+               PackageManager.ShowNormal();
 
-            PackageManager.DuplicatesFinder();
+               PackageManager.DuplicatesFinder();
 
-            PackageManager.SortPackages();
-            
+               PackageManager.SortPackages(); */
+
+            PackageManager.GetAllProgramsList();
+          
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

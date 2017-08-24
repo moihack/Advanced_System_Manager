@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace AdvancedSystemManager
 {
@@ -11,53 +12,50 @@ namespace AdvancedSystemManager
     {
         public static List<Package> installedProgramsList = new List<Package>();
         public static Boolean doUnattendedInstall = false;
+        public static Boolean hasAntiVirus = false;
+
         public static void DuplicatesFinder()
-        {
-            //Console.Out.Flush();
-            //MyLogger.WriteLog("go::");
-            /*foreach (Package p in installedProgramsList)
-            {
-                //MyLogger.WriteLog(p.PackageName);
-                foreach (Package pa in installedProgramsList)
-                {
-                    //MyLogger.WriteLog(p.PackageName);
-                    if (p.PackageName.Equals(pa.PackageName) || pa.PackageName.Equals("noDisplayName"))
-                    {
-                        installedProgramsList.Remove(pa);
-                    }
-                }
-            }
-
-            foreach (Package p in installedProgramsList)
-            {
-                //MyLogger.WriteLog(p.PackageName);
-            }
-            */
-
+        {          
             MyLogger.WriteLog("h lista einai " + installedProgramsList.Count);
+
             for (int i = 0; i <= installedProgramsList.Count - 1; i++)
             {
-                //MyLogger.WriteLog("mpainw" + i);
                 for (int j = installedProgramsList.Count - 1; j >= 0; j--)
                 {
-                    //MyLogger.WriteLog("test"); 
-                    //MyLogger.WriteLog("mpainw" + i + " to j omws einai" + j);
-                    //MyLogger.WriteLog(installedProgramsList[j].PackageName);
-                    //if (installedProgramsList[j].PackageName.Equals("noDisplayName"))
-                    if (installedProgramsList[i].PackageName.Equals(installedProgramsList[j].PackageName) || installedProgramsList[j].PackageName.Equals("noDisplayName"))
+                    if( installedProgramsList[i].PackageName.Equals(installedProgramsList[j].PackageName) && installedProgramsList[i].EstimatedSizeInKB.Equals(installedProgramsList[j].EstimatedSizeInKB))
                     {
                         if (i != j)
                         {
-                            //MyLogger.WriteLog("mpainw sto if " + i + " " + j);
                             installedProgramsList.RemoveAt(j);
                         }
                     }
                 }
             }
+
             MyLogger.WriteLog("h lista2 einai " + installedProgramsList.Count);
-            foreach (Package p in installedProgramsList)
+        }
+
+        public static void RemoveSystemComponents()
+        {
+            for (int i = installedProgramsList.Count - 1; i >= 0; i--)
             {
-                //MyLogger.WriteLog(p.PackageName);
+                
+                if(installedProgramsList[i].IsSystemComponent || installedProgramsList[i].PackageName.Equals("noDisplayName"))
+                {
+                    //Console.WriteLine(installedProgramsList.Count);
+                    installedProgramsList.RemoveAt(i);
+                }
+            }
+        }
+
+        public static void RemoveUpdates()
+        {
+            for (int i = installedProgramsList.Count - 1; i >= 0; i--)
+            {
+                if (installedProgramsList[i].PackageName.Contains("KB"))
+                {
+                    installedProgramsList.RemoveAt(i);
+                }
             }
         }
 
@@ -74,30 +72,58 @@ namespace AdvancedSystemManager
                 }
             }
 
-            PackageComparer comp = new PackageComparer();
-            installedProgramsList.Sort(comp);
+            SortPackages();
 
             //maybe we can do this without iterating the list again
-            for (int i = installedProgramsList.Count - 1; i >= 0; i--)
+            //  for (int i = installedProgramsList.Count - 1; i >= 0; i--)
+            for (int i = 0; i < installedProgramsList.Count; i++)
             {
-                //MyLogger.WriteLog(installedProgramsList[i].PackageName);
+                MyLogger.WriteLog(installedProgramsList[i].PackageName);
                 installedProgramsList[i].isSafeToRemove = PackageSafeToRemove(installedProgramsList[i].PackageName);
             }
+
+            MarkFromText();
+
+        }
+
+        public static void SortPackages()
+        {
+            PackageComparer comp = new PackageComparer();
+            installedProgramsList.Sort(comp);
         }
 
         public static Boolean PackageSafeToRemove(String pack)
         {
             bool retVal = false;
 
-            if (pack.Contains("NVIDIA"))
-            {
-                //  return true;
-            }
 
-            //we need to regex this!
-            if ((pack.Contains("Trial")) || (pack.Contains("trial")) || (pack.Contains("TRIAL")))
+            //string text = pack;
+            // string pat = @"\b(visual|open)\b";
+            //string pat = @"(visual|open)";
+            string pat = @"(virus|trial|free|toolbar|search|clean|tune)"; //to free pianei k to freeware
+            //string pat2 = @"(virus)"; //pianei ta anti-virus, antivirus, antivirus-free ktl
+            // Instantiate the regular expression object.
+            Regex r = new Regex(pat, RegexOptions.IgnoreCase);
+
+            // Match the regular expression pattern against a text string.
+            Match m = r.Match(pack);
+
+            if (m.Success)
             {
-                // return true;
+                //Console.WriteLine(m.Value);
+                //Console.WriteLine("test " + m.Groups[0].Captures[0].Value);
+                if (!hasAntiVirus)
+                {
+                    if (m.Value.ToLower().Contains("virus"))
+                    //if (m.Value.ToLower().Contains("visual"))
+                    {
+                        Console.WriteLine(m.Value.ToLower());
+                        hasAntiVirus = true;
+                        return false; // keeep the first antivirus we found - mark all others
+                    }
+                }
+
+                return true;
             }
 
             //antivirus - we want to have only one antivirus! if detect there is one all else should returne true (a static global variable?)
@@ -111,6 +137,48 @@ namespace AdvancedSystemManager
             //list of bad programs in .txt??? (daemon-tools,utube downloader etc)
 
             return retVal;
+        }
+
+        public static void MarkFromText()
+        {
+            string line;
+            // Read the file and display it line by line.
+            System.IO.StreamReader file =
+               new System.IO.StreamReader(Application.StartupPath + "\\remove.list");
+            while ((line = file.ReadLine()) != null)
+            {
+                // Console.WriteLine(line);
+                // counter++;
+                foreach (Package pack in installedProgramsList)
+                {
+                    if (pack.PackageName.Contains(line))
+                    {
+                        pack.isSafeToRemove = true;
+                        pack.ToRemove = true;
+                    }
+                }
+            }
+
+            file.Close();
+        }
+
+        public static void GetAllProgramsList()
+        {
+            RegistryParser.GetCurrentUserPrograms();
+
+            if (SystemInfo.is64BitOS)
+            {
+                RegistryParser.GetWin64Programs();
+            }
+
+            RegistryParser.GetPrograms2();
+            RegistryParser.GetPrograms();
+            
+
+            PackageManager.RemoveSystemComponents();
+            PackageManager.RemoveUpdates();
+            PackageManager.DuplicatesFinder();
+            PackageManager.SortPackages();
         }
 
         public static void MSI_Install(String filePath)
@@ -499,7 +567,7 @@ namespace AdvancedSystemManager
                             }
                         } */
 
-                        uniString = '"' + uniString + '"' + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                        uniString = '"' + uniString + '"' + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                         PackageManager.UninstallNoArgs(uniString);
 
                     }
@@ -523,7 +591,7 @@ namespace AdvancedSystemManager
                 }
                 else
                 {
-                    uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                    uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                     PackageManager.UninstallNoArgs(uniString);
                 }
 
@@ -532,6 +600,7 @@ namespace AdvancedSystemManager
 
         public static void UnattendedInstall()
         {
+            //packageName = "";
             //(Application.StartupPath + "\\log.txt", true)
             if (Directory.Exists(Application.StartupPath + @"\apps_deploy"))
             {
@@ -545,12 +614,13 @@ namespace AdvancedSystemManager
 
                     foreach (string file in files)
                     {
+                        //packageName = file;
                         Console.WriteLine(file);
-                        if(file.EndsWith(".exe"))
+                        if (file.EndsWith(".exe"))
                         {
                             PackageManager.EXE_Install(file);
                         }
-                        if(file.EndsWith(".msi"))
+                        if (file.EndsWith(".msi"))
                         {
                             PackageManager.MSI_Install(file);
                         }
@@ -571,6 +641,39 @@ namespace AdvancedSystemManager
             {
                 Console.WriteLine("not exists!");
             }
+        }
+
+        public static void ManagePrograms()
+        {
+            //console write line does not help much here
+            // we avoid accessing controls of the ui thread
+            //Console.WriteLine(PackageManager.installedProgramsList[5].PackageName);
+            for (int i = 0; i < PackageManager.installedProgramsList.Count; i++)
+            {
+                if (PackageManager.installedProgramsList[i].ToRemove)
+                {
+                    MyLogger.WriteLog("package is :" + PackageManager.installedProgramsList[i].PackageName + " " + i);
+                    PackageManager.CheckUninstallationMethod(PackageManager.installedProgramsList[i]);
+                    //MyLogger.WriteLog(i);
+                }
+            }
+
+            //if sth true call
+            if (PackageManager.doUnattendedInstall)
+            {
+                //   PackageManager.UnattendedInstall();
+            }
+
+        }
+
+        internal static void WriteAllSoftware()
+        {
+            MyLogger.WriteAllSoftware("========INSTALLED SOFTWARE========");
+            foreach (Package pack in installedProgramsList)
+            {
+                MyLogger.WriteAllSoftware(pack.PackageName);
+            }
+            MyLogger.WriteAllSoftware("========INSTALLED SOFTWARE========");
         }
 
     }

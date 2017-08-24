@@ -23,31 +23,60 @@ namespace AdvancedSystemManager
             this.PackageName = packName;
             //this.DisplayVersion = dispVer;
             this.Publisher = pub;
-          
-            if(size<1000) //KB
+
+            /* if (size / 1024 > 1000) //GB
+             {
+                 //  this.EstimatedSizeInKB = size / 1024 / 1024;
+                 //  Math.Round(this.EstimatedSizeInKB,2);
+                 decimal tempsize = size / 1024 / 1024;
+                 tempsize = Math.Round(tempsize, 2);
+                 this.EstimatedSizeInKB = tempsize.ToString() + " GB";
+             }
+
+             if (size/1024/1024 < 1000) //MB
+             {
+                 //  this.EstimatedSizeInKB = size / 1024;
+                 // Math.Round(this.EstimatedSizeInKB,2);
+                 decimal tempsize = size/1024;
+                 tempsize = Math.Round(tempsize, 2);
+                 this.EstimatedSizeInKB = tempsize.ToString() + " MB";
+             }
+
+             if (size / 1024 < 1000 && size > 0) //KB
+             {
+                 // this.EstimatedSizeInKB = size;
+                 //Math.Round(this.EstimatedSizeInKB,2);
+                 decimal tempsize = size;
+                 tempsize = Math.Round(tempsize, 2);
+                 this.EstimatedSizeInKB = tempsize.ToString() + " KB";
+             } */
+
+            //size2 = size2 / 1024;
+
+            if(size < 1000)
             {
-                // this.EstimatedSizeInKB = size;
-                //Math.Round(this.EstimatedSizeInKB,2);
                 decimal tempsize = size;
                 tempsize = Math.Round(tempsize, 2);
                 this.EstimatedSizeInKB = tempsize.ToString() + " KB";
             }
-            if(size/1024 < 1000) //MB
+            
+            if (size>1000)
             {
-                //  this.EstimatedSizeInKB = size / 1024;
-                // Math.Round(this.EstimatedSizeInKB,2);
-                decimal tempsize = size/1024;
+                size = size / 1024;
+                decimal tempsize = size;
                 tempsize = Math.Round(tempsize, 2);
                 this.EstimatedSizeInKB = tempsize.ToString() + " MB";
             }
-            if (size / 1024 > 1000) //GB
+
+            if ( size > 1000)
             {
-                //  this.EstimatedSizeInKB = size / 1024 / 1024;
-                //  Math.Round(this.EstimatedSizeInKB,2);
-                decimal tempsize = size/1024/1024;
+                size = size / 1024;
+                decimal tempsize = size;
                 tempsize = Math.Round(tempsize, 2);
                 this.EstimatedSizeInKB = tempsize.ToString() + " GB";
             }
+
+            //must remain last - otherwise 0MB appears
             if (size == 0)
             {
                 this.EstimatedSizeInKB = "";
