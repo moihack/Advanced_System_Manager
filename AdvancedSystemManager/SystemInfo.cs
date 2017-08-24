@@ -8,6 +8,8 @@ namespace AdvancedSystemManager
 {
     class SystemInfo
     {
+        public static Boolean is64BitOS = false;
+
         public String HOSTNAME { get; }
         public String USERNAME { get; }
         public String OSVERSION { get; }
@@ -32,6 +34,11 @@ namespace AdvancedSystemManager
             this.VRAM = WMIFinder("AdapterRAM", "Win32_VideoController");
             this.HDD = WMIFinder("Size", "Win32_DiskDrive");
             this.HDDModel = WMIFinder("Model", "Win32_DiskDrive");
+
+            if(this.OSBITNESS.Contains("64"))
+            {
+                is64BitOS = true;
+            }
         }
        
         private static String WMIFinder(String propertyName,String wmiClass)
