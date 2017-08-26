@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cpuLbl = new System.Windows.Forms.Label();
             this.ramLbl = new System.Windows.Forms.Label();
             this.gpuLbl = new System.Windows.Forms.Label();
@@ -35,6 +36,7 @@
             this.mbLbl = new System.Windows.Forms.Label();
             this.osLbl = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.SaveBtn = new System.Windows.Forms.Button();
             this.updatesInfo = new System.Windows.Forms.TextBox();
             this.hddTB = new System.Windows.Forms.TextBox();
             this.gpuTB = new System.Windows.Forms.TextBox();
@@ -43,7 +45,7 @@
             this.mbTB = new System.Windows.Forms.TextBox();
             this.osTB = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.SaveBtn = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -123,6 +125,17 @@
             this.panel1.TabIndex = 6;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // SaveBtn
+            // 
+            this.SaveBtn.Location = new System.Drawing.Point(382, 341);
+            this.SaveBtn.Name = "SaveBtn";
+            this.SaveBtn.Size = new System.Drawing.Size(75, 23);
+            this.SaveBtn.TabIndex = 13;
+            this.SaveBtn.Text = "Save Info";
+            this.toolTip1.SetToolTip(this.SaveBtn, "Save this info to info.txt");
+            this.SaveBtn.UseVisualStyleBackColor = true;
+            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
+            // 
             // updatesInfo
             // 
             this.updatesInfo.Location = new System.Drawing.Point(19, 248);
@@ -186,16 +199,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // SaveBtn
-            // 
-            this.SaveBtn.Location = new System.Drawing.Point(382, 341);
-            this.SaveBtn.Name = "SaveBtn";
-            this.SaveBtn.Size = new System.Drawing.Size(75, 23);
-            this.SaveBtn.TabIndex = 13;
-            this.SaveBtn.Text = "Save Info";
-            this.SaveBtn.UseVisualStyleBackColor = true;
-            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
-            // 
             // SystemInfoUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -228,5 +231,6 @@
         private System.Windows.Forms.TextBox updatesInfo;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button SaveBtn;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

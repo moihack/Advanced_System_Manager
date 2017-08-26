@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cmpLbl = new System.Windows.Forms.LinkLabel();
             this.cmpMgmtLbl = new System.Windows.Forms.LinkLabel();
             this.diskMgmtLbl = new System.Windows.Forms.LinkLabel();
@@ -37,13 +38,14 @@
             this.SysInfoLbl = new System.Windows.Forms.LinkLabel();
             this.openFileBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.servMgmtLbl = new System.Windows.Forms.LinkLabel();
+            this.devMgmtLbl = new System.Windows.Forms.LinkLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.md5Lbl = new System.Windows.Forms.Label();
             this.sha1Lbl = new System.Windows.Forms.Label();
             this.pathTB = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.devMgmtLbl = new System.Windows.Forms.LinkLabel();
-            this.servMgmtLbl = new System.Windows.Forms.LinkLabel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -124,9 +126,10 @@
             // 
             this.openFileBtn.Location = new System.Drawing.Point(6, 13);
             this.openFileBtn.Name = "openFileBtn";
-            this.openFileBtn.Size = new System.Drawing.Size(90, 23);
+            this.openFileBtn.Size = new System.Drawing.Size(106, 23);
             this.openFileBtn.TabIndex = 10;
-            this.openFileBtn.Text = "File Checksum";
+            this.openFileBtn.Text = "File Integrity Check";
+            this.toolTip1.SetToolTip(this.openFileBtn, "Calculates the MD5|SHA-1 checksums of the selected file");
             this.openFileBtn.UseVisualStyleBackColor = true;
             this.openFileBtn.Click += new System.EventHandler(this.openFileBtn_Click);
             // 
@@ -144,6 +147,28 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(438, 128);
             this.panel1.TabIndex = 11;
+            // 
+            // servMgmtLbl
+            // 
+            this.servMgmtLbl.AutoSize = true;
+            this.servMgmtLbl.Location = new System.Drawing.Point(302, 39);
+            this.servMgmtLbl.Name = "servMgmtLbl";
+            this.servMgmtLbl.Size = new System.Drawing.Size(88, 13);
+            this.servMgmtLbl.TabIndex = 11;
+            this.servMgmtLbl.TabStop = true;
+            this.servMgmtLbl.Text = "Service Manager";
+            this.servMgmtLbl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.servMgmtLbl_LinkClicked);
+            // 
+            // devMgmtLbl
+            // 
+            this.devMgmtLbl.AutoSize = true;
+            this.devMgmtLbl.Location = new System.Drawing.Point(37, 71);
+            this.devMgmtLbl.Name = "devMgmtLbl";
+            this.devMgmtLbl.Size = new System.Drawing.Size(86, 13);
+            this.devMgmtLbl.TabIndex = 10;
+            this.devMgmtLbl.TabStop = true;
+            this.devMgmtLbl.Text = "Device Manager";
+            this.devMgmtLbl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.devMgmtLbl_LinkClicked);
             // 
             // backgroundWorker1
             // 
@@ -168,7 +193,7 @@
             // 
             // pathTB
             // 
-            this.pathTB.Location = new System.Drawing.Point(102, 15);
+            this.pathTB.Location = new System.Drawing.Point(117, 15);
             this.pathTB.Name = "pathTB";
             this.pathTB.ReadOnly = true;
             this.pathTB.Size = new System.Drawing.Size(354, 20);
@@ -184,28 +209,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(474, 102);
             this.panel2.TabIndex = 16;
-            // 
-            // devMgmtLbl
-            // 
-            this.devMgmtLbl.AutoSize = true;
-            this.devMgmtLbl.Location = new System.Drawing.Point(37, 71);
-            this.devMgmtLbl.Name = "devMgmtLbl";
-            this.devMgmtLbl.Size = new System.Drawing.Size(86, 13);
-            this.devMgmtLbl.TabIndex = 10;
-            this.devMgmtLbl.TabStop = true;
-            this.devMgmtLbl.Text = "Device Manager";
-            this.devMgmtLbl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.devMgmtLbl_LinkClicked);
-            // 
-            // servMgmtLbl
-            // 
-            this.servMgmtLbl.AutoSize = true;
-            this.servMgmtLbl.Location = new System.Drawing.Point(302, 39);
-            this.servMgmtLbl.Name = "servMgmtLbl";
-            this.servMgmtLbl.Size = new System.Drawing.Size(88, 13);
-            this.servMgmtLbl.TabIndex = 11;
-            this.servMgmtLbl.TabStop = true;
-            this.servMgmtLbl.Text = "Service Manager";
-            this.servMgmtLbl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.servMgmtLbl_LinkClicked);
             // 
             // ToolsUserControl
             // 
@@ -242,5 +245,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.LinkLabel devMgmtLbl;
         private System.Windows.Forms.LinkLabel servMgmtLbl;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

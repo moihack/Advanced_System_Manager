@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listView1 = new System.Windows.Forms.ListView();
             this.ProgramName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Publisher = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -37,6 +38,7 @@
             this.svBtn = new System.Windows.Forms.Button();
             this.defBtn = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // listView1
@@ -97,6 +99,7 @@
             this.svBtn.Size = new System.Drawing.Size(75, 23);
             this.svBtn.TabIndex = 6;
             this.svBtn.Text = "Save List";
+            this.toolTip1.SetToolTip(this.svBtn, "Save programs list to programs.txt");
             this.svBtn.UseVisualStyleBackColor = true;
             this.svBtn.Click += new System.EventHandler(this.svBtn_Click);
             // 
@@ -142,5 +145,6 @@
         private System.Windows.Forms.Button svBtn;
         private System.Windows.Forms.Button defBtn;
         public System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

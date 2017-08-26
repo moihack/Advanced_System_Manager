@@ -176,11 +176,13 @@ namespace AdvancedSystemManager
             RegistryParser.GetPrograms2();
             RegistryParser.GetPrograms();
             
-
             PackageManager.RemoveSystemComponents();
             PackageManager.RemoveUpdates();
             PackageManager.DuplicatesFinder();
             PackageManager.SortPackages();
+
+            PackageManager.MarkFromText();
+
         }
 
         public static void MSI_Install(String filePath)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.optimizeBtn = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -40,6 +41,7 @@
             this.progressLbl = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,6 +85,9 @@
             this.checkBox6.Size = new System.Drawing.Size(125, 17);
             this.checkBox6.TabIndex = 5;
             this.checkBox6.Text = "Force CPU Full State";
+            this.toolTip1.SetToolTip(this.checkBox6, "CAUTION! This will set your CPU to run always at its maximum frequency. While thi" +
+        "s greatly improves performance this also needs more power(less battery if on lap" +
+        "top) and produces more heat");
             this.checkBox6.UseVisualStyleBackColor = true;
             this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
@@ -94,6 +99,9 @@
             this.checkBox5.Size = new System.Drawing.Size(173, 17);
             this.checkBox5.TabIndex = 4;
             this.checkBox5.Text = "Google Chrome Profile Cleanup";
+            this.toolTip1.SetToolTip(this.checkBox5, "CAUTION! This will delete your Chrome Profile meaning you will lose history,bookm" +
+        "arks,passwords etc. Use it only to get rid of persistent start pages and toolbar" +
+        "s");
             this.checkBox5.UseVisualStyleBackColor = true;
             this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
@@ -105,6 +113,9 @@
             this.checkBox4.Size = new System.Drawing.Size(166, 17);
             this.checkBox4.TabIndex = 3;
             this.checkBox4.Text = "Mozilla Firefox Profile Cleanup";
+            this.toolTip1.SetToolTip(this.checkBox4, "CAUTION! This will delete your Firefox Profile meaning you will lose history,book" +
+        "marks,passwords etc. Use it only to get rid of persistent start pages and toolba" +
+        "rs");
             this.checkBox4.UseVisualStyleBackColor = true;
             this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
@@ -116,6 +127,7 @@
             this.checkBox3.Size = new System.Drawing.Size(135, 17);
             this.checkBox3.TabIndex = 2;
             this.checkBox3.Text = "Unattended Installation";
+            this.toolTip1.SetToolTip(this.checkBox3, "Silent Install any setup file found in \"apps_deploy\" folder");
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
@@ -127,6 +139,8 @@
             this.checkBox2.Size = new System.Drawing.Size(126, 17);
             this.checkBox2.TabIndex = 1;
             this.checkBox2.Text = "Tweak Visual Effects";
+            this.toolTip1.SetToolTip(this.checkBox2, "Disables most of animations and visual effects while retaining the full Windows A" +
+        "ero look and boosting performance");
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -138,6 +152,7 @@
             this.checkBox1.Size = new System.Drawing.Size(89, 17);
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "Disk Cleanup";
+            this.toolTip1.SetToolTip(this.checkBox1, "Cleans up your hard drive from temporary files. Your files are not touched!");
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -195,5 +210,6 @@
         private System.Windows.Forms.Label progressLbl;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
