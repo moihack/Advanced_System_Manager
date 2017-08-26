@@ -251,32 +251,35 @@ namespace AdvancedSystemManager
             }
             catch { return ""; }
 
-            try
+            if (SystemInfo.is64BitOS)
             {
-                RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run");
-                if (rk == null) return "";
-                //return (string)rk.GetValue(key);
-
-                foreach (string v in rk.GetValueNames())
+                try
                 {
-                    Console.WriteLine(v);
-                    //rk.OpenSubKey(v);
-                    String regVal = rk.GetValue(v).ToString();
-                    // Console.WriteLine(rk.ToString());
-                    if (regVal != "")
+                    RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run");
+                    if (rk == null) return "";
+                    //return (string)rk.GetValue(key);
+
+                    foreach (string v in rk.GetValueNames())
                     {
-                        StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
-                        PackageManager.startupPrograms.Add(sItem);
-                        //Console.WriteLine("loc is: " + rk.ToString());
-                        // Console.WriteLine("eee: " + v + regVal);
-                    }
-                    else
-                    {
-                        Console.WriteLine("dn mphka");
+                        Console.WriteLine(v);
+                        //rk.OpenSubKey(v);
+                        String regVal = rk.GetValue(v).ToString();
+                        // Console.WriteLine(rk.ToString());
+                        if (regVal != "")
+                        {
+                            StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
+                            PackageManager.startupPrograms.Add(sItem);
+                            //Console.WriteLine("loc is: " + rk.ToString());
+                            // Console.WriteLine("eee: " + v + regVal);
+                        }
+                        else
+                        {
+                            Console.WriteLine("dn mphka");
+                        }
                     }
                 }
+                catch { return ""; }
             }
-            catch { return ""; }
 
             try
             {
@@ -356,10 +359,6 @@ namespace AdvancedSystemManager
             return "";
         }
 
-        public static void MoveKey()
-        {
-
-        }
 
         public static void EnableKeyStartup(StartupItem si)
         {            
@@ -507,13 +506,25 @@ namespace AdvancedSystemManager
                         string fileList = Convert.ToString(productKey.GetValue("FileList", "noFileList"));
                         if (!folder.Equals("noFolder") && !fileList.Equals("noFileList"))
                         {
-
-                            if (System.IO.Directory.Exists(folder))
-                            {
+                         //   if (System.IO.Directory.Exists(folder))
+                          //  {
                                 // Console.WriteLine(productKey);
+                                MyLogger.WriteErrorLog(folder + " volumecaches " + fileList);
                                 DiskCleanUp.FindFiles(folder, fileList);
-                            }
+                          //  }
                         }
+                        if (folder.Equals("noFolder") && fileList.Equals("noFileList"))
+                        {
+                            //SetupDirectories
+                            string setupDirs = Convert.ToString(productKey.GetValue("SetupDirectories", "noSetupDirectories"));
+
+                            if( !setupDirs.Equals("noSetupDirectories"))
+                            {
+                                DiskCleanUp.FindDirs(setupDirs);
+                            }
+
+                        }
+
 
                     }
                 }

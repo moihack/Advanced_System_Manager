@@ -49,7 +49,7 @@ namespace AdvancedSystemManager
                 {
                     path = Environment.ExpandEnvironmentVariables(paths[i]);
                     //Console.WriteLine(path);
-
+                    //MyLogger.WriteErrorLog("path is : " + path);
                     if (path.StartsWith(@"?:\"))
                     {
                         //Console.WriteLine("we enter here");
@@ -68,7 +68,7 @@ namespace AdvancedSystemManager
                         }
                         paths[i] = newPath;
                     }
-
+                    MyLogger.WriteErrorLog("path is : " + paths[i]);
                     for (int y = 0; y < filters.Length; y++)
                     {
                         //Console.WriteLine(filters[y]);
@@ -78,14 +78,55 @@ namespace AdvancedSystemManager
                         //string[] files = Directory.GetFiles(@"?:\msdownld.tmp", "*.tmp");
                         foreach (string file in files)
                         {
-                           // Console.WriteLine(file);
-                            //DeleteFile(file);
+                            //Console.WriteLine(file);
+                            MyLogger.WriteErrorLog(file);
+                            DeleteFile(file);
                         }
                     }
 
 
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+        }
+
+        public static void FindDirs(String path)
+        {
+            //Console.WriteLine(path);
+            //string newPath = "";
+            //string newFilter = "";
+            try
+            {
+                string[] paths = path.Split(';');
+
+                for (int i = 0; i < paths.Length; i++)
+                {
+                    //path = Environment.ExpandEnvironmentVariables(paths[i]);
+
+                    //Console.WriteLine("we enter here");
+                    foreach (DriveInfo x in DriveInfo.GetDrives())
+                    {
+                        // Console.WriteLine(x.DriveType);
+                        // Console.WriteLine(x.Name);
+                        if (x.DriveType.ToString().Equals("Fixed"))
+                        {
+                            //Console.WriteLine("we are fixed");
+                            // newPath = path;
+                            // newPath = newPath.Replace(@"?:\", x.Name);
+
+                            // Console.WriteLine(x.Name); //C:\ output
+                            Console.WriteLine(x.Name + paths[i]);
+                            DeleteDir(x.Name + paths[i]);
+                        }
+                    }
+            //        paths[i] = newPath;
+                }
+                //MyLogger.WriteErrorLog("path is : " + paths[i]);
+            }
+
             catch (Exception e)
             {
                 Console.WriteLine("The process failed: {0}", e.ToString());
@@ -104,12 +145,25 @@ namespace AdvancedSystemManager
             }
         }
 
+        public static void DeleteDir(String filePath)
+        {
+            try
+            {
+                Directory.Delete(filePath,true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+        }
+
+
         //firefox & chrome profile delete!
 
         public static void ChromeCleanup()
         {
             Process[] procar = Process.GetProcessesByName("chrome");
-            foreach(Process proc in procar)
+            foreach (Process proc in procar)
             {
                 proc.Kill();
             }
@@ -120,7 +174,7 @@ namespace AdvancedSystemManager
             Console.WriteLine(topPath);
             try
             {
-               Directory.Delete(topPath, true);
+                Directory.Delete(topPath, true);
             }
             catch (Exception e)
             {

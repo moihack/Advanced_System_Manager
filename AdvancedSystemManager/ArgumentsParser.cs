@@ -109,12 +109,7 @@ namespace AdvancedSystemManager
 
                 if (willDoMassiveUninstall)
                 {
-                    RegistryParser.GetPrograms();
-                    RegistryParser.GetPrograms2();
-                    RegistryParser.GetWin64Programs();
-                    PackageManager.DuplicatesFinder();
-                    PackageManager.SortPackages();
-                    PackageManager.MarkFromText();
+                    PackageManager.GetAllProgramsList();
                     PackageManager.ManagePrograms();
                 }
 
