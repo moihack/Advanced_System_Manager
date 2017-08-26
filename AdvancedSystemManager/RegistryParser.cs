@@ -223,9 +223,242 @@ namespace AdvancedSystemManager
             return "";
         }
 
-        public static void GetStartupPrograms()
+        public static String GetStartupPrograms()
+        {
+            try
+            {
+                RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+                if (rk == null) return "";
+                //return (string)rk.GetValue(key);
+
+                foreach (string v in rk.GetValueNames())
+                {
+                    Console.WriteLine(v);
+                    //rk.OpenSubKey(v);
+                    String regVal = rk.GetValue(v).ToString();
+                    // Console.WriteLine(rk.ToString());
+                    if (regVal != "")
+                    {
+                        StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
+                        PackageManager.startupPrograms.Add(sItem);
+                        //     Console.WriteLine("eee: " + v + regVal);
+                    }
+                    else
+                    {
+                        Console.WriteLine("dn mphka");
+                    }
+                }
+            }
+            catch { return ""; }
+
+            try
+            {
+                RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run");
+                if (rk == null) return "";
+                //return (string)rk.GetValue(key);
+
+                foreach (string v in rk.GetValueNames())
+                {
+                    Console.WriteLine(v);
+                    //rk.OpenSubKey(v);
+                    String regVal = rk.GetValue(v).ToString();
+                    // Console.WriteLine(rk.ToString());
+                    if (regVal != "")
+                    {
+                        StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
+                        PackageManager.startupPrograms.Add(sItem);
+                        //Console.WriteLine("loc is: " + rk.ToString());
+                        // Console.WriteLine("eee: " + v + regVal);
+                    }
+                    else
+                    {
+                        Console.WriteLine("dn mphka");
+                    }
+                }
+            }
+            catch { return ""; }
+
+            try
+            {
+                RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+                if (rk == null) return "";
+                //return (string)rk.GetValue(key);
+
+                foreach (string v in rk.GetValueNames())
+                {
+                    Console.WriteLine(v);
+                    //rk.OpenSubKey(v);
+                    String regVal = rk.GetValue(v).ToString();
+                    // Console.WriteLine(rk.ToString());
+                    if (regVal != "")
+                    {
+                        StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
+                        PackageManager.startupPrograms.Add(sItem);
+                        //  Console.WriteLine("eee: " + v + regVal);
+                    }
+                    else
+                    {
+                        Console.WriteLine("dn mphka");
+                    }
+                }
+            }
+            catch { return ""; }
+
+            return "";
+
+        }
+
+        public static String GetDisabledStartupPrograms()
+        {
+            try
+            {
+                RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Shared Tools\\MSConfig\\startupreg");
+                if (rk == null) return "";
+                //return (string)rk.GetValue(key);
+
+                foreach (string v in rk.GetSubKeyNames())
+                {
+                    Console.WriteLine(v);
+                    RegistryKey productKey = rk.OpenSubKey(v);
+                    //Console.WriteLine(rk.GetValue(v));
+
+                    String command = productKey.GetValue("command", "noval").ToString();
+                    String hkey = productKey.GetValue("hkey", "noval").ToString();
+                    String itemName = productKey.GetValue("item", "noval").ToString();
+                    String keyName = productKey.GetValue("key", "noval").ToString();
+                    String location = hkey + "\\" + keyName;
+
+                    //Console.WriteLine(location);
+                    if (!( command.Equals("noval") || hkey.Equals("noval") || itemName.Equals("noval") || keyName.Equals("noval") ))
+                    {
+                        StartupItem sItem = new StartupItem(itemName, command, false, location);
+                        PackageManager.startupPrograms.Add(sItem);
+                    }                   
+                    // Console.WriteLine(rk.ToString());
+                    /*  if (regVal!="")
+                      {
+                          StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true);
+                          PackageManager.startupPrograms.Add(sItem);
+                        //  Console.WriteLine("eee: " + v + regVal);
+                      }
+                      else
+                      {
+                          Console.WriteLine("dn mphka");
+                      } */
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
+
+            return "";
+        }
+
+        public static void MoveKey()
         {
 
+        }
+
+        public static void EnableKeyStartup(StartupItem si)
+        {            
+            if ( si.Location.StartsWith("HKLM") || si.Location.StartsWith("HKEY_LOCAL_MACHINE"))
+            {
+                //rk3 = Registry.LocalMachine.OpenSubKey(si.Location,true);
+                //Registry.SetValue(si.)
+                //si.Location = si.Location.Replace("HKLM", "HKEY_LOCAL_MACHINE");
+
+                //String loc = si.Location.Remove(0, 5);
+
+                String hkey = si.Location.Split('\\')[0];
+                //Console.WriteLine("hkey is::: " + hkey);
+
+                String loc = si.Location.Trim(hkey.ToCharArray());
+                loc = loc.Substring(1);
+                //Console.WriteLine("new loc is: " + loc);
+
+                RegistryKey rk3 = Registry.LocalMachine.OpenSubKey(loc, true);
+                rk3.SetValue(si.Name, si.Command);
+                rk3.Close();
+
+                //Registry.SetValue(si.Location, si.Name, si.Command);
+            }
+            if (si.Location.StartsWith("HKCU") || si.Location.StartsWith("HKEY_CURRENT_USER"))
+            {
+                //rk3 = Registry.CurrentUser.OpenSubKey(si.Location, true);
+                //rk3.SetValue(si.Name, si.Command);
+                //si.Location = si.Location.Replace("HKCU", "HKEY_CURRENT_USER");
+
+                // String loc = si.Location.Remove(0, 5);
+                //si.Location = "HKEY_CURRENT_USER" + si.Location;
+                //Console.WriteLine(loc);
+
+                String hkey = si.Location.Split('\\')[0];
+                //Console.WriteLine("hkey is::: " + hkey);
+
+                String loc = si.Location.Trim(hkey.ToCharArray());
+                loc = loc.Substring(1);
+                //Console.WriteLine("new loc is: " + loc);
+
+                //Registry.SetValue(si.Location, si.Name, si.Command);
+                RegistryKey rk3 = Registry.CurrentUser.OpenSubKey(loc, true);
+                // Console.WriteLine(rk3.ToString());
+                //rk3.SetValue("test", "auhfaf789823982e898jefge.exe -ana8f8faf -effe");
+                rk3.SetValue(si.Name, si.Command);
+                rk3.Close();
+            }
+
+            RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Shared Tools\\MSConfig\\startupreg", true);
+            rk.DeleteSubKey(si.Name);
+        }
+
+        public static void DisableKeyStartup(StartupItem si)
+        {
+            RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Shared Tools\\MSConfig\\startupreg",true);
+            rk.CreateSubKey(si.Name);
+
+            RegistryKey rk2 = rk.OpenSubKey(si.Name, true);
+
+            RegistryKey rk3;
+
+            rk2.SetValue("command", si.Command);
+            rk2.SetValue("item", si.Name);
+            //rk2.SetValue("command", si.Command);
+            //rk2.SetValue("location", si.Location);
+
+            String hkey = si.Location.Split('\\')[0];
+            Console.WriteLine("hkey is::: " + hkey);
+
+            String loc = si.Location.Trim(hkey.ToCharArray());
+            loc = loc.Substring(1);
+            Console.WriteLine("new loc is: " + loc);
+
+            if (hkey.ToLower().Contains("local") || hkey.ToLower().Contains("hklm"))
+            {
+                hkey = "HKLM";
+                rk3 = Registry.LocalMachine.OpenSubKey(loc,true);
+                rk3.DeleteValue(si.Name);
+              
+               // Console.WriteLine(rk3.ToString() + "\\" + si.Name + "   FFFF " ) ;
+            }
+            if (hkey.ToLower().Contains("user") || hkey.ToLower().Contains("hkcu") )
+            {
+                hkey = "HKCU";
+                //rk3 = Registry.CurrentUser;
+                Console.WriteLine("SI IS :  " + si.Location);
+                Console.WriteLine("my loc is:::: " + loc);
+                rk3 = Registry.CurrentUser.OpenSubKey(loc, true);
+                rk3.DeleteValue(si.Name);
+            }
+
+            rk2.SetValue("hkey", hkey);
+            rk2.SetValue("key", loc);
+            rk2.SetValue("inimapping", "0");
+
+           // rk3.OpenSubKey(loc);
+           // Console.WriteLine(rk3.ToString());
+           
         }
 
         public static void ApplyVisualEffects()
@@ -277,7 +510,7 @@ namespace AdvancedSystemManager
 
                             if (System.IO.Directory.Exists(folder))
                             {
-                               // Console.WriteLine(productKey);
+                                // Console.WriteLine(productKey);
                                 DiskCleanUp.FindFiles(folder, fileList);
                             }
                         }

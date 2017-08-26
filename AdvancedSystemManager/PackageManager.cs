@@ -11,6 +11,8 @@ namespace AdvancedSystemManager
     class PackageManager
     {
         public static List<Package> installedProgramsList = new List<Package>();
+        public static List<StartupItem> startupPrograms = new List<StartupItem>();
+
         public static Boolean doUnattendedInstall = false;
         public static Boolean hasAntiVirus = false;
 

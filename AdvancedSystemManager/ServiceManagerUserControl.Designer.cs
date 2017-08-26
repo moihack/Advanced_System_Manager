@@ -47,11 +47,12 @@
             this.ServiceName,
             this.Status,
             this.StartupType});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(540, 379);
+            this.dataGridView1.Size = new System.Drawing.Size(540, 200);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -99,7 +100,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView1);
             this.Name = "ServiceManagerUserControl";
-            this.Size = new System.Drawing.Size(540, 380);
+            this.Size = new System.Drawing.Size(540, 200);
             this.Load += new System.EventHandler(this.ServiceManagerUserControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

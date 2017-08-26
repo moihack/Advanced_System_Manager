@@ -102,6 +102,13 @@
     <Compile Include="ServiceManagerUserControl.Designer.cs">
       <DependentUpon>ServiceManagerUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="StartupItem.cs" />
+    <Compile Include="StartupProgramsManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StartupProgramsManager.Designer.cs">
+      <DependentUpon>StartupProgramsManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="SystemInfo.cs" />
     <Compile Include="SystemInfoUserControl.cs">
       <SubType>UserControl</SubType>
@@ -145,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ServiceManagerUserControl.resx">
       <DependentUpon>ServiceManagerUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartupProgramsManager.resx">
+      <DependentUpon>StartupProgramsManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SystemInfoUserControl.resx">
       <DependentUpon>SystemInfoUserControl.cs</DependentUpon>

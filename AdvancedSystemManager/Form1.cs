@@ -98,5 +98,10 @@ namespace AdvancedSystemManager
         {
 
         }
+
+        private void startupProgramsManager1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

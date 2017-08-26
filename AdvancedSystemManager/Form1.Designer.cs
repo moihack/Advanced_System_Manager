@@ -33,13 +33,15 @@
             this.programsManagerUserControl1 = new AdvancedSystemManager.ProgramsManagerUserControl();
             this.tweaksUserControl1 = new AdvancedSystemManager.TweaksUserControl();
             this.Services = new System.Windows.Forms.TabPage();
-            this.serviceManagerUserControl1 = new AdvancedSystemManager.ServiceManagerUserControl();
             this.Tools = new System.Windows.Forms.TabPage();
             this.toolsUserControl1 = new AdvancedSystemManager.ToolsUserControl();
             this.Info = new System.Windows.Forms.TabPage();
             this.systemInfoUserControl1 = new AdvancedSystemManager.SystemInfoUserControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.serviceManagerUserControl1 = new AdvancedSystemManager.ServiceManagerUserControl();
+            this.startupProgramsManager1 = new AdvancedSystemManager.StartupProgramsManager();
             this.Optimize.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -48,6 +50,9 @@
             this.Tools.SuspendLayout();
             this.Info.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // Optimize
@@ -95,7 +100,7 @@
             // 
             // Services
             // 
-            this.Services.Controls.Add(this.serviceManagerUserControl1);
+            this.Services.Controls.Add(this.splitContainer2);
             this.Services.Location = new System.Drawing.Point(4, 22);
             this.Services.Name = "Services";
             this.Services.Size = new System.Drawing.Size(541, 379);
@@ -103,19 +108,12 @@
             this.Services.Text = "Startup Services";
             this.Services.UseVisualStyleBackColor = true;
             // 
-            // serviceManagerUserControl1
-            // 
-            this.serviceManagerUserControl1.Location = new System.Drawing.Point(-4, 0);
-            this.serviceManagerUserControl1.Name = "serviceManagerUserControl1";
-            this.serviceManagerUserControl1.Size = new System.Drawing.Size(545, 383);
-            this.serviceManagerUserControl1.TabIndex = 0;
-            // 
             // Tools
             // 
             this.Tools.Controls.Add(this.toolsUserControl1);
             this.Tools.Location = new System.Drawing.Point(4, 22);
             this.Tools.Name = "Tools";
-            this.Tools.Size = new System.Drawing.Size(541, 379);
+            this.Tools.Size = new System.Drawing.Size(541, 180);
             this.Tools.TabIndex = 1;
             this.Tools.Text = "Tools";
             this.Tools.UseVisualStyleBackColor = true;
@@ -164,6 +162,39 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.serviceManagerUserControl1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.startupProgramsManager1);
+            this.splitContainer2.Size = new System.Drawing.Size(541, 379);
+            this.splitContainer2.SplitterDistance = 211;
+            this.splitContainer2.TabIndex = 2;
+            // 
+            // serviceManagerUserControl1
+            // 
+            this.serviceManagerUserControl1.Location = new System.Drawing.Point(0, 0);
+            this.serviceManagerUserControl1.Name = "serviceManagerUserControl1";
+            this.serviceManagerUserControl1.Size = new System.Drawing.Size(540, 200);
+            this.serviceManagerUserControl1.TabIndex = 0;
+            // 
+            // startupProgramsManager1
+            // 
+            this.startupProgramsManager1.Location = new System.Drawing.Point(0, 3);
+            this.startupProgramsManager1.Name = "startupProgramsManager1";
+            this.startupProgramsManager1.Size = new System.Drawing.Size(540, 150);
+            this.startupProgramsManager1.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -185,6 +216,9 @@
             this.Tools.ResumeLayout(false);
             this.Info.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -193,7 +227,6 @@
 
         private System.Windows.Forms.TabPage Optimize;
         private System.Windows.Forms.TabPage Services;
-        private ServiceManagerUserControl serviceManagerUserControl1;
         private System.Windows.Forms.TabPage Tools;
         private ToolsUserControl toolsUserControl1;
         private System.Windows.Forms.TabPage Info;
@@ -203,6 +236,9 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ProgramsManagerUserControl programsManagerUserControl1;
         private TweaksUserControl tweaksUserControl1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private ServiceManagerUserControl serviceManagerUserControl1;
+        private StartupProgramsManager startupProgramsManager1;
     }
 }
 
