@@ -26,13 +26,19 @@ namespace AdvancedSystemManager
             //osLbl.Text = osLbl.Text + myParent.sysinfo.OSVERSION;
 
             sysInfo = new SystemInfo();
-
-            osTB.Text += sysInfo.OSVERSION + " - " + sysInfo.OSBITNESS;
-            mbTB.Text += sysInfo.MB;
-            cpuTB.Text += sysInfo.CPU;
-            ramTB.Text += Convert.ToUInt64(sysInfo.RAM) / 1024 / 1024 + " MB";
-            gpuTB.Text += sysInfo.GPU + " with " + Convert.ToUInt64(sysInfo.VRAM) / 1024 / 1024 + " MB of VRAM";
-            hddTB.Text += sysInfo.HDDModel + " with " + Convert.ToUInt64(sysInfo.HDD) / 1000 / 1000 / 1000 + " GB of storage";
+            try
+            {
+                osTB.Text += sysInfo.OSVERSION + " - " + sysInfo.OSBITNESS;
+                mbTB.Text += sysInfo.MB;
+                cpuTB.Text += sysInfo.CPU;
+                ramTB.Text += Convert.ToUInt64(sysInfo.RAM) / 1024 / 1024 + " MB";
+                gpuTB.Text += sysInfo.GPU + " with " + Convert.ToUInt64(sysInfo.VRAM) / 1024 / 1024 + " MB of VRAM";
+                hddTB.Text += sysInfo.HDDModel + " with " + Convert.ToUInt64(sysInfo.HDD) / 1000 / 1000 / 1000 + " GB of storage";
+            }
+            catch(Exception ex)
+            {
+                MyLogger.WriteErrorLog(ex.Message);
+            }
 
             updatesInfo.Text = "Please wait...Searching for installed updates";
             backgroundWorker1.RunWorkerAsync();

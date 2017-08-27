@@ -524,8 +524,6 @@ namespace AdvancedSystemManager
                             }
 
                         }
-
-
                     }
                 }
             }
@@ -533,6 +531,12 @@ namespace AdvancedSystemManager
             return "";
         }
 
+        public static void CreateStartupReg()
+        {
+            //Make sure startupreg exists! if msconfig the key is not created and an exception occurs!
+            RegistryKey rk = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\Shared Tools\\MSConfig\\startupreg");
+            rk.Close();
+        }
 
         public static String WindowsVersion()
         {

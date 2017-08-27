@@ -72,6 +72,8 @@ namespace AdvancedSystemManager
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            RegistryParser.CreateStartupReg();
+
             RegistryParser.GetStartupPrograms();
             RegistryParser.GetDisabledStartupPrograms();
         }

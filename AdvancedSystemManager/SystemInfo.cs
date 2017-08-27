@@ -43,19 +43,31 @@ namespace AdvancedSystemManager
        
         private static String WMIFinder(String propertyName,String wmiClass)
         {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT " + propertyName + " FROM " + wmiClass);
-            
-            string retVal = "";
-            foreach (ManagementObject mo in searcher.Get())
+            string retVal = "0";
+
+            try
             {
-                foreach (PropertyData property in mo.Properties)
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT " + propertyName + " FROM " + wmiClass);
+
+                foreach (ManagementObject mo in searcher.Get())
                 {
-                    Console.WriteLine(property.Value);
-                    MyLogger.WriteLog(property.Value);
-                    retVal = property.Value.ToString();
+                    foreach (PropertyData property in mo.Properties)
+                    {
+                        Console.WriteLine(property.Value);
+                        MyLogger.WriteLog(property.Value);
+                        retVal = property.Value.ToString();
+                    }
+                    break;
                 }
-                break;
+                return retVal;
             }
+            catch(Exception ex)
+            {
+                MyLogger.WriteErrorLog(ex.Message);
+                MyLogger.WriteErrorLog(propertyName);
+                MyLogger.WriteErrorLog(wmiClass);
+            }
+
             return retVal;
         }
 

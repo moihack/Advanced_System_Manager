@@ -88,6 +88,15 @@ namespace AdvancedSystemManager
 
         }
 
+        public static void MarkPackages()
+        {
+            for (int i = 0; i < installedProgramsList.Count; i++)
+            {
+                MyLogger.WriteLog(installedProgramsList[i].PackageName);
+                installedProgramsList[i].isSafeToRemove = PackageSafeToRemove(installedProgramsList[i].PackageName);
+            }
+        }
+
         public static void SortPackages()
         {
             PackageComparer comp = new PackageComparer();
@@ -180,7 +189,7 @@ namespace AdvancedSystemManager
             PackageManager.RemoveUpdates();
             PackageManager.DuplicatesFinder();
             PackageManager.SortPackages();
-
+            PackageManager.MarkPackages();
             PackageManager.MarkFromText();
 
         }
