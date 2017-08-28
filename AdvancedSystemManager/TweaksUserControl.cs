@@ -39,6 +39,12 @@ namespace AdvancedSystemManager
             // 8a kanw ena pinaka gia na pernaw sto background worker gia na kserei ti 8a treksei???
             // dn xreiazetai toso pia afou exw ta static mou
 
+            doMassiveUninstall = false;
+
+            //Form myForm = (Form)this.Parent.Parent.Parent.Parent.Parent;
+            TabControl myTabControl = (TabControl)this.Parent.Parent.Parent.Parent;
+            Console.WriteLine(myTabControl.Name);
+
             SplitContainer mySplitContair = (SplitContainer)this.Parent.Parent; //first parent is split panel
             Console.WriteLine(mySplitContair.Name);
 
@@ -78,19 +84,28 @@ namespace AdvancedSystemManager
                 }
                 else
                 {
-                    //workaround for markfromtext
+                    //workaround for markfromtext - if sth got marked from the list but we unchecked it
                     PackageManager.installedProgramsList[i].ToRemove = false;
                 }
             }
 
-            prog = (1.0f / c * maxProgress);
-            Console.WriteLine("prog is: " + prog);
-            Console.WriteLine("jobs are: " + c);
-            //   progressBar1.Step = 1;
-            //   progressBar1.Minimum = 0;
-            //   progressBar1.Maximum = c;
+            //if everything is false! - meaning if the user has not selected any option
+            if ( !doDiskCleanup && !doFirefoxReset && !doChromeReset && !doVisualEffects && !doUnattended && !doMassiveUninstall && !doCPUState)
+            {
+                MessageBox.Show("Please select at least one option or mark a program for uninstallation");
+            }
+            else
+            {
+                prog = (1.0f / c * maxProgress);
+                Console.WriteLine("prog is: " + prog);
+                Console.WriteLine("jobs are: " + c);
+                //   progressBar1.Step = 1;
+                //   progressBar1.Minimum = 0;
+                //   progressBar1.Maximum = c;
 
-            backgroundWorker1.RunWorkerAsync();
+                myTabControl.Enabled = false;
+                backgroundWorker1.RunWorkerAsync();
+            }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -138,6 +153,7 @@ namespace AdvancedSystemManager
                     backgroundWorker1.ReportProgress(currentProgress, "Cleaning Firefox Profile");
                     Console.WriteLine("mpainw edw: ff");
                     // RegistryParser.GetVolumeCaches();
+                    DiskCleanUp.FirefoxCleanup();
                     currentProgress += Convert.ToInt32(prog);
                     // backgroundWorker1.ReportProgress(3 / c * progressBar1.Maximum);
                     backgroundWorker1.ReportProgress(currentProgress);
@@ -148,6 +164,7 @@ namespace AdvancedSystemManager
                     backgroundWorker1.ReportProgress(currentProgress, "Cleaning Google Chrome Profile");
                     Console.WriteLine("mpainw edw: chrome ");
                     //RegistryParser.GetVolumeCaches();
+                    DiskCleanUp.ChromeCleanup();
                     currentProgress += Convert.ToInt32(prog);
                     // backgroundWorker1.ReportProgress(3 / c * progressBar1.Maximum);
                     backgroundWorker1.ReportProgress(currentProgress);
@@ -231,6 +248,7 @@ namespace AdvancedSystemManager
         {
             progressBar1.Value = 100;
             progressLbl.Text = "Finished! You can now close this window";
+            MessageBox.Show("Optimization Finished! You can now close Advanced System Manager.");
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

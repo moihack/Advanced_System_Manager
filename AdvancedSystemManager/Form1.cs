@@ -62,12 +62,15 @@ namespace AdvancedSystemManager
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        { /*
-            DialogResult dialogResult = MessageBox.Show("Do you really want to quit Advanced System Manager?", "Advanced System Manager", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.No)
+        {
+            if (tweaksUserControl1.backgroundWorker1.IsBusy)
             {
-                e.Cancel = true;
-            } */
+                DialogResult dialogResult = MessageBox.Show("Do you really want to quit Advanced System Manager? Doing this now may leave your system in an unusable state", "Advanced System Manager", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void optimizeUserControl1_Load(object sender, EventArgs e)

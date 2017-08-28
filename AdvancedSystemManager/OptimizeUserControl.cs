@@ -99,7 +99,7 @@ namespace AdvancedSystemManager
                 if(PackageManager.installedProgramsList[i].ToRemove)
                 {
                     MyLogger.WriteLog("package is :" + PackageManager.installedProgramsList[i].PackageName + " " + i);
-                    PackageManager.CheckUninstallationMethod(PackageManager.installedProgramsList[i]);                   
+                  //  PackageManager.CheckUninstallationMethod(PackageManager.installedProgramsList[i]);                   
                     //MyLogger.WriteLog(i);
                 }                
             }
