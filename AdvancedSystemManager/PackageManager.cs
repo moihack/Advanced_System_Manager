@@ -258,7 +258,7 @@ namespace AdvancedSystemManager
             {
                 myProcess.StartInfo.UseShellExecute = false;
                 myProcess.StartInfo.FileName = inEXEpath;
-                myProcess.StartInfo.Arguments = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"; //arg may be /S , /SILENT and other??
+                myProcess.StartInfo.Arguments = "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"; //arg may be /S , /SILENT and other??
                 myProcess.StartInfo.CreateNoWindow = true;
                 myProcess.StartInfo.RedirectStandardError = true;
                 myProcess.StartInfo.RedirectStandardOutput = true;
@@ -269,6 +269,17 @@ namespace AdvancedSystemManager
                 {
                     string line = myProcess.StandardOutput.ReadLine();
                     Console.WriteLine(line);
+                    if (line.Contains("There has been an error."))
+                    {
+                        //string oldargs = " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                        myProcess.Close();
+                        //myProcess.StartInfo.Arguments = myProcess.StartInfo.Arguments.TrimEnd(oldargs.ToCharArray());
+                        //myProcess.StartInfo.Arguments = " --mode unattended --unattendedmodeui none";
+                        myProcess.StartInfo.Arguments = "--mode unattended";
+                        //MyLogger.WriteErrorLog(myProcess.StartInfo.Arguments);
+
+                        myProcess.Start();
+                    }
                 }
                 //myProcess.WaitForExit();
             }
@@ -281,7 +292,7 @@ namespace AdvancedSystemManager
         public static void EXE_Uninstall(String uniEXEpath, String arg)
         {
             Process myProcess = new Process();
-
+            MyLogger.WriteErrorLog("EXEUNI: " + uniEXEpath + " " + arg);
             try
             {
                 myProcess.StartInfo.UseShellExecute = false;
@@ -297,6 +308,14 @@ namespace AdvancedSystemManager
                 {
                     string line = myProcess.StandardOutput.ReadLine();
                     Console.WriteLine(line);
+                    if (line.Contains("There has been an error."))
+                    {
+                        myProcess.Close();
+                        //myProcess.StartInfo.Arguments = myProcess.StartInfo.Arguments.TrimEnd(oldargs.ToCharArray());
+                        //myProcess.StartInfo.Arguments = " --mode unattended --unattendedmodeui none";
+                        myProcess.StartInfo.Arguments = "--mode unattended";
+                        myProcess.Start();                      
+                    }
                 }
                 //myProcess.WaitForExit();
             }
@@ -305,7 +324,6 @@ namespace AdvancedSystemManager
                 Console.WriteLine(e.Message);
             }
         }
-
 
         public static void UninstallTest()
         {
@@ -481,6 +499,7 @@ namespace AdvancedSystemManager
 
         public static void UninstallNoArgs(String args)
         {
+            MyLogger.WriteErrorLog("UNA: " + args);
             Process myProcess = new Process();
             try
             {
@@ -497,14 +516,31 @@ namespace AdvancedSystemManager
                 {
                     string line = myProcess.StandardOutput.ReadLine();
                     Console.WriteLine(line);
+
+                    //we have to deal with InstallBuilder! 
+                    //They changed this recently - before it would normally consume any unknown parameters
+                    //if the first one was an accepted one
+
+                    if (line.Contains("There has been an error."))
+                    {
+                        // uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                        string oldargs = " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                        args = args.TrimEnd(oldargs.ToCharArray());
+                        args = args + " --mode unattended --unattendedmodeui none";
+                        MyLogger.WriteErrorLog(args);
+                        
+                        UninstallNoArgs(args);
+                    }
                 }
-                //myProcess.WaitForExit();
+                //myProcess.WaitForExit();            
             }
             catch (Exception e)
             {
                 MyLogger.WriteLog(e.Message + " Error on executing: " + args);
+                MyLogger.WriteErrorLog(e.Message + " Error on executing: " + args);
             }
         }
+
 
         public static void removeMPC()
         {
@@ -542,6 +578,7 @@ namespace AdvancedSystemManager
                 //if UninstallString really exists
                 if (!uniString.Contains("noUnString"))
                 {
+                    MyLogger.WriteErrorLog(uniString);
                     if (uniString.StartsWith("MsiExec.exe "))
                     {
                         //replace /* no matter what, with /X + append /qn
@@ -579,11 +616,66 @@ namespace AdvancedSystemManager
                                 PackageManager.UninstallNoArgs(uniString);
                             }
                         } */
+                        if (uniString.StartsWith("\"") && uniString.EndsWith("\""))
+                        {
+                            if (uniString.EndsWith(".exe\""))
+                            {
+                                //string args = '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                                string args ="/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                                PackageManager.EXE_Uninstall(uniString, args);
+                            }
+                            else
+                            {
+                                //uniString = uniString.TrimEnd('"'); //la8os to kanw ena megalo arxeio na psaxnei me " "
+                                uniString = uniString + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                                PackageManager.UninstallNoArgs(uniString);
+                            }
+                        }
+                        if (uniString.StartsWith("\"") && !uniString.EndsWith("\""))
+                        {
+                            //enquoted exe path only + parameters unquoted
+                            uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                            PackageManager.UninstallNoArgs(uniString);
+                        }
+                        //unquoted apo dw k pera                     
+                        if ( !uniString.StartsWith("\"") && !uniString.EndsWith("\""))
+                        {
+                            if (uniString.EndsWith(".exe"))
+                            {
+                                string args = "\"/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-\"";
+                                PackageManager.EXE_Uninstall(uniString, args);
+                            }
+                            else
+                            {
+                                string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                                int position = uniString.IndexOf(".exe ");
+                                if(position != -1)
+                                {
+                                    position = position + 3; //exe
+                                    uniString = uniString.Insert(position + 1, "\"");
+                                    uniString = "\"" + uniString + args;
+                                    MyLogger.WriteErrorLog("TEST: " + uniString);
+                                    PackageManager.UninstallNoArgs(uniString);
+                                }
+                            }
 
-                        uniString = '"' + uniString + '"' + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                        PackageManager.UninstallNoArgs(uniString);
+                        }
+                            /* else
+                             {
+                                 //uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                                 //uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
 
-                    }
+                                 // kanw enquote gia na apofugw sthn cmd kena!
+                                 uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                                 PackageManager.UninstallNoArgs(uniString);
+                             } */
+
+                            //uniString = '"' + uniString + '"' + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                            //uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                            // uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                            // MyLogger.WriteErrorLog(uniString);
+                            //  PackageManager.UninstallNoArgs(uniString);
+                        }
 
                 }
             }
@@ -598,14 +690,73 @@ namespace AdvancedSystemManager
                     PackageManager.UninstallNoArgs(pack.QuietUninstallString);
                 } */
                 String uniString = pack.QuietUninstallString;
+                MyLogger.WriteErrorLog(uniString);
                 if (uniString.StartsWith("MsiExec.exe "))
                 {
                     PackageManager.UninstallNoArgs(uniString);
                 }
                 else
                 {
-                    uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                    PackageManager.UninstallNoArgs(uniString);
+                    if (uniString.StartsWith("\"") && uniString.EndsWith("\""))
+                    {
+                        if(uniString.EndsWith(".exe\""))
+                        {
+                            string args = '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                            PackageManager.EXE_Uninstall(uniString, args);
+                        }
+                        else
+                        {
+                            //uniString = uniString.TrimEnd('"'); //la8os to kanw ena megalo arxeio na psaxnei me " "
+                            uniString = uniString + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                            PackageManager.UninstallNoArgs(uniString);
+                        }
+                    }
+                    if (uniString.StartsWith("\"") && !uniString.EndsWith("\""))
+                    {
+                        //enquoted exe path only + parameters unquoted
+                        uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                        PackageManager.UninstallNoArgs(uniString);
+                    }
+                    //unquoted apo dw k pera
+                    if (!uniString.StartsWith("\"") && !uniString.EndsWith("\""))
+                    {
+                        if (uniString.EndsWith(".exe"))
+                        {
+                            string args = "\"/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-\"";
+                            PackageManager.EXE_Uninstall(uniString, args);
+                        }
+                        else
+                        {
+                            string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                            int position = uniString.IndexOf(".exe ");
+                            if (position != -1)
+                            {
+                                position = position + 3; //exe
+                                uniString = uniString.Insert(position + 1, "\"");
+                                uniString = "\"" + uniString + args;
+                                MyLogger.WriteErrorLog("TEST: " + uniString);
+                                PackageManager.UninstallNoArgs(uniString);
+                            }
+                        }
+
+                    }
+
+                    //   if( !uniString.StartsWith("\"") && !uniString.EndsWith(".exe"))
+                    // {
+                    // 8a to kanw megalo arxeio an tou balw quotes - prp na trimmarw gurw apo th leksh .exe mpales apla append
+                    //alla an exei kena 8a thn pa8w
+                    //uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                    //     PackageManager.UninstallNoArgs(uniString);
+                    //  }
+                    /* else
+                     {
+                         //uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                         //uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+
+                         // kanw enquote gia na apofugw sthn cmd kena!
+                         uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
+                         PackageManager.UninstallNoArgs(uniString);
+                     } */
                 }
 
             }
