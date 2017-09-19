@@ -39,7 +39,7 @@ namespace AdvancedSystemManager
                         string productName = Convert.ToString(productKey.GetValue("DisplayName", "noDisplayName"));
                         string unString = Convert.ToString(productKey.GetValue("UninstallString", "noUnString"));
                         string quietUnString = Convert.ToString(productKey.GetValue("QuietUninstallString", "noQuiet"));
-
+                        string dispVersion = Convert.ToString(productKey.GetValue("DisplayVersion", ""));
                         //read value is in KB and is UInt since size is always >= 0
                         bool sysComp = Convert.ToBoolean(productKey.GetValue("SystemComponent", 0));
                         Console.WriteLine(sysComp + " " + productName);
@@ -47,7 +47,7 @@ namespace AdvancedSystemManager
                         UInt32 estSize = Convert.ToUInt32(productKey.GetValue("EstimatedSize", "0"));
                         string publisher = Convert.ToString(productKey.GetValue("Publisher", "Unknown Publisher"));
                         //Console.WriteLine(estSize);
-                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString);
+                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString,dispVersion);
                         PackageManager.installedProgramsList.Add(pack);
                     }
                 }
@@ -96,6 +96,7 @@ namespace AdvancedSystemManager
                         string productName = Convert.ToString(productKey.GetValue("DisplayName", "noDisplayName"));
                         string unString = Convert.ToString(productKey.GetValue("UninstallString", "noUnString"));
                         string quietUnString = Convert.ToString(productKey.GetValue("QuietUninstallString", "noQuiet"));
+                        string dispVersion = Convert.ToString(productKey.GetValue("DisplayVersion", ""));
 
                         //read value is in KB and is UInt since size is always >= 0
                         bool sysComp = Convert.ToBoolean(productKey.GetValue("SystemComponent", 0));
@@ -104,7 +105,7 @@ namespace AdvancedSystemManager
                         UInt32 estSize = Convert.ToUInt32(productKey.GetValue("EstimatedSize", "0"));
                         string publisher = Convert.ToString(productKey.GetValue("Publisher", "Unknown Publisher"));
                         //Console.WriteLine(estSize);
-                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString);
+                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString,dispVersion);
                         PackageManager.installedProgramsList.Add(pack);
                     }
                 }
@@ -151,6 +152,7 @@ namespace AdvancedSystemManager
                         string productName = Convert.ToString(productKey.GetValue("DisplayName", "noDisplayName"));
                         string unString = Convert.ToString(productKey.GetValue("UninstallString", "noUnString"));
                         string quietUnString = Convert.ToString(productKey.GetValue("QuietUninstallString", "noQuiet"));
+                        string dispVersion = Convert.ToString(productKey.GetValue("DisplayVersion", ""));
 
                         //read value is in KB and is UInt since size is always >= 0
                         bool sysComp = Convert.ToBoolean(productKey.GetValue("SystemComponent", 0));
@@ -159,7 +161,7 @@ namespace AdvancedSystemManager
                         UInt32 estSize = Convert.ToUInt32(productKey.GetValue("EstimatedSize", "0"));
                         string publisher = Convert.ToString(productKey.GetValue("Publisher", "Unknown Publisher"));
                         //Console.WriteLine(estSize);
-                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString);
+                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString,dispVersion);
                         PackageManager.installedProgramsList.Add(pack);
                     }
                 }
@@ -206,6 +208,7 @@ namespace AdvancedSystemManager
                         string productName = Convert.ToString(productKey.GetValue("DisplayName", "noDisplayName"));
                         string unString = Convert.ToString(productKey.GetValue("UninstallString", "noUnString"));
                         string quietUnString = Convert.ToString(productKey.GetValue("QuietUninstallString", "noQuiet"));
+                        string dispVersion = Convert.ToString(productKey.GetValue("DisplayVersion", ""));
 
                         //read value is in KB and is UInt since size is always >= 0
                         bool sysComp = Convert.ToBoolean(productKey.GetValue("SystemComponent", 0));
@@ -214,7 +217,7 @@ namespace AdvancedSystemManager
                         UInt32 estSize = Convert.ToUInt32(productKey.GetValue("EstimatedSize", "0"));
                         string publisher = Convert.ToString(productKey.GetValue("Publisher", "Unknown Publisher"));
                         //Console.WriteLine(estSize);
-                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString);
+                        Package pack = new Package(productName, publisher, sysComp, estSize, unString, quietUnString,dispVersion);
                         PackageManager.installedProgramsList.Add(pack);
                     }
                 }
@@ -240,7 +243,7 @@ namespace AdvancedSystemManager
                     if (regVal != "")
                     {
                         StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
-                        PackageManager.startupPrograms.Add(sItem);
+                        PackageManager.startupProgramsList.Add(sItem);
                         //     Console.WriteLine("eee: " + v + regVal);
                     }
                     else
@@ -268,7 +271,7 @@ namespace AdvancedSystemManager
                         if (regVal != "")
                         {
                             StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
-                            PackageManager.startupPrograms.Add(sItem);
+                            PackageManager.startupProgramsList.Add(sItem);
                             //Console.WriteLine("loc is: " + rk.ToString());
                             // Console.WriteLine("eee: " + v + regVal);
                         }
@@ -296,7 +299,7 @@ namespace AdvancedSystemManager
                     if (regVal != "")
                     {
                         StartupItem sItem = new StartupItem(v, rk.GetValue(v).ToString(), true, rk.ToString());
-                        PackageManager.startupPrograms.Add(sItem);
+                        PackageManager.startupProgramsList.Add(sItem);
                         //  Console.WriteLine("eee: " + v + regVal);
                     }
                     else
@@ -335,7 +338,7 @@ namespace AdvancedSystemManager
                     if (!( command.Equals("noval") || hkey.Equals("noval") || itemName.Equals("noval") || keyName.Equals("noval") ))
                     {
                         StartupItem sItem = new StartupItem(itemName, command, false, location);
-                        PackageManager.startupPrograms.Add(sItem);
+                        PackageManager.startupProgramsList.Add(sItem);
                     }                   
                     // Console.WriteLine(rk.ToString());
                     /*  if (regVal!="")

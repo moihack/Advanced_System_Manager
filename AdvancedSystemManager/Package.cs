@@ -12,13 +12,14 @@ namespace AdvancedSystemManager
         public String UninstallString { set; get; }
         public String QuietUninstallString { set; get; }
         public String EstimatedSizeInKB { set; get; }
+        public String DisplayVersion { set; get; }
         public Boolean IsSystemComponent { set; get; }
         public Boolean isSafeToRemove { set; get; }
         //public Boolean isInnoSetup { set; get; }
         public Boolean ToRemove { set; get; }
 
        // Package pack = new Package(productName, publisher, estSize, unString, quietUnString);
-        public Package(String packName,String pub,Boolean sysComp, decimal size,String uniString,String quietUniString)
+        public Package(String packName,String pub,Boolean sysComp, decimal size,String uniString,String quietUniString,String dispVer)
         {
             this.PackageName = packName;
             //this.DisplayVersion = dispVer;
@@ -89,6 +90,9 @@ namespace AdvancedSystemManager
             this.isSafeToRemove = false;
            // this.isInnoSetup = false;
             this.ToRemove = false;
+
+            this.DisplayVersion = dispVer;
+
         }
     }
 

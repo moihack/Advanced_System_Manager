@@ -41,11 +41,11 @@
             this.servMgmtLbl = new System.Windows.Forms.LinkLabel();
             this.devMgmtLbl = new System.Windows.Forms.LinkLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.md5Lbl = new System.Windows.Forms.Label();
-            this.sha1Lbl = new System.Windows.Forms.Label();
             this.pathTB = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.md5TB = new System.Windows.Forms.TextBox();
+            this.sha1TB = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -175,22 +175,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // md5Lbl
-            // 
-            this.md5Lbl.AutoSize = true;
-            this.md5Lbl.Location = new System.Drawing.Point(98, 48);
-            this.md5Lbl.Name = "md5Lbl";
-            this.md5Lbl.Size = new System.Drawing.Size(0, 13);
-            this.md5Lbl.TabIndex = 12;
-            // 
-            // sha1Lbl
-            // 
-            this.sha1Lbl.AutoSize = true;
-            this.sha1Lbl.Location = new System.Drawing.Point(98, 72);
-            this.sha1Lbl.Name = "sha1Lbl";
-            this.sha1Lbl.Size = new System.Drawing.Size(0, 13);
-            this.sha1Lbl.TabIndex = 13;
-            // 
             // pathTB
             // 
             this.pathTB.Location = new System.Drawing.Point(117, 15);
@@ -201,14 +185,36 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.sha1TB);
+            this.panel2.Controls.Add(this.md5TB);
             this.panel2.Controls.Add(this.openFileBtn);
             this.panel2.Controls.Add(this.pathTB);
-            this.panel2.Controls.Add(this.md5Lbl);
-            this.panel2.Controls.Add(this.sha1Lbl);
             this.panel2.Location = new System.Drawing.Point(3, 149);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(474, 102);
             this.panel2.TabIndex = 16;
+            // 
+            // md5TB
+            // 
+            this.md5TB.BackColor = System.Drawing.SystemColors.Window;
+            this.md5TB.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.md5TB.Location = new System.Drawing.Point(117, 45);
+            this.md5TB.Name = "md5TB";
+            this.md5TB.ReadOnly = true;
+            this.md5TB.Size = new System.Drawing.Size(354, 13);
+            this.md5TB.TabIndex = 16;
+            this.md5TB.TabStop = false;
+            // 
+            // sha1TB
+            // 
+            this.sha1TB.BackColor = System.Drawing.SystemColors.Window;
+            this.sha1TB.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.sha1TB.Location = new System.Drawing.Point(117, 72);
+            this.sha1TB.Name = "sha1TB";
+            this.sha1TB.ReadOnly = true;
+            this.sha1TB.Size = new System.Drawing.Size(354, 13);
+            this.sha1TB.TabIndex = 17;
+            this.sha1TB.TabStop = false;
             // 
             // ToolsUserControl
             // 
@@ -239,12 +245,12 @@
         private System.Windows.Forms.Button openFileBtn;
         private System.Windows.Forms.Panel panel1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Label md5Lbl;
-        private System.Windows.Forms.Label sha1Lbl;
         private System.Windows.Forms.TextBox pathTB;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.LinkLabel devMgmtLbl;
         private System.Windows.Forms.LinkLabel servMgmtLbl;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TextBox sha1TB;
+        private System.Windows.Forms.TextBox md5TB;
     }
 }

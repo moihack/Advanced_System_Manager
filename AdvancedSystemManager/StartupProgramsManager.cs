@@ -40,7 +40,7 @@ namespace AdvancedSystemManager
                     //bres to location k pane grapse ekei
                     // sbhsto apo to startupreg
 
-                    RegistryParser.EnableKeyStartup(PackageManager.startupPrograms[e.Item.Index]);
+                    RegistryParser.EnableKeyStartup(PackageManager.startupProgramsList[e.Item.Index]);
 
                 }
                 else
@@ -49,7 +49,7 @@ namespace AdvancedSystemManager
                     //grafto sto startupreg
                     //sbhsto apo to location tou
 
-                    RegistryParser.DisableKeyStartup(PackageManager.startupPrograms[e.Item.Index]);
+                    RegistryParser.DisableKeyStartup(PackageManager.startupProgramsList[e.Item.Index]);
 
                 }
             }
@@ -90,7 +90,7 @@ namespace AdvancedSystemManager
 
         private void FillListView()
         {
-            foreach (StartupItem si in PackageManager.startupPrograms)
+            foreach (StartupItem si in PackageManager.startupProgramsList)
             {
                 ListViewItem newListViewItem = new ListViewItem();
 

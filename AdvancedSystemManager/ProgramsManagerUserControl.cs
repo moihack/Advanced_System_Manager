@@ -48,7 +48,7 @@ namespace AdvancedSystemManager
                 newListViewItem.Text = pack.PackageName;
                 newListViewItem.SubItems.Add(pack.Publisher);
                 newListViewItem.SubItems.Add(pack.EstimatedSizeInKB.ToString());
-
+                newListViewItem.SubItems.Add(pack.DisplayVersion);
                 //newListViewItem.SubItems.Add(ser.StartType.ToString());
                 //newListViewItem.SubItems.Add(newComboBoxItem);
 

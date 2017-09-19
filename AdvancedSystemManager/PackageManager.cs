@@ -11,7 +11,7 @@ namespace AdvancedSystemManager
     class PackageManager
     {
         public static List<Package> installedProgramsList = new List<Package>();
-        public static List<StartupItem> startupPrograms = new List<StartupItem>();
+        public static List<StartupItem> startupProgramsList = new List<StartupItem>();
 
         public static Boolean doUnattendedInstall = false;
         public static Boolean hasAntiVirus = false;
@@ -24,9 +24,25 @@ namespace AdvancedSystemManager
             {
                 for (int j = installedProgramsList.Count - 1; j >= 0; j--)
                 {
-                    if( installedProgramsList[i].PackageName.Equals(installedProgramsList[j].PackageName) && installedProgramsList[i].EstimatedSizeInKB.Equals(installedProgramsList[j].EstimatedSizeInKB))
+                    //if( installedProgramsList[i].PackageName.Equals(installedProgramsList[j].PackageName) && installedProgramsList[i].EstimatedSizeInKB.Equals(installedProgramsList[j].EstimatedSizeInKB))
+                    if (installedProgramsList[i].PackageName.Equals(installedProgramsList[j].PackageName) && installedProgramsList[i].DisplayVersion.Equals(installedProgramsList[j].DisplayVersion) && (installedProgramsList[i].UninstallString.Equals(installedProgramsList[j].UninstallString) || (installedProgramsList[i].QuietUninstallString.Equals(installedProgramsList[j].QuietUninstallString)) ))
                     {
-                        if (i != j)
+                        /*  if(installedProgramsList[i].RealSize>=installedProgramsList[j].RealSize)
+                          {
+                              if (i != j)
+                              {
+                                  installedProgramsList.RemoveAt(j);
+                              }
+                          }
+                          else
+                          {
+                              // installedProgramsList.RemoveAt(i);
+                              //exception workaround
+                              installedProgramsList[i] = installedProgramsList[j];
+                              installedProgramsList.RemoveAt(j);
+                          }   */
+                        if (i != j) //&& installedProgramsList[i].RealSize == installedProgramsList[j].RealSize)
+                        //if(i!=j)
                         {
                             installedProgramsList.RemoveAt(j);
                         }
@@ -111,7 +127,7 @@ namespace AdvancedSystemManager
             //string text = pack;
             // string pat = @"\b(visual|open)\b";
             //string pat = @"(visual|open)";
-            string pat = @"(virus|trial|free|toolbar|search|clean|tune)"; //to free pianei k to freeware
+            string pat = @"(virus|trial|free|toolbar|search|download|tune|clean)"; //to free pianei k to freeware
             //string pat2 = @"(virus)"; //pianei ta anti-virus, antivirus, antivirus-free ktl
             // Instantiate the regular expression object.
             Regex r = new Regex(pat, RegexOptions.IgnoreCase);
@@ -160,12 +176,16 @@ namespace AdvancedSystemManager
             {
                 // Console.WriteLine(line);
                 // counter++;
-                foreach (Package pack in installedProgramsList)
+                if (!line.StartsWith("#"))
                 {
-                    if (pack.PackageName.Contains(line))
+                    foreach (Package pack in installedProgramsList)
                     {
-                        pack.isSafeToRemove = true;
-                        pack.ToRemove = true;
+                        if (pack.PackageName.Contains(line))
+                        {
+                            Console.WriteLine(line);
+                            pack.isSafeToRemove = true;
+                            pack.ToRemove = true;
+                        }
                     }
                 }
             }
@@ -175,7 +195,25 @@ namespace AdvancedSystemManager
 
         public static void GetAllProgramsList()
         {
+            if (SystemInfo.is64BitOS)
+            {
+               RegistryParser.GetWin64Programs();
+            }
+           
+            RegistryParser.GetPrograms();
+
+        //    RegistryParser.GetPrograms2(); //polla la8h
+
             RegistryParser.GetCurrentUserPrograms();
+
+            PackageManager.RemoveSystemComponents();
+            PackageManager.RemoveUpdates();
+   //         PackageManager.DuplicatesFinder(); //maybe not needed anymore 
+            PackageManager.SortPackages();
+            PackageManager.MarkPackages();
+            PackageManager.MarkFromText();
+
+            /*  RegistryParser.GetCurrentUserPrograms();
 
             if (SystemInfo.is64BitOS)
             {
@@ -190,7 +228,7 @@ namespace AdvancedSystemManager
             PackageManager.DuplicatesFinder();
             PackageManager.SortPackages();
             PackageManager.MarkPackages();
-            PackageManager.MarkFromText();
+            PackageManager.MarkFromText(); */
 
         }
 
@@ -214,8 +252,8 @@ namespace AdvancedSystemManager
                     string line = myProcess.StandardOutput.ReadLine();
                     Console.WriteLine(line);                    
                 } */
-                //myProcess.WaitForExit();
-            }
+            //myProcess.WaitForExit();
+        }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
@@ -624,7 +662,7 @@ namespace AdvancedSystemManager
                                 string args ="/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                                 PackageManager.EXE_Uninstall(uniString, args);
                             }
-                            else
+                            else //mallon axreiasto kai dn mpainei pote gt praktika se mia cmd auto pou nai mesa sta "" isodunamei me ena path apla
                             {
                                 //uniString = uniString.TrimEnd('"'); //la8os to kanw ena megalo arxeio na psaxnei me " "
                                 uniString = uniString + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
@@ -659,6 +697,25 @@ namespace AdvancedSystemManager
                                 }
                             }
 
+                        }
+                        //photoshop workaround
+                        if (!uniString.StartsWith("\"") && uniString.EndsWith("\""))
+                        {
+                            string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                            // uniString = uniString + args;
+
+                            uniString = uniString.Replace("\"","");
+
+                            int position = uniString.IndexOf(".exe ");
+                            if (position != -1)
+                            {
+                                position = position + 3; //exe
+                                uniString = uniString.Insert(position + 1, "\"");
+                                uniString = "\"" + uniString + args;
+                                MyLogger.WriteErrorLog("TEST: " + uniString);
+                                PackageManager.UninstallNoArgs(uniString);
+                            }
+                               
                         }
                             /* else
                              {
@@ -737,6 +794,25 @@ namespace AdvancedSystemManager
                                 MyLogger.WriteErrorLog("TEST: " + uniString);
                                 PackageManager.UninstallNoArgs(uniString);
                             }
+                        }
+
+                    }
+                    //photoshop workaround
+                    if (!uniString.StartsWith("\"") && uniString.EndsWith("\""))
+                    {
+                        string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                        // uniString = uniString + args;
+
+                        uniString = uniString.Replace("\"", "");
+
+                        int position = uniString.IndexOf(".exe ");
+                        if (position != -1)
+                        {
+                            position = position + 3; //exe
+                            uniString = uniString.Insert(position + 1, "\"");
+                            uniString = "\"" + uniString + args;
+                            MyLogger.WriteErrorLog("TEST: " + uniString);
+                            PackageManager.UninstallNoArgs(uniString);
                         }
 
                     }

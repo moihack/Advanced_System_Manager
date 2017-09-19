@@ -16,10 +16,10 @@ namespace AdvancedSystemManager
         public String OSBITNESS { get; }
         public String MB { get; }
         public String CPU { get; }
-        public String RAM { get; }
+        public String RAM { get; set; }
         public String GPU { get; }
-        public String VRAM { get; }
-        public String HDD { get; }
+        public String VRAM { get; set; }
+        public String HDD { get; set; }
         public String HDDModel { get; }
         public SystemInfo()
         {
@@ -39,6 +39,8 @@ namespace AdvancedSystemManager
             {
                 is64BitOS = true;
             }
+
+            ConvertFieldValues();
         }
        
         private static String WMIFinder(String propertyName,String wmiClass)
@@ -79,11 +81,18 @@ namespace AdvancedSystemManager
             res += "\r\n" + "Motherboard: " + this.MB + "\r\n";
             res += "\r\n" + "CPU: " + this.CPU + "\r\n";
             res += "\r\n" + "RAM: " + this.RAM + "\r\n";
-            res += "\r\n" + "GPU: " + this.GPU + "\r\n";
-            res += "\r\n" + "HDD: " + this.HDD + " - " + this.HDDModel + "\r\n";
+            res += "\r\n" + "GPU: " + this.GPU + " with "  + this.VRAM + "\r\n";
+            res += "\r\n" + "HDD: " + this.HDDModel + " with " + this.HDD + "\r\n";
             res += "\r\n" + "========SYSTEM INFO========" + "\r\n";
 
             return res;
+        }
+
+        public void ConvertFieldValues()
+        {
+            this.RAM = Convert.ToUInt64(this.RAM) / 1024 / 1024 + " MB";
+            this.VRAM = Convert.ToUInt64(this.VRAM) / 1024 / 1024 + " MB of VRAM";
+            this.HDD = Convert.ToUInt64(this.HDD) / 1000 / 1000 / 1000 + " GB of storage";
         }
 
     }

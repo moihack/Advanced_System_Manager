@@ -88,7 +88,7 @@
             // 
             // programsManagerUserControl1
             // 
-            this.programsManagerUserControl1.Location = new System.Drawing.Point(-2, 3);
+            this.programsManagerUserControl1.Location = new System.Drawing.Point(-4, 0);
             this.programsManagerUserControl1.Name = "programsManagerUserControl1";
             this.programsManagerUserControl1.Size = new System.Drawing.Size(540, 245);
             this.programsManagerUserControl1.TabIndex = 0;

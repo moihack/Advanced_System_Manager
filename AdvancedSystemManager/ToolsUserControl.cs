@@ -23,7 +23,8 @@ namespace AdvancedSystemManager
 
         private void ToolsUserControl_Load(object sender, EventArgs e)
         {
-
+          //  md5TB.BackColor = this.BackColor;
+          //  sha1TB.BackColor = this.BackColor;
         }
 
         private void cmpLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -66,8 +67,8 @@ namespace AdvancedSystemManager
             {
                 pathTB.Text = openFileDialog1.FileName;
 
-                md5Lbl.Text = "Calculating MD5...";
-                sha1Lbl.Text = "Calculating SHA-1...";
+                md5TB.Text = "Calculating MD5...";
+                sha1TB.Text = "Calculating SHA-1...";
 
                 backgroundWorker1.RunWorkerAsync(pathTB.Text);
             } 
@@ -89,8 +90,8 @@ namespace AdvancedSystemManager
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             List<String> checksumResults = (List<string>) e.Result;
-            md5Lbl.Text = "MD5: " + checksumResults[0];
-            sha1Lbl.Text = "SHA-1: " + checksumResults[1];
+            md5TB.Text = "MD5: " + checksumResults[0];
+            sha1TB.Text = "SHA-1: " + checksumResults[1];
 
         }
 

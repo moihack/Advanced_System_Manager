@@ -39,6 +39,7 @@
             this.defBtn = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.Version = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listView1
@@ -48,10 +49,11 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ProgramName,
             this.Publisher,
-            this.EstSize});
+            this.EstSize,
+            this.Version});
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(400, 245);
+            this.listView1.Size = new System.Drawing.Size(447, 245);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -65,16 +67,16 @@
             // Publisher
             // 
             this.Publisher.Text = "Publisher";
-            this.Publisher.Width = 130;
+            this.Publisher.Width = 120;
             // 
             // EstSize
             // 
             this.EstSize.Text = "Size";
-            this.EstSize.Width = 95;
+            this.EstSize.Width = 65;
             // 
             // noBtn
             // 
-            this.noBtn.Location = new System.Drawing.Point(434, 90);
+            this.noBtn.Location = new System.Drawing.Point(453, 90);
             this.noBtn.Name = "noBtn";
             this.noBtn.Size = new System.Drawing.Size(75, 23);
             this.noBtn.TabIndex = 8;
@@ -84,7 +86,7 @@
             // 
             // allBtn
             // 
-            this.allBtn.Location = new System.Drawing.Point(434, 61);
+            this.allBtn.Location = new System.Drawing.Point(453, 61);
             this.allBtn.Name = "allBtn";
             this.allBtn.Size = new System.Drawing.Size(75, 23);
             this.allBtn.TabIndex = 7;
@@ -94,7 +96,7 @@
             // 
             // svBtn
             // 
-            this.svBtn.Location = new System.Drawing.Point(434, 3);
+            this.svBtn.Location = new System.Drawing.Point(453, 3);
             this.svBtn.Name = "svBtn";
             this.svBtn.Size = new System.Drawing.Size(75, 23);
             this.svBtn.TabIndex = 6;
@@ -105,7 +107,7 @@
             // 
             // defBtn
             // 
-            this.defBtn.Location = new System.Drawing.Point(434, 32);
+            this.defBtn.Location = new System.Drawing.Point(453, 32);
             this.defBtn.Name = "defBtn";
             this.defBtn.Size = new System.Drawing.Size(75, 23);
             this.defBtn.TabIndex = 5;
@@ -117,6 +119,11 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // Version
+            // 
+            this.Version.Text = "Version";
+            this.Version.Width = 85;
             // 
             // ProgramsManagerUserControl
             // 
@@ -146,5 +153,6 @@
         private System.Windows.Forms.Button defBtn;
         public System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ColumnHeader Version;
     }
 }
