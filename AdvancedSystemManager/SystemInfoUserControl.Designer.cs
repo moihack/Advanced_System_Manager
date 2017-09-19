@@ -144,7 +144,6 @@
             this.updatesInfo.ReadOnly = true;
             this.updatesInfo.Size = new System.Drawing.Size(438, 87);
             this.updatesInfo.TabIndex = 12;
-            this.updatesInfo.TextChanged += new System.EventHandler(this.updatesInfo_TextChanged);
             // 
             // hddTB
             // 

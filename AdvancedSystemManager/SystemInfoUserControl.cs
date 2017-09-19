@@ -19,12 +19,6 @@ namespace AdvancedSystemManager
 
         private void SystemInfoUserControl_Load(object sender, EventArgs e)
         {
-            //cast is required - parent1=tab page,parent2=tab control,parent3=Form1
-            //Form1 myParent = (Form1)this.Parent.Parent.Parent;
-
-            //Console.WriteLine(this.Parent.Parent.Parent.Name);
-            //osLbl.Text = osLbl.Text + myParent.sysinfo.OSVERSION;
-
             sysInfo = new SystemInfo();
             try
             {
@@ -73,18 +67,7 @@ namespace AdvancedSystemManager
                 {
                     updatesInfo.Text = "Windows Update seems to be working correctly";
                 }
-            }
-           
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void updatesInfo_TextChanged(object sender, EventArgs e)
-        {
-
+            }           
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)
@@ -92,6 +75,11 @@ namespace AdvancedSystemManager
             MyLogger.WriteSystemInfo(sysInfo.ToString());
             MessageBox.Show("Saved System Info to info.txt");
             Console.WriteLine(sysInfo.ToString());
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

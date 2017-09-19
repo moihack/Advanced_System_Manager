@@ -9,7 +9,6 @@ namespace AdvancedSystemManager
     class SystemInfo
     {
         public static Boolean is64BitOS = false;
-
         public String HOSTNAME { get; }
         public String USERNAME { get; }
         public String OSVERSION { get; }
@@ -55,19 +54,16 @@ namespace AdvancedSystemManager
                 {
                     foreach (PropertyData property in mo.Properties)
                     {
-                        Console.WriteLine(property.Value);
-                        MyLogger.WriteLog(property.Value);
                         retVal = property.Value.ToString();
                     }
-                    break;
+                    break; //do not return any other found values
                 }
                 return retVal;
             }
             catch(Exception ex)
             {
+                MyLogger.WriteErrorLog("Exception occured while gathering System Info");
                 MyLogger.WriteErrorLog(ex.Message);
-                MyLogger.WriteErrorLog(propertyName);
-                MyLogger.WriteErrorLog(wmiClass);
             }
 
             return retVal;

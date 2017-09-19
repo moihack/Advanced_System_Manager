@@ -18,8 +18,5 @@ namespace AdvancedSystemManager
             this.IsEnabled = state;
             this.Location = loc;
         }
-
-        
-
     }
 }

@@ -11,6 +11,8 @@ namespace AdvancedSystemManager
 {
     public partial class TweaksUserControl : UserControl
     {
+        //use these to count the total tasks for backgroundworker
+        //calculate total progress depending on the number of tasks
         static bool doDiskCleanup = false;
         static bool doFirefoxReset = false;
         static bool doChromeReset = false;
@@ -19,13 +21,10 @@ namespace AdvancedSystemManager
         static bool doMassiveUninstall = false;
         static bool doCPUState = false;
 
-        static int c = 0;
+        static int c = 0; //number of tasks for the backgroundworker to perform
         static int currentProgress = 0;
         static int maxProgress = 100;
         static float prog;
-
-      //  static bool currentlyUninstalling = false;
-     //   static bool currentlyInstalling = false;
 
         public TweaksUserControl()
         {
@@ -34,75 +33,52 @@ namespace AdvancedSystemManager
 
         private void optimizeBtn_Click(object sender, EventArgs e)
         {
-            //for each checkbox
-            //check ti 8a treksei k ti oxi
-            // 8a kanw ena pinaka gia na pernaw sto background worker gia na kserei ti 8a treksei???
-            // dn xreiazetai toso pia afou exw ta static mou
-
             doMassiveUninstall = false;
 
             //Form myForm = (Form)this.Parent.Parent.Parent.Parent.Parent;
             TabControl myTabControl = (TabControl)this.Parent.Parent.Parent.Parent;
             Console.WriteLine(myTabControl.Name);
 
-            SplitContainer mySplitContair = (SplitContainer)this.Parent.Parent; //first parent is split panel
+            SplitContainer mySplitContair = (SplitContainer)this.Parent.Parent; //first parent is split container control
             Console.WriteLine(mySplitContair.Name);
 
             SplitterPanel myProgramsSplitterPanel = (SplitterPanel)mySplitContair.Panel1;
             Console.WriteLine(myProgramsSplitterPanel.AccessibleName);
 
             ProgramsManagerUserControl myProgramsManager = (ProgramsManagerUserControl)myProgramsSplitterPanel.Controls["programsManagerUserControl1"];
-            //myProgramsManager.MarkAll();
-            //myProgramsManager.backgroundWorker1.RunWorkerAsync();
 
-            //doCPUState = true;
             CalculateProgressBarMaxValue();
 
-            //des an exei kt tick 8eloume doMassiveUninstall = true;
+            //check if a program is selected in the programs list
+            // if yes, set : doMassiveUninstall = true;
+
             for (int i = 0; i < myProgramsManager.listView1.Items.Count; i++)
             {
-                //Console.WriteLine(PackageManager.installedProgramsList[i].PackageName);
-
-                //   Console.WriteLine(" h loupa2 einai sto i: ", i);
                 if (myProgramsManager.listView1.Items[i].Checked)
                 {
-                    Console.WriteLine(PackageManager.installedProgramsList[i].PackageName);
                     PackageManager.installedProgramsList[i].ToRemove = true;
                     doMassiveUninstall = true;
                     c += 1;
-                    /* if(!backgroundWorker1.IsBusy)
-                     {
-                         backgroundWorker1.RunWorkerAsync(i);
-                     }
-                     else
-                     {
-                        // i = i - 1;
-                     } */
-
-                    //    Console.WriteLine(PackageManager.installedProgramsList[i].PackageName);
-                    //  Console.WriteLine(" h loupa einai sto i: ", i);
                 }
                 else
                 {
-                    //workaround for markfromtext - if sth got marked from the list but we unchecked it
+                    //workaround for markfromtext() method - if sth got marked from the list but we unchecked it
                     PackageManager.installedProgramsList[i].ToRemove = false;
                 }
             }
 
             //if everything is false! - meaning if the user has not selected any option
-            if ( !doDiskCleanup && !doFirefoxReset && !doChromeReset && !doVisualEffects && !doUnattended && !doMassiveUninstall && !doCPUState)
+            if (!doDiskCleanup && !doFirefoxReset && !doChromeReset && !doVisualEffects && !doUnattended && !doMassiveUninstall && !doCPUState)
             {
                 MessageBox.Show("Please select at least one option or mark a program for uninstallation");
             }
             else
             {
                 prog = (1.0f / c * maxProgress);
-                Console.WriteLine("prog is: " + prog);
-                Console.WriteLine("jobs are: " + c);
-                //   progressBar1.Step = 1;
-                //   progressBar1.Minimum = 0;
-                //   progressBar1.Maximum = c;
+                //Console.WriteLine("prog is: " + prog);
+                //Console.WriteLine("jobs are: " + c);
 
+                //disable input from the user to the program while working
                 myTabControl.Enabled = false;
                 backgroundWorker1.RunWorkerAsync();
             }
@@ -110,136 +86,98 @@ namespace AdvancedSystemManager
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            /*  Console.WriteLine(doCPUState);
-              backgroundWorker1.ReportProgress(50);
-              Console.WriteLine(doVisualEffects);
-              backgroundWorker1.ReportProgress(80); */
             try
             {
                 if (doCPUState)
                 {
                     backgroundWorker1.ReportProgress(currentProgress, "Setting CPU Full State");
-                   // System.Threading.Thread.Sleep(3000);
-                    Console.WriteLine("mpainw edw: cpu");
-                    //RegistryParser.GetVolumeCaches();
                     CPUPower.SetCPUStates();
 
-                    //currentProgress += (1 / c * maxProgress);
                     currentProgress += Convert.ToInt32(prog);
-                    // Console.WriteLine(test);
-                    // Console.WriteLine("c inside the worker " + c);
 
-                    //  backgroundWorker1.ReportProgress(1 / c * progressBar1.Maximum);
                     backgroundWorker1.ReportProgress(currentProgress);
-                  //  System.Threading.Thread.Sleep(3000);
+                    //System.Threading.Thread.Sleep(3000);
                 }
 
                 if (doVisualEffects)
                 {
                     backgroundWorker1.ReportProgress(currentProgress, "Applying Visual Effects Settings");
-                    //System.Threading.Thread.Sleep(3000);
-                    Console.WriteLine("mpainw edw: visual ");
-                    //RegistryParser.GetVolumeCaches();
+
                     VisualEffects.ApplySettings();
                     RegistryParser.ApplyVisualEffects();
-                    //Console.WriteLine("cu " + currentProgress);
+
                     currentProgress += Convert.ToInt32(prog);
-                    // backgroundWorker1.ReportProgress(2 / c * progressBar1.Maximum);
+
                     backgroundWorker1.ReportProgress(currentProgress);
                 }
 
                 if (doFirefoxReset)
                 {
                     backgroundWorker1.ReportProgress(currentProgress, "Cleaning Firefox Profile");
-                    Console.WriteLine("mpainw edw: ff");
-                    // RegistryParser.GetVolumeCaches();
+
                     DiskCleanUp.FirefoxCleanup();
                     currentProgress += Convert.ToInt32(prog);
-                    // backgroundWorker1.ReportProgress(3 / c * progressBar1.Maximum);
+
                     backgroundWorker1.ReportProgress(currentProgress);
                 }
 
                 if (doChromeReset)
                 {
                     backgroundWorker1.ReportProgress(currentProgress, "Cleaning Google Chrome Profile");
-                    Console.WriteLine("mpainw edw: chrome ");
-                    //RegistryParser.GetVolumeCaches();
+
                     DiskCleanUp.ChromeCleanup();
                     currentProgress += Convert.ToInt32(prog);
-                    // backgroundWorker1.ReportProgress(3 / c * progressBar1.Maximum);
+
                     backgroundWorker1.ReportProgress(currentProgress);
                 }
 
                 if (doMassiveUninstall)
                 {
-                    Console.WriteLine("mpainw edw: massive uninstall ");
-                    ManagePrograms();
-                    //backgroundWorker2.RunWorkerAsync();
+                    UninstallPrograms();
+
                     currentProgress += Convert.ToInt32(prog);
-                    // backgroundWorker1.ReportProgress(3 / c * progressBar1.Maximum);
+
                     backgroundWorker1.ReportProgress(currentProgress);
                 }
 
                 if (doUnattended)
                 {
-                    Console.WriteLine("mpainw edw: unattended ");
-                    //string progName="";
-                    //PackageManager.UnattendedInstall(out string progName);
                     UnattendedInstall();
+
                     currentProgress += Convert.ToInt32(prog);
-                    // backgroundWorker1.ReportProgress(3 / c * progressBar1.Maximum);
+
                     backgroundWorker1.ReportProgress(currentProgress);
                 }
 
                 if (doDiskCleanup)
                 {
                     backgroundWorker1.ReportProgress(currentProgress, "Performing Disk Cleanup");
-                    Console.WriteLine("mpainw edw: diskcc ");
+
                     RegistryParser.GetVolumeCaches();
                     currentProgress += Convert.ToInt32(prog);
-                    //backgroundWorker1.ReportProgress(7 / c * progressBar1.Maximum);
+
                     backgroundWorker1.ReportProgress(currentProgress);
                 }
             }
             catch (Exception ex)
             {
-                MyLogger.WriteLog(ex.Message.ToString());
+                MyLogger.WriteErrorLog("Exception occured during optimization");
+                MyLogger.WriteErrorLog(ex.Message);
             }
 
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-           // System.Threading.Thread.Sleep(3000);
             if (progressBar1.Value <= progressBar1.Maximum)
-             {
-                 //   int test = progressBar1.Value;
-                 //    Console.WriteLine(test);
-                 //  test += e.ProgressPercentage;               
-                 //  if(test <= 100)
-                 //   {
-                 if (e.ProgressPercentage <= 100)
-                 {
-                     progressBar1.Value = e.ProgressPercentage;
-                    
-                 }
+            {
+                if (e.ProgressPercentage <= 100)
+                {
+                    progressBar1.Value = e.ProgressPercentage;
+                }
+            }
+            else { }
 
-                 //   }
-             }
-            else { Console.WriteLine("dn mphka"); }
-            //Console.WriteLine("outside: " + currentProgress);
-            //progressLbl.Text = e.ProgressPercentage.ToString();
-
-            /*  try
-              {
-                  int iRes = (int)e.UserState;
-                  progressLbl.Text = "Currently uninstalling: " + PackageManager.installedProgramsList[iRes].PackageName;
-              }
-              catch(Exception ex)
-              {
-                  Console.WriteLine(ex.Message.ToString());
-              }*/
-            //progressBar1.PerformStep();
             string Res = (string)e.UserState;
             progressLbl.Text = Res;
         }
@@ -251,15 +189,8 @@ namespace AdvancedSystemManager
             MessageBox.Show("Optimization Finished! You can now close Advanced System Manager.");
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void CalculateProgressBarMaxValue()
         {
-            //c = 0; //c == how many jobs the background worker will perform
-
             if (doDiskCleanup) { c += 1; }
             if (doFirefoxReset) { c += 1; }
             if (doChromeReset) { c += 1; }
@@ -268,8 +199,6 @@ namespace AdvancedSystemManager
             if (doCPUState) { c += 1; }
             if (doMassiveUninstall) { c += 1; }
 
-            //  progressBar1.Maximum = progressBar1.Maximum * c;
-
             if (doUnattended)
             {
                 c += 1;
@@ -277,13 +206,13 @@ namespace AdvancedSystemManager
                 {
                     //Directory.EnumerateFiles is not available in .NET 2.0
                     string[] files = Directory.GetFiles(Application.StartupPath + @"\apps_deploy");
-                    //string[] files = Directory.GetFiles(@"C:\Windows", "*.dmp");
 
+                    //each program to install is a new task
                     c += files.Length;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message.ToString());
+                    Console.WriteLine(ex.Message);
                 }
             }
 
@@ -361,61 +290,41 @@ namespace AdvancedSystemManager
             }
         }
 
-        public void ManagePrograms()
+        public void UninstallPrograms()
         {
-            //console write line does not help much here
-            // we avoid accessing controls of the ui thread
-            //Console.WriteLine(PackageManager.installedProgramsList[5].PackageName);
+            //console write line does not work here
+            //we also have to avoid accessing controls of the ui thread
+
             for (int i = 0; i < PackageManager.installedProgramsList.Count; i++)
             {
                 if (PackageManager.installedProgramsList[i].ToRemove)
                 {
-                    MyLogger.WriteLog("package is :" + PackageManager.installedProgramsList[i].PackageName + " " + i);
+                    //MyLogger.WriteLog("package is :" + PackageManager.installedProgramsList[i].PackageName + " " + i);
                     backgroundWorker1.ReportProgress(currentProgress, "Currently Uninstalling: " + PackageManager.installedProgramsList[i].PackageName);
                     PackageManager.CheckUninstallationMethod(PackageManager.installedProgramsList[i]);
                     currentProgress += Convert.ToInt32(prog);
                     backgroundWorker1.ReportProgress(currentProgress);
-                    //Console.WriteLine(currentProgress);
-                    //backgroundWorker1.ReportProgress(currentProgress, "Currently Uninstalling: " + PackageManager.installedProgramsList[i].PackageName);
-                    //MyLogger.WriteLog(i);
                 }
             }
-
-            //if sth true call
-            //  if (PackageManager.doUnattendedInstall)
-            //   {
-            //       PackageManager.UnattendedInstall();
-            //  }
-
         }
 
         public void UnattendedInstall()
         {
-       //     currentlyInstalling = true;
-       //     currentlyUninstalling = false;
-            // packageName = "";
-            //(Application.StartupPath + "\\log.txt", true)
             if (Directory.Exists(Application.StartupPath + @"\apps_deploy"))
             {
-                Console.WriteLine("exists!");
-
                 try
                 {
                     //Directory.EnumerateFiles is not available in .NET 2.0
                     string[] files = Directory.GetFiles(Application.StartupPath + @"\apps_deploy");
-                    //string[] files = Directory.GetFiles(@"C:\Windows", "*.dmp");
-
-                    //c += files.Length;
 
                     foreach (string file in files)
-                    {                       
+                    {
                         string[] fileName = file.Split('\\');
-                       // backgroundWorker1.ReportProgress(currentProgress, "Currently Installing: " + fileName[fileName.Length - 1]);
+
                         currentProgress += Convert.ToInt32(prog);
                         backgroundWorker1.ReportProgress(currentProgress, "Currently Installing: " + fileName[fileName.Length - 1]);
-                        //backgroundWorker1.ReportProgress(currentProgress);
-                        //packageName = file;
-                       Console.WriteLine(file);
+
+                        //Console.WriteLine(file);
                         if (file.EndsWith(".exe"))
                         {
                             PackageManager.EXE_Install(file);
@@ -428,34 +337,19 @@ namespace AdvancedSystemManager
                         {
                             //pass
                         }
-                        //DeleteFile(file);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("The process failed: {0}", e.ToString());
+                    MyLogger.WriteErrorLog("Exception Occured while installing software");
+                    MyLogger.WriteErrorLog(ex.Message);
                 }
 
             }
             else
             {
-                Console.WriteLine("not exists!");
+                MyLogger.WriteLog("Directory apps_deploy does not exist!");
             }
-        }
-
-        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
-        {
-            // ManagePrograms();
-        }
-
-        private void backgroundWorker2_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-
-        }
-
-        private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-
         }
 
         private void TweaksUserControl_Load(object sender, EventArgs e)

@@ -12,12 +12,7 @@ namespace AdvancedSystemManager
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms724947(v=vs.85).aspx
 
-        //private static UInt32 SPI_SETUIEFFECTS = 0x103F;
-        //private static UInt32 SPI_SETFONTSMOOTHING = 0x004b;
-
-        //private static UInt32 SPI_SETMENUFADE = 0x1013;
-
-        //Show shadows under windows
+        //shadows under windows
         private static UInt32 SPI_SETDROPSHADOW = 0x1025;
 
         //private static UInt32 SPI_SETFONTSMOOTHING = 0x004B;
@@ -31,15 +26,14 @@ namespace AdvancedSystemManager
         private static UInt32 SPI_SETSELECTIONFADE = 0x1015;
         private static UInt32 SPI_SETTOOLTIPANIMATION = 0x1017;
         private static UInt32 SPI_SETTOOLTIPFADE = 0x1019;
-        //private static UInt32
-
-        //private static UInt32 SPI_GETDROPSHADOW = 0x1024;
 
         public static void ApplySettings()
         {
             SystemParametersInfo(SPI_SETDROPSHADOW, 0, false, 0);
-            //SystemParametersInfo(SPI_SETFONTSMOOTHING, 0, false, 0); //helps in the eye though
-//
+
+            //font smoothing helps a lot , so we keep it enabled
+            //SystemParametersInfo(SPI_SETFONTSMOOTHING, 0, false, 0);
+
             SystemParametersInfo(SPI_SETMENUFADE, 0, false, 0);
             SystemParametersInfo(SPI_SETCOMBOBOXANIMATION, 0, false, 0);
             SystemParametersInfo(SPI_SETCURSORSHADOW, 0, false, 0);
@@ -48,11 +42,10 @@ namespace AdvancedSystemManager
             SystemParametersInfo(SPI_SETSELECTIONFADE, 0, false, 0);
             SystemParametersInfo(SPI_SETTOOLTIPANIMATION, 0, false, 0);
             SystemParametersInfo(SPI_SETTOOLTIPFADE, 0, false, 0);
-
             SystemParametersInfo(SPI_SETMENUFADE, 0, false, 0);
+
             //SystemParametersInfo(SPI_SETUIEFFECTS, 0, false, 0);
-            //SystemParametersInfo(SPI_SETFONTSMOOTHING, 0, false, 0);
+
         }
     }
-
 }

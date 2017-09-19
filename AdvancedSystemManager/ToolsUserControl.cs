@@ -16,15 +16,9 @@ namespace AdvancedSystemManager
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("test with user controls");
-        }
-
         private void ToolsUserControl_Load(object sender, EventArgs e)
         {
-          //  md5TB.BackColor = this.BackColor;
-          //  sha1TB.BackColor = this.BackColor;
+
         }
 
         private void cmpLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -98,11 +92,6 @@ namespace AdvancedSystemManager
         private void SysInfoLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("msinfo32");
-        }
-
-        private void upLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
         }
 
         private void msconfigLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

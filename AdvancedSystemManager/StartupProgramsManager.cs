@@ -31,49 +31,26 @@ namespace AdvancedSystemManager
 
         private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (controlLoaded)
+            //check if it's the first time the control loads for the current session of the program
+            //there is an issue with .NET that checks and unchecks all items accordingly to their default values
+            //this fires up the associated events without input from the user
+
+            if (controlLoaded) //hack
             {
                 if(e.Item.Checked)
                 {
-                    //Console.WriteLine("i checked this");
-
-                    //bres to location k pane grapse ekei
-                    // sbhsto apo to startupreg
-
                     RegistryParser.EnableKeyStartup(PackageManager.startupProgramsList[e.Item.Index]);
-
                 }
                 else
                 {
-                    //Console.WriteLine("i un-checked this");
-                    //grafto sto startupreg
-                    //sbhsto apo to location tou
-
                     RegistryParser.DisableKeyStartup(PackageManager.startupProgramsList[e.Item.Index]);
-
                 }
             }
-        }
-
-        private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            
-        }
-
-        private void listView1_ItemActivate(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void listView1_Validated(object sender, EventArgs e)
-        {
-
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             RegistryParser.CreateStartupReg();
-
             RegistryParser.GetStartupPrograms();
             RegistryParser.GetDisabledStartupPrograms();
         }
@@ -106,8 +83,6 @@ namespace AdvancedSystemManager
             }
 
             controlLoaded = true;
-            Console.WriteLine("let's start");
         }
-
     }
 }
