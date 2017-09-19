@@ -16,7 +16,7 @@ namespace AdvancedSystemManager
 
         public static void ParseArguments(string[] arguments)
         {
-            for(int i =1; i<arguments.Length; i++)
+            for(int i = 1; i<arguments.Length; i++)
             {
                 CheckArg(arguments[i]);
             }
@@ -31,9 +31,7 @@ namespace AdvancedSystemManager
                 case ("-sysinfo"):
                     if (!willGetSysInfo)
                     {
-                        willGetSysInfo = true;
-                        //SystemInfo sysinfo = new SystemInfo();
-                        //MyLogger.WriteSystemInfo(sysinfo.ToString());                       
+                        willGetSysInfo = true;                   
                     }
                     break;
 
@@ -126,7 +124,7 @@ namespace AdvancedSystemManager
             }
             catch(Exception ex)
             {
-                MyLogger.WriteErrorLog(ex.Message.ToString());
+                MyLogger.WriteErrorLog(ex.Message);
             }
         }
     }

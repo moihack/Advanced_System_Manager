@@ -23,8 +23,7 @@ namespace AdvancedSystemManager
 
         // This event handler manually raises the CellValueChanged event 
         // by calling the CommitEdit method. 
-        void dataGridView1_CurrentCellDirtyStateChanged(object sender,
-            EventArgs e)
+        void dataGridView1_CurrentCellDirtyStateChanged(object sender,EventArgs e)
         {
             if (this.dataGridView1.IsCurrentCellDirty)
             {
@@ -34,17 +33,14 @@ namespace AdvancedSystemManager
         }
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-
             bool scRUN = false;
-            // My combobox column is the second one so I hard coded a 1, flavor to taste
             DataGridViewComboBoxCell cb = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[3];
+
             if (cb.Value != null)
             {
-                // do stuff
-                int currentRow = dataGridView1.CurrentCellAddress.Y; // to y einai h grammh(row) pou briskomai
+                int currentRow = dataGridView1.CurrentCellAddress.Y; // Y = current row
                 String serviceName = dataGridView1.Rows[currentRow].Cells[1].Value.ToString();
                 String startType = dataGridView1.Rows[currentRow].Cells[3].Value.ToString().Remove(0, 4);
-                //Console.WriteLine(startType);
 
                 switch (startType)
                 {
@@ -59,41 +55,37 @@ namespace AdvancedSystemManager
                         break;
                 }
 
-
                 //cmd: sc config gupdate start= disabled
                 //res: [SC] ChangeServiceConfig SUCCESS
                 //res inv: [SC] OpenService FAILED 1060:
                 //The specified service does not exist as an installed service.
 
-                //apla to failed 8a tsekarw logika k 8a to grafw me mylogger
                 Process myProcess = new Process();
                 try
                 {
                     myProcess.StartInfo.UseShellExecute = false;
                     myProcess.StartInfo.FileName = "sc.exe";
-                    myProcess.StartInfo.Arguments = " config " + serviceName + " start= " + startType;
-                    Console.WriteLine(myProcess.StartInfo.Arguments);
+                    myProcess.StartInfo.Arguments = "config " + serviceName + " start= " + startType;
                     myProcess.StartInfo.CreateNoWindow = true;
                     myProcess.StartInfo.RedirectStandardError = true;
                     myProcess.StartInfo.RedirectStandardOutput = true;
 
                     myProcess.Start();
-                    scRUN = false;
+
                     while (!myProcess.StandardOutput.EndOfStream)
                     {
                         string line = myProcess.StandardOutput.ReadLine();
-                        //Console.WriteLine(line);
+
                         if (line.Contains("SUCCESS"))
                         {
-                            scRUN = true;
+                            scRUN = true; //service config run fine
                         }
-
                     }
-                    //myProcess.WaitForExit();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    MyLogger.WriteErrorLog("Exception occured while setting " + serviceName + " service start-up type");
+                    MyLogger.WriteErrorLog(ex.Message);
                 }
 
                 if (scRUN)
@@ -122,19 +114,16 @@ namespace AdvancedSystemManager
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
-
             foreach (WindowsService ser in ServiceManager.servicesList)
             {
                 dataGridView1.Rows.Add(ser.DisplayName, ser.ServiceName, ser.Status);
 
-                int currentRow = dataGridView1.RowCount - 1; //dirty one-line hack! :D
+                int currentRow = dataGridView1.RowCount - 1; //dirty one-line hack!
 
-                //Console.WriteLine(dataGridView1.RowCount);
                 switch (ser.StartType)
                 {
                     case 2:
-                        dataGridView1.Rows[currentRow].Cells[3].Value = "2 - Automatic"; //set the value member here
+                        dataGridView1.Rows[currentRow].Cells[3].Value = "2 - Automatic";
                         break;
                     case 3:
                         dataGridView1.Rows[currentRow].Cells[3].Value = "3 - Manual";

@@ -76,10 +76,5 @@ namespace AdvancedSystemManager
             MessageBox.Show("Saved System Info to info.txt");
             Console.WriteLine(sysInfo.ToString());
         }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

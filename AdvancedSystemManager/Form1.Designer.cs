@@ -42,7 +42,6 @@
             this.Info = new System.Windows.Forms.TabPage();
             this.systemInfoUserControl1 = new AdvancedSystemManager.SystemInfoUserControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.Optimize.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -99,7 +98,6 @@
             this.tweaksUserControl1.Name = "tweaksUserControl1";
             this.tweaksUserControl1.Size = new System.Drawing.Size(540, 129);
             this.tweaksUserControl1.TabIndex = 0;
-            this.tweaksUserControl1.Load += new System.EventHandler(this.tweaksUserControl1_Load);
             // 
             // Startup
             // 
@@ -195,18 +193,9 @@
             this.tabControl1.Size = new System.Drawing.Size(549, 405);
             this.tabControl1.TabIndex = 0;
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
             // toolTip1
             // 
             this.toolTip1.StripAmpersands = true;
-            this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
             // MainForm
             // 
@@ -245,7 +234,6 @@
         private System.Windows.Forms.TabPage Info;
         private SystemInfoUserControl systemInfoUserControl1;
         private System.Windows.Forms.TabControl tabControl1;
-        public System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ProgramsManagerUserControl programsManagerUserControl1;
         private TweaksUserControl tweaksUserControl1;
