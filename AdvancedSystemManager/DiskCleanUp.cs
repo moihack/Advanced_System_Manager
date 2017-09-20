@@ -40,7 +40,7 @@ namespace AdvancedSystemManager
                         }
                         paths[i] = newPath;
                     }
-                    MyLogger.WriteLog("path is : " + paths[i]);
+                    //MyLogger.WriteLog("path is : " + paths[i]);
                     for (int y = 0; y < filters.Length; y++)
                     {
                         //Directory.EnumerateFiles is not available in .NET 2.0

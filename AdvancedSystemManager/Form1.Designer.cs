@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.Optimize = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.programsManagerUserControl1 = new AdvancedSystemManager.ProgramsManagerUserControl();
-            this.tweaksUserControl1 = new AdvancedSystemManager.TweaksUserControl();
             this.Startup = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.serviceManagerUserControl1 = new AdvancedSystemManager.ServiceManagerUserControl();
@@ -43,6 +41,8 @@
             this.systemInfoUserControl1 = new AdvancedSystemManager.SystemInfoUserControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.programsManagerUserControl1 = new AdvancedSystemManager.ProgramsManagerUserControl();
+            this.tweaksUserControl1 = new AdvancedSystemManager.TweaksUserControl();
             this.Optimize.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -70,6 +70,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -82,22 +83,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tweaksUserControl1);
             this.splitContainer1.Size = new System.Drawing.Size(541, 379);
-            this.splitContainer1.SplitterDistance = 256;
+            this.splitContainer1.SplitterDistance = 252;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // programsManagerUserControl1
-            // 
-            this.programsManagerUserControl1.Location = new System.Drawing.Point(-4, 0);
-            this.programsManagerUserControl1.Name = "programsManagerUserControl1";
-            this.programsManagerUserControl1.Size = new System.Drawing.Size(540, 245);
-            this.programsManagerUserControl1.TabIndex = 0;
-            // 
-            // tweaksUserControl1
-            // 
-            this.tweaksUserControl1.Location = new System.Drawing.Point(1, -6);
-            this.tweaksUserControl1.Name = "tweaksUserControl1";
-            this.tweaksUserControl1.Size = new System.Drawing.Size(540, 129);
-            this.tweaksUserControl1.TabIndex = 0;
             // 
             // Startup
             // 
@@ -114,6 +101,7 @@
             // 
             this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.IsSplitterFixed = true;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -197,6 +185,20 @@
             // 
             this.toolTip1.StripAmpersands = true;
             // 
+            // programsManagerUserControl1
+            // 
+            this.programsManagerUserControl1.Location = new System.Drawing.Point(-2, 0);
+            this.programsManagerUserControl1.Name = "programsManagerUserControl1";
+            this.programsManagerUserControl1.Size = new System.Drawing.Size(540, 250);
+            this.programsManagerUserControl1.TabIndex = 0;
+            // 
+            // tweaksUserControl1
+            // 
+            this.tweaksUserControl1.Location = new System.Drawing.Point(-2, -2);
+            this.tweaksUserControl1.Name = "tweaksUserControl1";
+            this.tweaksUserControl1.Size = new System.Drawing.Size(540, 129);
+            this.tweaksUserControl1.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,12 +237,12 @@
         private SystemInfoUserControl systemInfoUserControl1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ProgramsManagerUserControl programsManagerUserControl1;
-        private TweaksUserControl tweaksUserControl1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private ServiceManagerUserControl serviceManagerUserControl1;
         private StartupProgramsManager startupProgramsManager1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private ProgramsManagerUserControl programsManagerUserControl1;
+        private TweaksUserControl tweaksUserControl1;
     }
 }
 

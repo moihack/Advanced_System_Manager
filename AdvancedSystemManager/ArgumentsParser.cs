@@ -74,9 +74,9 @@ namespace AdvancedSystemManager
                 {
                         Console.WriteLine("Unkown argument detected: " + argX);
                         Console.WriteLine("Program will now exit...");
-                        System.Threading.Thread.Sleep(3500);
+                    //    System.Threading.Thread.Sleep(3500);
                         //Application.Exit();
-                        Environment.Exit(-1);
+                    //    Environment.Exit(-1);
                         break;
                 }
             }

@@ -33,7 +33,7 @@ namespace AdvancedSystemManager
                 newListViewItem.SubItems.Add(pack.EstimatedSizeInKB.ToString());
                 newListViewItem.SubItems.Add(pack.DisplayVersion);
 
-                if (pack.isSafeToRemove)
+                if (pack.IsSafeToRemove)
                 {
                     newListViewItem.Checked = true;
                 }

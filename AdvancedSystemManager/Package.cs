@@ -13,7 +13,7 @@ namespace AdvancedSystemManager
         public String EstimatedSizeInKB { set; get; }
         public String DisplayVersion { set; get; }
         public Boolean IsSystemComponent { set; get; }
-        public Boolean isSafeToRemove { set; get; }
+        public Boolean IsSafeToRemove { set; get; }
         public Boolean ToRemove { set; get; }
 
         public Package(String packName,String pub,Boolean sysComp, decimal size,String uniString,String quietUniString,String dispVer)
@@ -54,7 +54,7 @@ namespace AdvancedSystemManager
             this.QuietUninstallString = quietUniString;
             this.IsSystemComponent = sysComp;
 
-            this.isSafeToRemove = false;
+            this.IsSafeToRemove = false;
             this.ToRemove = false;
 
             this.DisplayVersion = dispVer;

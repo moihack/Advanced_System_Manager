@@ -53,7 +53,7 @@
             this.Version});
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(447, 245);
+            this.listView1.Size = new System.Drawing.Size(450, 250);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -134,7 +134,7 @@
             this.Controls.Add(this.defBtn);
             this.Controls.Add(this.listView1);
             this.Name = "ProgramsManagerUserControl";
-            this.Size = new System.Drawing.Size(540, 245);
+            this.Size = new System.Drawing.Size(540, 250);
             this.Load += new System.EventHandler(this.ServiceManagerUserControl_Load);
             this.ResumeLayout(false);
 

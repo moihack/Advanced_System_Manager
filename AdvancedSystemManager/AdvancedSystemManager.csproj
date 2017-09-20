@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{55E13DA1-5794-4168-A71D-71D7829E00D1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>AdvancedSystemManager</RootNamespace>
     <AssemblyName>AdvancedSystemManager</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>

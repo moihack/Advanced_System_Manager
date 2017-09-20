@@ -42,7 +42,7 @@ namespace AdvancedSystemManager
         {
             for (int i = 0; i < installedProgramsList.Count; i++)
             {
-                installedProgramsList[i].isSafeToRemove = PackageSafeToRemove(installedProgramsList[i].PackageName);
+                installedProgramsList[i].IsSafeToRemove = PackageSafeToRemove(installedProgramsList[i].PackageName);
                 //MyLogger.WriteLog(installedProgramsList[i].PackageName);
             }
         }
@@ -89,27 +89,30 @@ namespace AdvancedSystemManager
         {
             string line;
 
-            // Read the file and display it line by line.
-            System.IO.StreamReader file = new System.IO.StreamReader(Application.StartupPath + "\\remove.list");
-
-            while ((line = file.ReadLine()) != null)
+            if (File.Exists(Application.StartupPath + "\\remove.list"))
             {
-                //if line is not a comment - comments start with # as noted in remove.list
-                if (!line.StartsWith("#"))
+                // Read the file and display it line by line.
+                System.IO.StreamReader file = new System.IO.StreamReader(Application.StartupPath + "\\remove.list");
+
+                while ((line = file.ReadLine()) != null)
                 {
-                    foreach (Package pack in installedProgramsList)
+                    //if line is not a comment - comments start with # as noted in remove.list
+                    if (!line.StartsWith("#"))
                     {
-                        if (pack.PackageName.Contains(line))
+                        foreach (Package pack in installedProgramsList)
                         {
-                            //MyLogger.WriteLog(line);
-                            pack.isSafeToRemove = true;
-                            pack.ToRemove = true;
+                            if (pack.PackageName.Contains(line))
+                            {
+                                //MyLogger.WriteLog(line);
+                                pack.IsSafeToRemove = true;
+                                pack.ToRemove = true;
+                            }
                         }
                     }
                 }
-            }
 
-            file.Close();
+                file.Close();
+            }
         }
 
         public static void GetAllProgramsList()
@@ -149,27 +152,6 @@ namespace AdvancedSystemManager
                 MyLogger.WriteErrorLog("Error installing : " + filePath + " via Windows Installer");
                 MyLogger.WriteErrorLog(ex.Message);
 
-            }
-        }
-        public static void MSI_Uninstall(String productCode)
-        {
-            Process myProcess = new Process();
-
-            try
-            {
-                myProcess.StartInfo.UseShellExecute = false;
-                myProcess.StartInfo.FileName = "MsiExec.exe";
-                myProcess.StartInfo.Arguments = "/X " + productCode + " /qn /li+ C:\\uninstall.log";
-                myProcess.StartInfo.CreateNoWindow = true;
-                myProcess.StartInfo.RedirectStandardError = true;
-                myProcess.StartInfo.RedirectStandardOutput = true;
-
-                myProcess.Start();
-            }
-            catch (Exception ex)
-            {
-                MyLogger.WriteErrorLog("Error uninstalling : " + productCode + " via Windows Installer");
-                MyLogger.WriteErrorLog(ex.Message);
             }
         }
 
@@ -312,7 +294,7 @@ namespace AdvancedSystemManager
                                 string args = "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                                 PackageManager.EXE_Uninstall(uniString, args);
                             }
-                            else 
+                            else
                             // this one probably never happens since a "uninstall_file_path.exe arg1 arg2" type string will result
                             // in cmd trying to find the whole file contained within the quotes
                             // however we leave this here in case it is more something like this "uninstall_file_path.exe" arg1 arg2="some value"
@@ -357,8 +339,8 @@ namespace AdvancedSystemManager
                         if (!uniString.StartsWith("\"") && uniString.EndsWith("\""))
                         {
                             string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                           
-                            //uniString = uniString.Replace("\"", ""); //replace quotes with nothing
+
+                            uniString = uniString.Replace("\"", ""); //replace quotes with nothing
 
                             int position = uniString.IndexOf(".exe ");
                             if (position != -1)
@@ -440,7 +422,7 @@ namespace AdvancedSystemManager
                     {
                         string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
 
-                        //uniString = uniString.Replace("\"", "");
+                        uniString = uniString.Replace("\"", "");
 
                         int position = uniString.IndexOf(".exe ");
                         if (position != -1)

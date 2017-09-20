@@ -26,13 +26,12 @@ namespace AdvancedSystemManager
                     myProcess.StartInfo.CreateNoWindow = true;
                     myProcess.StartInfo.RedirectStandardError = true;
                     myProcess.StartInfo.RedirectStandardOutput = true;
-                    MyLogger.WriteLog(myProcess.StartInfo.Arguments);
                     myProcess.Start();
 
                     while (!myProcess.StandardOutput.EndOfStream)
                     {
                         string line = myProcess.StandardOutput.ReadLine();
-                        Console.WriteLine(line);
+
                         if (line.StartsWith("Name"))
                         {
                             output = line;
@@ -43,7 +42,6 @@ namespace AdvancedSystemManager
                     output = output.Remove(0, 3);
 
                     output = output.Trim();
-                    Console.WriteLine(output);
 
                     // powercfg /CHANGE "Home/Office Desk" /PROCESSOR-THROTTLE-AC
                     args = "powercfg /CHANGE " + '"' + output + '"' + " /PROCESSOR-THROTTLE-AC NONE";
@@ -77,13 +75,12 @@ namespace AdvancedSystemManager
                     myProcess.StartInfo.CreateNoWindow = true;
                     myProcess.StartInfo.RedirectStandardError = true;
                     myProcess.StartInfo.RedirectStandardOutput = true;
-                    MyLogger.WriteLog(myProcess.StartInfo.Arguments);
                     myProcess.Start();
 
                     while (!myProcess.StandardOutput.EndOfStream)
                     {
                         string line = myProcess.StandardOutput.ReadLine();
-                        Console.WriteLine(line);
+
                         output = line;
                     }
                     //myProcess.WaitForExit();
@@ -92,7 +89,6 @@ namespace AdvancedSystemManager
                     //Power Scheme GUID: 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c  (High performance)
                     output = output.Remove(0, 19);
                     string[] ends = output.Split('(');
-                    Console.WriteLine(ends[0]);
 
                     args = "powercfg /SETACVALUEINDEX " + ends[0] + " SUB_PROCESSOR PROCTHROTTLEMAX 100";
                     myProcess.StartInfo.Arguments = "/c " + args;
