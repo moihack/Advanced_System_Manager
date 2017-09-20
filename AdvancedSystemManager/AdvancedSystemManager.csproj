@@ -75,12 +75,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptimizeUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="OptimizeUserControl.Designer.cs">
-      <DependentUpon>OptimizeUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="ServiceManager.cs" />
     <Compile Include="IntegrityChecker.cs" />
     <Compile Include="MyLogger.cs" />
@@ -132,9 +126,6 @@
     <Compile Include="WindowsUpdates.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OptimizeUserControl.resx">
-      <DependentUpon>OptimizeUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

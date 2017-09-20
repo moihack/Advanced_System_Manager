@@ -7,7 +7,6 @@ namespace AdvancedSystemManager
     class Package
     {
         public String PackageName { set; get; }
-        //String DisplayVersion { set; get; }
         public String Publisher { set; get; }
         public String UninstallString { set; get; }
         public String QuietUninstallString { set; get; }
@@ -15,44 +14,12 @@ namespace AdvancedSystemManager
         public String DisplayVersion { set; get; }
         public Boolean IsSystemComponent { set; get; }
         public Boolean isSafeToRemove { set; get; }
-        //public Boolean isInnoSetup { set; get; }
         public Boolean ToRemove { set; get; }
 
-       // Package pack = new Package(productName, publisher, estSize, unString, quietUnString);
         public Package(String packName,String pub,Boolean sysComp, decimal size,String uniString,String quietUniString,String dispVer)
         {
             this.PackageName = packName;
-            //this.DisplayVersion = dispVer;
             this.Publisher = pub;
-
-            /* if (size / 1024 > 1000) //GB
-             {
-                 //  this.EstimatedSizeInKB = size / 1024 / 1024;
-                 //  Math.Round(this.EstimatedSizeInKB,2);
-                 decimal tempsize = size / 1024 / 1024;
-                 tempsize = Math.Round(tempsize, 2);
-                 this.EstimatedSizeInKB = tempsize.ToString() + " GB";
-             }
-
-             if (size/1024/1024 < 1000) //MB
-             {
-                 //  this.EstimatedSizeInKB = size / 1024;
-                 // Math.Round(this.EstimatedSizeInKB,2);
-                 decimal tempsize = size/1024;
-                 tempsize = Math.Round(tempsize, 2);
-                 this.EstimatedSizeInKB = tempsize.ToString() + " MB";
-             }
-
-             if (size / 1024 < 1000 && size > 0) //KB
-             {
-                 // this.EstimatedSizeInKB = size;
-                 //Math.Round(this.EstimatedSizeInKB,2);
-                 decimal tempsize = size;
-                 tempsize = Math.Round(tempsize, 2);
-                 this.EstimatedSizeInKB = tempsize.ToString() + " KB";
-             } */
-
-            //size2 = size2 / 1024;
 
             if(size < 1000)
             {
@@ -88,7 +55,6 @@ namespace AdvancedSystemManager
             this.IsSystemComponent = sysComp;
 
             this.isSafeToRemove = false;
-           // this.isInnoSetup = false;
             this.ToRemove = false;
 
             this.DisplayVersion = dispVer;

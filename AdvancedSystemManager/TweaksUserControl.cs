@@ -37,13 +37,13 @@ namespace AdvancedSystemManager
 
             //Form myForm = (Form)this.Parent.Parent.Parent.Parent.Parent;
             TabControl myTabControl = (TabControl)this.Parent.Parent.Parent.Parent;
-            Console.WriteLine(myTabControl.Name);
+            //Console.WriteLine(myTabControl.Name);
 
             SplitContainer mySplitContair = (SplitContainer)this.Parent.Parent; //first parent is split container control
-            Console.WriteLine(mySplitContair.Name);
+            //Console.WriteLine(mySplitContair.Name);
 
             SplitterPanel myProgramsSplitterPanel = (SplitterPanel)mySplitContair.Panel1;
-            Console.WriteLine(myProgramsSplitterPanel.AccessibleName);
+            //Console.WriteLine(myProgramsSplitterPanel.AccessibleName);
 
             ProgramsManagerUserControl myProgramsManager = (ProgramsManagerUserControl)myProgramsSplitterPanel.Controls["programsManagerUserControl1"];
 

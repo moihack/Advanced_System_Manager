@@ -79,7 +79,6 @@ namespace AdvancedSystemManager
             {
                 //Directory.EnumerateFiles is not available in .NET 2.0
                 string[] files = Directory.GetFiles(Application.StartupPath,"*.txt");
-                //string[] files = Directory.GetFiles(@"C:\Windows", "*.dmp");
 
                 foreach (string file in files)
                 {
@@ -91,7 +90,5 @@ namespace AdvancedSystemManager
                 Console.WriteLine("The process failed: {0}", e.ToString());
             }
         }
-
-
     }
 }

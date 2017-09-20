@@ -16,51 +16,12 @@ namespace AdvancedSystemManager
         public static Boolean doUnattendedInstall = false;
         public static Boolean hasAntiVirus = false;
 
-        public static void DuplicatesFinder()
-        {          
-            MyLogger.WriteLog("h lista einai " + installedProgramsList.Count);
-
-            for (int i = 0; i <= installedProgramsList.Count - 1; i++)
-            {
-                for (int j = installedProgramsList.Count - 1; j >= 0; j--)
-                {
-                    //if( installedProgramsList[i].PackageName.Equals(installedProgramsList[j].PackageName) && installedProgramsList[i].EstimatedSizeInKB.Equals(installedProgramsList[j].EstimatedSizeInKB))
-                    if (installedProgramsList[i].PackageName.Equals(installedProgramsList[j].PackageName) && installedProgramsList[i].DisplayVersion.Equals(installedProgramsList[j].DisplayVersion) && (installedProgramsList[i].UninstallString.Equals(installedProgramsList[j].UninstallString) || (installedProgramsList[i].QuietUninstallString.Equals(installedProgramsList[j].QuietUninstallString)) ))
-                    {
-                        /*  if(installedProgramsList[i].RealSize>=installedProgramsList[j].RealSize)
-                          {
-                              if (i != j)
-                              {
-                                  installedProgramsList.RemoveAt(j);
-                              }
-                          }
-                          else
-                          {
-                              // installedProgramsList.RemoveAt(i);
-                              //exception workaround
-                              installedProgramsList[i] = installedProgramsList[j];
-                              installedProgramsList.RemoveAt(j);
-                          }   */
-                        if (i != j) //&& installedProgramsList[i].RealSize == installedProgramsList[j].RealSize)
-                        //if(i!=j)
-                        {
-                            installedProgramsList.RemoveAt(j);
-                        }
-                    }
-                }
-            }
-
-            MyLogger.WriteLog("h lista2 einai " + installedProgramsList.Count);
-        }
-
         public static void RemoveSystemComponents()
         {
             for (int i = installedProgramsList.Count - 1; i >= 0; i--)
             {
-                
-                if(installedProgramsList[i].IsSystemComponent || installedProgramsList[i].PackageName.Equals("noDisplayName"))
+                if (installedProgramsList[i].IsSystemComponent || installedProgramsList[i].PackageName.Equals("noDisplayName"))
                 {
-                    //Console.WriteLine(installedProgramsList.Count);
                     installedProgramsList.RemoveAt(i);
                 }
             }
@@ -77,39 +38,12 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void ShowNormal()
-        {
-            //foreach (Package p in installedProgramsList)
-            for (int i = installedProgramsList.Count - 1; i >= 0; i--)
-            {
-                //need to do the OR part with regex? 
-                if (installedProgramsList[i].IsSystemComponent || installedProgramsList[i].PackageName.Contains("KB"))
-                {
-                    //MyLogger.WriteLog(p.PackageName);
-                    installedProgramsList.RemoveAt(i);
-                }
-            }
-
-            SortPackages();
-
-            //maybe we can do this without iterating the list again
-            //  for (int i = installedProgramsList.Count - 1; i >= 0; i--)
-            for (int i = 0; i < installedProgramsList.Count; i++)
-            {
-                MyLogger.WriteLog(installedProgramsList[i].PackageName);
-                installedProgramsList[i].isSafeToRemove = PackageSafeToRemove(installedProgramsList[i].PackageName);
-            }
-
-            MarkFromText();
-
-        }
-
         public static void MarkPackages()
         {
             for (int i = 0; i < installedProgramsList.Count; i++)
             {
-                MyLogger.WriteLog(installedProgramsList[i].PackageName);
                 installedProgramsList[i].isSafeToRemove = PackageSafeToRemove(installedProgramsList[i].PackageName);
+                //MyLogger.WriteLog(installedProgramsList[i].PackageName);
             }
         }
 
@@ -123,12 +57,11 @@ namespace AdvancedSystemManager
         {
             bool retVal = false;
 
-
-            //string text = pack;
             // string pat = @"\b(visual|open)\b";
-            //string pat = @"(visual|open)";
-            string pat = @"(virus|trial|free|toolbar|search|download|tune|clean)"; //to free pianei k to freeware
-            //string pat2 = @"(virus)"; //pianei ta anti-virus, antivirus, antivirus-free ktl
+
+            //virus gets antivirus, anti-virus, anti virus etc
+            string pat = @"(virus|trial|free|toolbar|search|download|tune|clean)";
+
             // Instantiate the regular expression object.
             Regex r = new Regex(pat, RegexOptions.IgnoreCase);
 
@@ -137,52 +70,38 @@ namespace AdvancedSystemManager
 
             if (m.Success)
             {
-                //Console.WriteLine(m.Value);
-                //Console.WriteLine("test " + m.Groups[0].Captures[0].Value);
+                //MyLogger.WriteLog(m.Value);
                 if (!hasAntiVirus)
                 {
                     if (m.Value.ToLower().Contains("virus"))
-                    //if (m.Value.ToLower().Contains("visual"))
                     {
-                        Console.WriteLine(m.Value.ToLower());
+                        // keeep the first antivirus we found - mark all others
                         hasAntiVirus = true;
-                        return false; // keeep the first antivirus we found - mark all others
+                        return false;
                     }
                 }
-
                 return true;
             }
-
-            //antivirus - we want to have only one antivirus! if detect there is one all else should returne true (a static global variable?)
-            //toolbar
-            //search
-            //free
-            //download
-            //tune-up/tuneup/tune up
-            //cleaner
-
-            //list of bad programs in .txt??? (daemon-tools,utube downloader etc)
-
             return retVal;
         }
 
         public static void MarkFromText()
         {
             string line;
+
             // Read the file and display it line by line.
-            System.IO.StreamReader file =
-               new System.IO.StreamReader(Application.StartupPath + "\\remove.list");
+            System.IO.StreamReader file = new System.IO.StreamReader(Application.StartupPath + "\\remove.list");
+
             while ((line = file.ReadLine()) != null)
             {
-                // Console.WriteLine(line);
-                // counter++;
+                //if line is not a comment - comments start with # as noted in remove.list
                 if (!line.StartsWith("#"))
                 {
                     foreach (Package pack in installedProgramsList)
                     {
                         if (pack.PackageName.Contains(line))
                         {
-                            Console.WriteLine(line);
+                            //MyLogger.WriteLog(line);
                             pack.isSafeToRemove = true;
                             pack.ToRemove = true;
                         }
@@ -197,39 +116,18 @@ namespace AdvancedSystemManager
         {
             if (SystemInfo.is64BitOS)
             {
-               RegistryParser.GetWin64Programs();
+                RegistryParser.GetWin64Programs();
             }
-           
-            RegistryParser.GetPrograms();
 
-        //    RegistryParser.GetPrograms2(); //polla la8h
+            RegistryParser.GetPrograms();
 
             RegistryParser.GetCurrentUserPrograms();
 
             PackageManager.RemoveSystemComponents();
             PackageManager.RemoveUpdates();
-   //         PackageManager.DuplicatesFinder(); //maybe not needed anymore 
             PackageManager.SortPackages();
             PackageManager.MarkPackages();
             PackageManager.MarkFromText();
-
-            /*  RegistryParser.GetCurrentUserPrograms();
-
-            if (SystemInfo.is64BitOS)
-            {
-                RegistryParser.GetWin64Programs();
-            }
-
-            RegistryParser.GetPrograms2();
-            RegistryParser.GetPrograms();
-            
-            PackageManager.RemoveSystemComponents();
-            PackageManager.RemoveUpdates();
-            PackageManager.DuplicatesFinder();
-            PackageManager.SortPackages();
-            PackageManager.MarkPackages();
-            PackageManager.MarkFromText(); */
-
         }
 
         public static void MSI_Install(String filePath)
@@ -240,23 +138,17 @@ namespace AdvancedSystemManager
             {
                 myProcess.StartInfo.UseShellExecute = false;
                 myProcess.StartInfo.FileName = "MsiExec.exe";
-                myProcess.StartInfo.Arguments = " /I " + '"' + filePath + '"' + " /qn "; // /li+ C:\\install.log";
+                myProcess.StartInfo.Arguments = "/I " + '"' + filePath + '"' + " /qn "; // /li+ C:\\install.log";
                 myProcess.StartInfo.CreateNoWindow = true;
                 myProcess.StartInfo.RedirectStandardError = true;
                 myProcess.StartInfo.RedirectStandardOutput = true;
-                //MyLogger.WriteLog(myProcess.StartInfo.Arguments);
                 myProcess.Start();
-
-                /*while (!myProcess.StandardOutput.EndOfStream)
-                {
-                    string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);                    
-                } */
-            //myProcess.WaitForExit();
-        }
-            catch (Exception e)
+            }
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+                MyLogger.WriteErrorLog("Error installing : " + filePath + " via Windows Installer");
+                MyLogger.WriteErrorLog(ex.Message);
+
             }
         }
         public static void MSI_Uninstall(String productCode)
@@ -273,19 +165,12 @@ namespace AdvancedSystemManager
                 myProcess.StartInfo.RedirectStandardOutput = true;
 
                 myProcess.Start();
-
-                /*while (!myProcess.StandardOutput.EndOfStream)
-                {
-                    string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);                    
-                } */
-                //myProcess.WaitForExit();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+                MyLogger.WriteErrorLog("Error uninstalling : " + productCode + " via Windows Installer");
+                MyLogger.WriteErrorLog(ex.Message);
             }
-
         }
 
         public static void EXE_Install(String inEXEpath)
@@ -306,31 +191,28 @@ namespace AdvancedSystemManager
                 while (!myProcess.StandardOutput.EndOfStream)
                 {
                     string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);
+
+                    // this means the setup file was created using InstallBuilder
                     if (line.Contains("There has been an error."))
                     {
-                        //string oldargs = " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
                         myProcess.Close();
-                        //myProcess.StartInfo.Arguments = myProcess.StartInfo.Arguments.TrimEnd(oldargs.ToCharArray());
-                        //myProcess.StartInfo.Arguments = " --mode unattended --unattendedmodeui none";
                         myProcess.StartInfo.Arguments = "--mode unattended";
-                        //MyLogger.WriteErrorLog(myProcess.StartInfo.Arguments);
-
                         myProcess.Start();
                     }
                 }
-                //myProcess.WaitForExit();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+                MyLogger.WriteErrorLog("Error uninstalling : " + inEXEpath);
+                MyLogger.WriteErrorLog(ex.Message);
             }
         }
 
         public static void EXE_Uninstall(String uniEXEpath, String arg)
         {
             Process myProcess = new Process();
-            MyLogger.WriteErrorLog("EXEUNI: " + uniEXEpath + " " + arg);
+            MyLogger.WriteLog("Uninstalling EXE: " + uniEXEpath + " with args: " + arg);
+
             try
             {
                 myProcess.StartInfo.UseShellExecute = false;
@@ -349,195 +231,21 @@ namespace AdvancedSystemManager
                     if (line.Contains("There has been an error."))
                     {
                         myProcess.Close();
-                        //myProcess.StartInfo.Arguments = myProcess.StartInfo.Arguments.TrimEnd(oldargs.ToCharArray());
-                        //myProcess.StartInfo.Arguments = " --mode unattended --unattendedmodeui none";
+
                         myProcess.StartInfo.Arguments = "--mode unattended";
-                        myProcess.Start();                      
+                        myProcess.Start();
                     }
                 }
-                //myProcess.WaitForExit();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            }
-        }
-
-        public static void UninstallTest()
-        {
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            //startInfo.FileName = "cmd.exe";
-            //startInfo.Arguments = "MsiExec.exe /X{23170F69-40C1-2702-1604-000001000000} /q";
-            //startInfo.Verb = "runas";
-
-            //process.StartInfo.RedirectStandardError = true;
-            // process.StartInfo.RedirectStandardOutput = true;
-
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardError = true;
-
-            startInfo.FileName = "MsiExec.exe";
-            startInfo.Arguments = "/X{23170F69-40C1-2702-1604-000001000000} /q";
-            process.StartInfo = startInfo;
-            process.Start();
-
-            while (!process.StandardOutput.EndOfStream)
-            {
-                string line = process.StandardOutput.ReadLine();
-                Console.WriteLine(line);
-            }
-
-
-        }
-
-        public static void InstallTest()
-        {
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            //startInfo.FileName = "cmd.exe";
-            //startInfo.Arguments = "MsiExec.exe /i \"D:\\7z1604-x64.msi\" /q";
-            //startInfo.Verb = "runas";
-
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardError = true;
-
-            startInfo.FileName = "MsiExec.exe";
-            startInfo.Arguments = "/i \"D:\\7z1604-x64.msi\" /q";
-
-            process.StartInfo = startInfo;
-            process.Start();
-
-            /* while (!process.StandardOutput.EndOfStream)
-             {
-                 string line = process.StandardOutput.ReadLine();
-                 Console.WriteLine(line);
-             } */
-
-        }
-
-        public static void InstallTestQ()
-        {
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            //startInfo.FileName = "cmd.exe";
-            //startInfo.Arguments = "MsiExec.exe /i \"D:\\7z1604-x64.msi\" /q";
-            //startInfo.Verb = "runas";
-
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardError = true;
-
-            startInfo.FileName = "D:\\qbittorrent_3.3.12_x64_setup.exe";
-            startInfo.Arguments = "/S";
-
-            process.StartInfo = startInfo;
-            process.Start();
-
-            /* while (!process.StandardOutput.EndOfStream)
-             {
-                 string line = process.StandardOutput.ReadLine();
-                 Console.WriteLine(line);
-             } */
-
-        }
-
-        public static void NeoUni()
-        {
-            Process myProcess = new Process();
-            //string cmd = "";
-
-            try
-            {
-                myProcess.StartInfo.UseShellExecute = false;
-                myProcess.StartInfo.FileName = "MsiExec.exe";
-                myProcess.StartInfo.Arguments = "/X{23170F69-40C1-2702-1604-000001000000} /qn /li+ C:\\package.log ";
-                myProcess.StartInfo.CreateNoWindow = true;
-                myProcess.StartInfo.RedirectStandardError = true;
-                myProcess.StartInfo.RedirectStandardOutput = true;
-
-                myProcess.Start();
-
-                /*while (!myProcess.StandardOutput.EndOfStream)
-                {
-                    string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);                    
-                } */
-                //myProcess.WaitForExit();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        public static void NeoUniQbit()
-        {
-            Process myProcess = new Process();
-            //string cmd = "";
-
-            try
-            {
-                myProcess.StartInfo.UseShellExecute = false;
-                myProcess.StartInfo.FileName = @"C:\Program Files\qBittorrent\uninst.exe";
-                myProcess.StartInfo.Arguments = "/S";
-                myProcess.StartInfo.CreateNoWindow = true;
-                myProcess.StartInfo.RedirectStandardError = true;
-                myProcess.StartInfo.RedirectStandardOutput = true;
-
-                myProcess.Start();
-
-                while (!myProcess.StandardOutput.EndOfStream)
-                {
-                    string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);
-                }
-                //myProcess.WaitForExit();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        public static void Uninstall(String fn)
-        {
-            //fn = @"C:\Program Files\qBittorrent\uninst.exe";
-            Console.WriteLine(" fn is : " + fn);
-            Process myProcess = new Process();
-            //string cmd = "";
-            try
-            {
-                myProcess.StartInfo.UseShellExecute = false;
-                myProcess.StartInfo.FileName = fn;
-                myProcess.StartInfo.Arguments = "";
-                myProcess.StartInfo.CreateNoWindow = true;
-                myProcess.StartInfo.RedirectStandardError = true;
-                myProcess.StartInfo.RedirectStandardOutput = true;
-
-                myProcess.Start();
-
-                while (!myProcess.StandardOutput.EndOfStream)
-                {
-                    string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);
-                }
-                //myProcess.WaitForExit();
-            }
-            catch (Exception e)
-            {
-                MyLogger.WriteLog(e.Message + " Error on: " + myProcess.StartInfo.FileName);
             }
         }
 
         public static void UninstallNoArgs(String args)
         {
-            MyLogger.WriteErrorLog("UNA: " + args);
+            MyLogger.WriteLog("UnuninstallNoArguments: " + args);
             Process myProcess = new Process();
             try
             {
@@ -547,13 +255,11 @@ namespace AdvancedSystemManager
                 myProcess.StartInfo.CreateNoWindow = true;
                 myProcess.StartInfo.RedirectStandardError = true;
                 myProcess.StartInfo.RedirectStandardOutput = true;
-                MyLogger.WriteLog(myProcess.StartInfo.Arguments);
                 myProcess.Start();
 
                 while (!myProcess.StandardOutput.EndOfStream)
                 {
                     string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);
 
                     //we have to deal with InstallBuilder! 
                     //They changed this recently - before it would normally consume any unknown parameters
@@ -561,16 +267,14 @@ namespace AdvancedSystemManager
 
                     if (line.Contains("There has been an error."))
                     {
-                        // uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
                         string oldargs = " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
                         args = args.TrimEnd(oldargs.ToCharArray());
                         args = args + " --mode unattended --unattendedmodeui none";
-                        MyLogger.WriteErrorLog(args);
-                        
+                        //MyLogger.WriteLog(args);
+
                         UninstallNoArgs(args);
                     }
                 }
-                //myProcess.WaitForExit();            
             }
             catch (Exception e)
             {
@@ -579,202 +283,135 @@ namespace AdvancedSystemManager
             }
         }
 
-
-        public static void removeMPC()
-        {
-            Process myProcess = new Process();
-            try
-            {
-                myProcess.StartInfo.UseShellExecute = false;
-                myProcess.StartInfo.FileName = @"C:\Program Files\MPC-HC\unins000.exe";
-                myProcess.StartInfo.Arguments = "/SILENT";
-                myProcess.StartInfo.CreateNoWindow = true;
-                myProcess.StartInfo.RedirectStandardError = true;
-                myProcess.StartInfo.RedirectStandardOutput = true;
-
-                myProcess.Start();
-
-                while (!myProcess.StandardOutput.EndOfStream)
-                {
-                    string line = myProcess.StandardOutput.ReadLine();
-                    Console.WriteLine(line);
-                }
-                //myProcess.WaitForExit();
-            }
-            catch (Exception e)
-            {
-                MyLogger.WriteLog(e.Message + " Error on executing: " + "MPC UNINSTALL TEST");
-            }
-        }
-
         public static void CheckUninstallationMethod(Package pack)
         {
+            //check if package has no silent uninstall string
             if (pack.QuietUninstallString.Contains("noQuiet"))
             {
                 String uniString = pack.UninstallString;
 
-                //if UninstallString really exists
+                //if UninstallString really exists - sanity check
                 if (!uniString.Contains("noUnString"))
                 {
-                    MyLogger.WriteErrorLog(uniString);
+                    //MyLogger.WriteLog(uniString);
                     if (uniString.StartsWith("MsiExec.exe "))
                     {
                         //replace /* no matter what, with /X + append /qn
                         uniString = uniString.Remove(0, 14);
                         uniString = "MsiExec.exe /X" + uniString + " /qn";
 
-                        //Console.WriteLine(uniString);
-                        //call silent uninstall at hidden cmd window with args h oxi? gt to msiexec dn einai param = uniString
-                        //mhpws glutwnw mia enwsh? // dn aksizei trela gt 8elw xwristh me8odo na pernaw ta args sto msiexec meta
                         PackageManager.UninstallNoArgs(uniString);
                     }
                     else
-                    { /*
-                        if (uniString.EndsWith("/S") || uniString.EndsWith("/Silent") || uniString.EndsWith("/SILENT"))
-                        {
-                            //just execute the silent uninstall
-                            // Console.WriteLine(uniString);
-                            //maybe this one never happens!!!
-                            PackageManager.UninstallNoArgs(uniString);
-                        }
-                        else
-                        {
-                            //Console.WriteLine(pack.PackageName + "\n" + uniString);
-                            //just append a /S and hope everything goes well
-                            if (uniString.EndsWith("\"")) //praktika k dw den me noiazei an teleiwnei me " - see example.jpg
-                            {
-                                //Console.WriteLine(uniString);
-                                uniString = uniString + " /S";
-                                //Console.WriteLine(uniString);
-                                PackageManager.UninstallNoArgs(uniString);
-                            }
-                            else
-                            {
-                                uniString = uniString + " /S";
-                                PackageManager.UninstallNoArgs(uniString);
-                            }
-                        } */
+                    {
+                        //check if uninstall string is within " "
                         if (uniString.StartsWith("\"") && uniString.EndsWith("\""))
                         {
                             if (uniString.EndsWith(".exe\""))
                             {
-                                //string args = '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
-                                string args ="/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
+                                string args = "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                                 PackageManager.EXE_Uninstall(uniString, args);
                             }
-                            else //mallon axreiasto kai dn mpainei pote gt praktika se mia cmd auto pou nai mesa sta "" isodunamei me ena path apla
+                            else 
+                            // this one probably never happens since a "uninstall_file_path.exe arg1 arg2" type string will result
+                            // in cmd trying to find the whole file contained within the quotes
+                            // however we leave this here in case it is more something like this "uninstall_file_path.exe" arg1 arg2="some value"
                             {
-                                //uniString = uniString.TrimEnd('"'); //la8os to kanw ena megalo arxeio na psaxnei me " "
                                 uniString = uniString + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
                                 PackageManager.UninstallNoArgs(uniString);
                             }
                         }
+
+                        //enquoted exe path only - parameters unquoted
                         if (uniString.StartsWith("\"") && !uniString.EndsWith("\""))
                         {
-                            //enquoted exe path only + parameters unquoted
                             uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                             PackageManager.UninstallNoArgs(uniString);
                         }
-                        //unquoted apo dw k pera                     
-                        if ( !uniString.StartsWith("\"") && !uniString.EndsWith("\""))
+
+                        //unquoted from here on            
+                        if (!uniString.StartsWith("\"") && !uniString.EndsWith("\""))
                         {
                             if (uniString.EndsWith(".exe"))
                             {
                                 string args = "\"/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-\"";
                                 PackageManager.EXE_Uninstall(uniString, args);
                             }
-                            else
+                            else // we build quotes around the uninstall .exe and concat our custom parameters with the existing ones
                             {
                                 string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                                 int position = uniString.IndexOf(".exe ");
-                                if(position != -1)
+                                if (position != -1)
                                 {
                                     position = position + 3; //exe
                                     uniString = uniString.Insert(position + 1, "\"");
                                     uniString = "\"" + uniString + args;
-                                    MyLogger.WriteErrorLog("TEST: " + uniString);
+                                    //MyLogger.WriteLog("TEST: " + uniString);
                                     PackageManager.UninstallNoArgs(uniString);
                                 }
                             }
 
                         }
-                        //photoshop workaround
+                        //if it only ends with a quote - photoshop workaround
+                        //uninstall string is like : uninstall_path.exe arg1 arg2="some value"
                         if (!uniString.StartsWith("\"") && uniString.EndsWith("\""))
                         {
                             string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                            // uniString = uniString + args;
-
-                            uniString = uniString.Replace("\"","");
+                           
+                            //uniString = uniString.Replace("\"", ""); //replace quotes with nothing
 
                             int position = uniString.IndexOf(".exe ");
                             if (position != -1)
                             {
                                 position = position + 3; //exe
-                                uniString = uniString.Insert(position + 1, "\"");
+                                uniString = uniString.Insert(position + 1, "\" ");
                                 uniString = "\"" + uniString + args;
-                                MyLogger.WriteErrorLog("TEST: " + uniString);
+                                //MyLogger.WriteLog("TEST: " + uniString);
                                 PackageManager.UninstallNoArgs(uniString);
                             }
-                               
                         }
-                            /* else
-                             {
-                                 //uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                                 //uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-
-                                 // kanw enquote gia na apofugw sthn cmd kena!
-                                 uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
-                                 PackageManager.UninstallNoArgs(uniString);
-                             } */
-
-                            //uniString = '"' + uniString + '"' + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                            //uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                            // uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
-                            // MyLogger.WriteErrorLog(uniString);
-                            //  PackageManager.UninstallNoArgs(uniString);
-                        }
-
+                    }
                 }
             }
             else
             {
-                // to GIMP exei silent uninstall string k otan to treksa fanhke!
-                //8a kanw append se auta pou den exoun msiexec mesa ta klassika kolpa
-                //MyLogger.WriteLog(pack.QuietUninstallString);
-                //just execute the quiet uninstall string at a hidden cmd window
-                /*if (pack.QuietUninstallString.Contains("ImageWriter"))
-                {
-                    PackageManager.UninstallNoArgs(pack.QuietUninstallString);
-                } */
+                //some silent uninstall strings still show some dialogs waiting for user input
+                //that's why we again examine the string and append our custom parameters
+
                 String uniString = pack.QuietUninstallString;
-                MyLogger.WriteErrorLog(uniString);
+                //MyLogger.WriteLog(uniString);
                 if (uniString.StartsWith("MsiExec.exe "))
                 {
                     PackageManager.UninstallNoArgs(uniString);
                 }
                 else
                 {
+                    //if uninstall string is within " "
                     if (uniString.StartsWith("\"") && uniString.EndsWith("\""))
                     {
-                        if(uniString.EndsWith(".exe\""))
+                        if (uniString.EndsWith(".exe\""))
                         {
                             string args = '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
                             PackageManager.EXE_Uninstall(uniString, args);
                         }
                         else
                         {
-                            //uniString = uniString.TrimEnd('"'); //la8os to kanw ena megalo arxeio na psaxnei me " "
+                            // this one probably never happens since a "uninstall_file_path.exe arg1 arg2" type string will result
+                            // in cmd trying to find the whole file contained within the quotes
+                            // however we leave this here in case it is more something like this "uninstall_file_path.exe" arg1 arg2="some value"
                             uniString = uniString + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
                             PackageManager.UninstallNoArgs(uniString);
                         }
                     }
+
                     if (uniString.StartsWith("\"") && !uniString.EndsWith("\""))
                     {
-                        //enquoted exe path only + parameters unquoted
+                        //enquoted exe path only - parameters unquoted
                         uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                         PackageManager.UninstallNoArgs(uniString);
                     }
-                    //unquoted apo dw k pera
+
+                    //unquoted from here on
                     if (!uniString.StartsWith("\"") && !uniString.EndsWith("\""))
                     {
                         if (uniString.EndsWith(".exe"))
@@ -782,7 +419,7 @@ namespace AdvancedSystemManager
                             string args = "\"/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-\"";
                             PackageManager.EXE_Uninstall(uniString, args);
                         }
-                        else
+                        else // we build quotes around the uninstall .exe and concat our custom parameters with the existing ones
                         {
                             string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
                             int position = uniString.IndexOf(".exe ");
@@ -791,19 +428,19 @@ namespace AdvancedSystemManager
                                 position = position + 3; //exe
                                 uniString = uniString.Insert(position + 1, "\"");
                                 uniString = "\"" + uniString + args;
-                                MyLogger.WriteErrorLog("TEST: " + uniString);
+                                //MyLogger.WriteLog("TEST: " + uniString);
                                 PackageManager.UninstallNoArgs(uniString);
                             }
                         }
 
                     }
-                    //photoshop workaround
+                    //if it only ends with a quote - photoshop workaround
+                    //uninstall string is like : uninstall_path.exe arg1 arg2="some value"
                     if (!uniString.StartsWith("\"") && uniString.EndsWith("\""))
                     {
                         string args = " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                        // uniString = uniString + args;
 
-                        uniString = uniString.Replace("\"", "");
+                        //uniString = uniString.Replace("\"", "");
 
                         int position = uniString.IndexOf(".exe ");
                         if (position != -1)
@@ -811,51 +448,25 @@ namespace AdvancedSystemManager
                             position = position + 3; //exe
                             uniString = uniString.Insert(position + 1, "\"");
                             uniString = "\"" + uniString + args;
-                            MyLogger.WriteErrorLog("TEST: " + uniString);
+                            //MyLogger.WriteLog("TEST: " + uniString);
                             PackageManager.UninstallNoArgs(uniString);
                         }
-
                     }
-
-                    //   if( !uniString.StartsWith("\"") && !uniString.EndsWith(".exe"))
-                    // {
-                    // 8a to kanw megalo arxeio an tou balw quotes - prp na trimmarw gurw apo th leksh .exe mpales apla append
-                    //alla an exei kena 8a thn pa8w
-                    //uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
-                    //     PackageManager.UninstallNoArgs(uniString);
-                    //  }
-                    /* else
-                     {
-                         //uniString = uniString + " --mode unattended /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-                         //uniString = uniString + " /S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-";
-
-                         // kanw enquote gia na apofugw sthn cmd kena!
-                         uniString = '"' + uniString + '"' + " " + '"' + "/S /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" + '"';
-                         PackageManager.UninstallNoArgs(uniString);
-                     } */
                 }
-
             }
         }
 
         public static void UnattendedInstall()
         {
-            //packageName = "";
-            //(Application.StartupPath + "\\log.txt", true)
             if (Directory.Exists(Application.StartupPath + @"\apps_deploy"))
             {
-                Console.WriteLine("exists!");
-
                 try
                 {
                     //Directory.EnumerateFiles is not available in .NET 2.0
                     string[] files = Directory.GetFiles(Application.StartupPath + @"\apps_deploy");
-                    //string[] files = Directory.GetFiles(@"C:\Windows", "*.dmp");
 
                     foreach (string file in files)
                     {
-                        //packageName = file;
-                        Console.WriteLine(file);
                         if (file.EndsWith(".exe"))
                         {
                             PackageManager.EXE_Install(file);
@@ -868,42 +479,30 @@ namespace AdvancedSystemManager
                         {
                             //pass
                         }
-                        //DeleteFile(file);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("The process failed: {0}", e.ToString());
+                    MyLogger.WriteErrorLog("Exception occured while performing Unattended Installation");
+                    MyLogger.WriteErrorLog(ex.Message);
                 }
-
             }
             else
             {
-                Console.WriteLine("not exists!");
+                MyLogger.WriteErrorLog("Directory apps_deploy does not exist!");
             }
         }
 
         public static void ManagePrograms()
         {
-            //console write line does not help much here
-            // we avoid accessing controls of the ui thread
-            //Console.WriteLine(PackageManager.installedProgramsList[5].PackageName);
             for (int i = 0; i < PackageManager.installedProgramsList.Count; i++)
             {
                 if (PackageManager.installedProgramsList[i].ToRemove)
                 {
-                    MyLogger.WriteLog("package is :" + PackageManager.installedProgramsList[i].PackageName + " " + i);
+                    //MyLogger.WriteLog("package is :" + PackageManager.installedProgramsList[i].PackageName + " " + i);
                     PackageManager.CheckUninstallationMethod(PackageManager.installedProgramsList[i]);
-                    //MyLogger.WriteLog(i);
                 }
             }
-
-            //if sth true call
-            if (PackageManager.doUnattendedInstall)
-            {
-                //   PackageManager.UnattendedInstall();
-            }
-
         }
 
         internal static void WriteAllSoftware()
@@ -915,8 +514,5 @@ namespace AdvancedSystemManager
             }
             MyLogger.WriteAllSoftware("========INSTALLED SOFTWARE========");
         }
-
     }
-
 }
-
