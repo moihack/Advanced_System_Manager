@@ -13,6 +13,7 @@ namespace AdvancedSystemManager
         static bool willDoUnattendedInstall = false;
         static bool willDoMassiveUninstall = false;
         static bool willCleanDisk = false;
+        static bool willSetCPU = false;
 
         public static void ParseArguments(string[] arguments)
         {
@@ -70,6 +71,13 @@ namespace AdvancedSystemManager
                     }
                     break;
 
+                case ("-setcpu"):
+                    if (!willSetCPU)
+                    {
+                        willSetCPU = true;
+                    }
+                    break;
+
                 default:
                 {
                         Console.WriteLine("Unkown argument detected: " + argX);
@@ -86,7 +94,13 @@ namespace AdvancedSystemManager
         {
             try
             {
-                if(willGetSysInfo)
+                //optimize for speed first
+                if (willSetCPU)
+                {
+                    CPUPower.SetCPUStates();
+                }
+
+                if (willGetSysInfo)
                 {
                     SystemInfo sysinfo = new SystemInfo();
                     MyLogger.WriteSystemInfo(sysinfo.ToString());
@@ -120,7 +134,6 @@ namespace AdvancedSystemManager
                 {
                     RegistryParser.GetVolumeCaches();
                 }
-    
             }
             catch(Exception ex)
             {
