@@ -8,9 +8,9 @@ namespace AdvancedSystemManager
 {
     //a class for checking the integrity of files via MD5 & SHA-1 algorithms 
     //Windows do not provide a way to do this via built-in tools
-    public static class IntegrityChecker
+    internal static class IntegrityChecker
     {
-        public static String MD5Check(String filename)
+        internal static String MD5Check(String filename)
         {
             String checksum = "";
 
@@ -23,7 +23,7 @@ namespace AdvancedSystemManager
             }
             return checksum;
         }
-        public static String SHA1Check(String filename)
+        internal static String SHA1Check(String filename)
         {
             String checksum = "";
 

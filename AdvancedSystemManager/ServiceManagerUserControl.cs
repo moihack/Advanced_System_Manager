@@ -9,9 +9,9 @@ using System.Diagnostics;
 
 namespace AdvancedSystemManager
 {
-    public partial class ServiceManagerUserControl : UserControl
+    internal partial class ServiceManagerUserControl : UserControl
     {
-        public ServiceManagerUserControl()
+        internal ServiceManagerUserControl()
         {
             InitializeComponent();
         }

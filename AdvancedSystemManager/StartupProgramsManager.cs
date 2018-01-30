@@ -9,11 +9,11 @@ using System.Management;
 
 namespace AdvancedSystemManager
 {
-    public partial class StartupProgramsManager : UserControl
+    internal partial class StartupProgramsManager : UserControl
     {
-        public static bool controlLoaded = false;
+        internal static bool controlLoaded = false;
 
-        public StartupProgramsManager()
+        internal StartupProgramsManager()
         {
             InitializeComponent();
         }

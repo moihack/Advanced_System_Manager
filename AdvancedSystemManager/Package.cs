@@ -6,29 +6,29 @@ namespace AdvancedSystemManager
 {
     class Package
     {
-        public String PackageName { set; get; }
-        public String Publisher { set; get; }
-        public String UninstallString { set; get; }
-        public String QuietUninstallString { set; get; }
-        public String EstimatedSizeInKB { set; get; }
-        public String DisplayVersion { set; get; }
-        public Boolean IsSystemComponent { set; get; }
-        public Boolean IsSafeToRemove { set; get; }
-        public Boolean ToRemove { set; get; }
+        internal String PackageName { set; get; }
+        internal String Publisher { set; get; }
+        internal String UninstallString { set; get; }
+        internal String QuietUninstallString { set; get; }
+        internal String EstimatedSizeInKB { set; get; }
+        internal String DisplayVersion { set; get; }
+        internal Boolean IsSystemComponent { set; get; }
+        internal Boolean IsSafeToRemove { set; get; }
+        internal Boolean ToRemove { set; get; }
 
-        public Package(String packName,String pub,Boolean sysComp, decimal size,String uniString,String quietUniString,String dispVer)
+        internal Package(String packName, String pub, Boolean sysComp, decimal size, String uniString, String quietUniString, String dispVer)
         {
             this.PackageName = packName;
             this.Publisher = pub;
 
-            if(size < 1000)
+            if (size < 1000)
             {
                 decimal tempsize = size;
                 tempsize = Math.Round(tempsize, 2);
                 this.EstimatedSizeInKB = tempsize.ToString() + " KB";
             }
-            
-            if (size>1000)
+
+            if (size > 1000)
             {
                 size = size / 1024;
                 decimal tempsize = size;
@@ -36,7 +36,7 @@ namespace AdvancedSystemManager
                 this.EstimatedSizeInKB = tempsize.ToString() + " MB";
             }
 
-            if ( size > 1000)
+            if (size > 1000)
             {
                 size = size / 1024;
                 decimal tempsize = size;
@@ -64,7 +64,7 @@ namespace AdvancedSystemManager
 
     class PackageComparer : IComparer<Package>
     {
-        public int Compare(Package x, Package y)
+        int IComparer<Package>.Compare(Package x, Package y)
         {
             if (x == null)
             {

@@ -15,7 +15,7 @@ namespace AdvancedSystemManager
         static bool willCleanDisk = false;
         static bool willSetCPU = false;
 
-        public static void ParseArguments(string[] arguments)
+        internal static void ParseArguments(string[] arguments)
         {
             for(int i = 1; i<arguments.Length; i++)
             {

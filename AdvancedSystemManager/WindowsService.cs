@@ -6,12 +6,12 @@ namespace AdvancedSystemManager
 {
     class WindowsService
     {
-        public String DisplayName { get; }
-        public String ServiceName { get; }
-        public int StartType { get; }
-        public String Status { get; }
+        internal String DisplayName { get; }
+        internal String ServiceName { get; }
+        internal int StartType { get; }
+        internal String Status { get; }
 
-        public WindowsService(String dispName,String serName,int start,String status)
+        internal WindowsService(String dispName,String serName,int start,String status)
         {
             this.DisplayName = dispName;
             this.ServiceName = serName;

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace AdvancedSystemManager
 {
-    public class RegistryParser
+    internal class RegistryParser
     {        
-        public static string GetPrograms()
+        internal static string GetPrograms()
         {
             try
             {
@@ -45,7 +45,7 @@ namespace AdvancedSystemManager
             return "";
         }
                 
-        public static string GetWin64Programs()
+        internal static string GetWin64Programs()
         {
             try
             {
@@ -77,7 +77,7 @@ namespace AdvancedSystemManager
             return "";
         }
 
-        public static string GetCurrentUserPrograms()
+        internal static string GetCurrentUserPrograms()
         {
             try
             {
@@ -109,7 +109,7 @@ namespace AdvancedSystemManager
             return "";
         }
 
-        public static String GetStartupPrograms()
+        internal static String GetStartupPrograms()
         {
             try
             {
@@ -184,7 +184,7 @@ namespace AdvancedSystemManager
 
         }
 
-        public static String GetDisabledStartupPrograms()
+        internal static String GetDisabledStartupPrograms()
         {
             try
             {
@@ -217,7 +217,7 @@ namespace AdvancedSystemManager
         }
 
 
-        public static void EnableKeyStartup(StartupItem si)
+        internal static void EnableKeyStartup(StartupItem si)
         {            
             if ( si.Location.StartsWith("HKLM") || si.Location.StartsWith("HKEY_LOCAL_MACHINE"))
             {
@@ -247,7 +247,7 @@ namespace AdvancedSystemManager
             rk.DeleteSubKey(si.Name);
         }
 
-        public static void DisableKeyStartup(StartupItem si)
+        internal static void DisableKeyStartup(StartupItem si)
         {
             RegistryKey rk = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Shared Tools\\MSConfig\\startupreg",true);
             rk.CreateSubKey(si.Name);
@@ -283,7 +283,7 @@ namespace AdvancedSystemManager
             rk2.SetValue("inimapping", "0");
         }
 
-        public static void ApplyVisualEffects()
+        internal static void ApplyVisualEffects()
         {
             try
             {
@@ -313,7 +313,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static String GetVolumeCaches()
+        internal static String GetVolumeCaches()
         {
             try
             {
@@ -349,7 +349,7 @@ namespace AdvancedSystemManager
             return "";
         }
 
-        public static void CreateStartupReg()
+        internal static void CreateStartupReg()
         {
             //Make sure startupreg exists! - otherwise exception occurs!
             //the key is normally created when the user disables a startup item via msconfig
@@ -367,7 +367,7 @@ namespace AdvancedSystemManager
             catch { return ""; }
         }
 
-        public static String WindowsVersion()
+        internal static String WindowsVersion()
         {
             string ProductName = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
             string CSDVersion = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CSDVersion");

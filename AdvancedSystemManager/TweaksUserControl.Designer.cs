@@ -200,6 +200,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label progressLbl;
         private System.Windows.Forms.ToolTip toolTip1;
-        public System.ComponentModel.BackgroundWorker backgroundWorker1;
+        internal System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

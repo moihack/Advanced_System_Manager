@@ -8,19 +8,19 @@ namespace AdvancedSystemManager
 {
     class SystemInfo
     {
-        public static Boolean is64BitOS = false;
-        public String HOSTNAME { get; }
-        public String USERNAME { get; }
-        public String OSVERSION { get; }
-        public String OSBITNESS { get; }
-        public String MB { get; }
-        public String CPU { get; }
-        public String RAM { get; set; }
-        public String GPU { get; }
-        public String VRAM { get; set; }
-        public String HDD { get; set; }
-        public String HDDModel { get; }
-        public SystemInfo()
+        internal static Boolean is64BitOS = false;
+        internal String HOSTNAME { get; }
+        internal String USERNAME { get; }
+        internal String OSVERSION { get; }
+        internal String OSBITNESS { get; }
+        internal String MB { get; }
+        internal String CPU { get; }
+        internal String RAM { get; set; }
+        internal String GPU { get; }
+        internal String VRAM { get; set; }
+        internal String HDD { get; set; }
+        internal String HDDModel { get; }
+        internal SystemInfo()
         {
             this.HOSTNAME = Environment.MachineName;
             this.USERNAME = Environment.UserName;
@@ -84,7 +84,7 @@ namespace AdvancedSystemManager
             return res;
         }
 
-        public void ConvertFieldValues()
+        internal void ConvertFieldValues()
         {
             this.RAM = Convert.ToUInt64(this.RAM) / 1024 / 1024 + " MB";
             this.VRAM = Convert.ToUInt64(this.VRAM) / 1024 / 1024 + " MB of VRAM";

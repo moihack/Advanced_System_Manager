@@ -9,9 +9,9 @@ using System.Diagnostics;
 
 namespace AdvancedSystemManager
 {
-    public partial class ToolsUserControl : UserControl
+    internal partial class ToolsUserControl : UserControl
     {
-        public ToolsUserControl()
+        internal ToolsUserControl()
         {
             InitializeComponent();
         }

@@ -8,11 +8,11 @@ using System.Windows.Forms;
 
 namespace AdvancedSystemManager
 {
-    public partial class SystemInfoUserControl : UserControl
+    internal partial class SystemInfoUserControl : UserControl
     {
         SystemInfo sysInfo;
 
-        public SystemInfoUserControl()
+        internal SystemInfoUserControl()
         {
             InitializeComponent();
         }

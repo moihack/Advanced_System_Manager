@@ -142,7 +142,7 @@
 
         #endregion
 
-        public System.Windows.Forms.ListView listView1;
+        internal System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader ProgramName;
         private System.Windows.Forms.ColumnHeader Publisher;
         private System.Windows.Forms.ColumnHeader EstSize;
@@ -150,7 +150,7 @@
         private System.Windows.Forms.Button allBtn;
         private System.Windows.Forms.Button svBtn;
         private System.Windows.Forms.Button defBtn;
-        public System.ComponentModel.BackgroundWorker backgroundWorker1;
+        internal System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ColumnHeader Version;
     }
