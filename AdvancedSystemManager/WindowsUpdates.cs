@@ -7,9 +7,9 @@ namespace AdvancedSystemManager
 {
     class WindowsUpdates
     {
-        public static List<String> installedUpdatesList = new List<String>();
+        internal static List<String> installedUpdatesList = new List<String>();
 
-        public void UpdatesFinder()
+        internal void UpdatesFinder()
         {
             const string query = "SELECT HotFixID FROM Win32_QuickFixEngineering";
             var search = new ManagementObjectSearcher(query);
@@ -19,7 +19,7 @@ namespace AdvancedSystemManager
                 installedUpdatesList.Add(hotfix["HotFixID"].ToString());      
         }
 
-        public static String UpdateChecker(String updateID)
+        internal static String UpdateChecker(String updateID)
         {
             bool updateInstalled = false;
             String msg = "";

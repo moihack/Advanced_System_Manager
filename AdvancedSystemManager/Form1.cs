@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace AdvancedSystemManager
 {
-    public partial class MainForm : Form
+    internal partial class MainForm : Form
     {
-        public MainForm()
+        internal MainForm()
         {
             InitializeComponent();
         }

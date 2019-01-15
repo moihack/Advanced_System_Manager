@@ -9,7 +9,7 @@ using System.IO;
 
 namespace AdvancedSystemManager
 {
-    public partial class TweaksUserControl : UserControl
+    internal partial class TweaksUserControl : UserControl
     {
         //use these to count the total tasks for backgroundworker
         //calculate total progress depending on the number of tasks
@@ -26,7 +26,7 @@ namespace AdvancedSystemManager
         static int maxProgress = 100;
         static float prog;
 
-        public TweaksUserControl()
+        internal TweaksUserControl()
         {
             InitializeComponent();
         }
@@ -290,7 +290,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public void UninstallPrograms()
+        internal void UninstallPrograms()
         {
             //console write line does not work here
             //we also have to avoid accessing controls of the ui thread
@@ -308,7 +308,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public void UnattendedInstall()
+        internal void UnattendedInstall()
         {
             if (Directory.Exists(Application.StartupPath + @"\apps_deploy"))
             {

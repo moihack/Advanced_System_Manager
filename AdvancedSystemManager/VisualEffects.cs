@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace AdvancedSystemManager
 {
-    public class VisualEffects
+    internal class VisualEffects
     {
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -27,7 +27,7 @@ namespace AdvancedSystemManager
         private static UInt32 SPI_SETTOOLTIPANIMATION = 0x1017;
         private static UInt32 SPI_SETTOOLTIPFADE = 0x1019;
 
-        public static void ApplySettings()
+        internal static void ApplySettings()
         {
             SystemParametersInfo(SPI_SETDROPSHADOW, 0, false, 0);
 

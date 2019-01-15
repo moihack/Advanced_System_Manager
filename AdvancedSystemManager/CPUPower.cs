@@ -8,7 +8,7 @@ namespace AdvancedSystemManager
 {
     class CPUPower
     {
-        public static void SetCPUStates()
+        internal static void SetCPUStates()
         {
             string windowsVer = RegistryParser.WindowsVersion();
             string output = "";

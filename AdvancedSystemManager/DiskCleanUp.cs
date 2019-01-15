@@ -6,15 +6,15 @@ using System.Diagnostics;
 
 namespace AdvancedSystemManager
 {
-    public class DiskCleanUp
+    internal class DiskCleanUp
     {
 
-        public DiskCleanUp()
+        internal DiskCleanUp()
         {
 
         }
 
-        public static void FindFiles(String path, String filter)
+        internal static void FindFiles(String path, String filter)
         {
             string newPath = "";
 
@@ -65,7 +65,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void FindDirs(String path)
+        internal static void FindDirs(String path)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void DeleteFile(String filePath)
+        internal static void DeleteFile(String filePath)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void DeleteDir(String dirPath)
+        internal static void DeleteDir(String dirPath)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace AdvancedSystemManager
 
         //firefox & chrome profile delete!
 
-        public static void ChromeCleanup()
+        internal static void ChromeCleanup()
         {
             Process[] procar = Process.GetProcessesByName("chrome");
             foreach (Process proc in procar)
@@ -143,7 +143,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void FirefoxCleanup()
+        internal static void FirefoxCleanup()
         {
             Process[] procar = Process.GetProcessesByName("firefox");
             foreach (Process proc in procar)

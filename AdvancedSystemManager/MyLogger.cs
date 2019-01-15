@@ -13,7 +13,7 @@ namespace AdvancedSystemManager
 
         }
 
-        public static void WriteLog(Object messageLog)
+        internal static void WriteLog(Object messageLog)
         {
             //true is append - create if not exists!
             using (System.IO.StreamWriter file =
@@ -23,7 +23,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void WriteErrorLog(Object messageLog)
+        internal static void WriteErrorLog(Object messageLog)
         {
             //true is append - create if not exists!
             using (System.IO.StreamWriter file =
@@ -33,7 +33,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void CleanLog()
+        internal static void CleanLog()
         {
             //false is overwrite - create if not exists!
             using (System.IO.StreamWriter file =
@@ -43,7 +43,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void WriteProgramList(Object messageLog)
+        internal static void WriteProgramList(Object messageLog)
         {
             //true is append - create if not exists!
             using (System.IO.StreamWriter file =
@@ -53,7 +53,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void WriteSystemInfo(String info)
+        internal static void WriteSystemInfo(String info)
         {
             //false is overwrite - create if not exists!
             using (System.IO.StreamWriter file =
@@ -63,7 +63,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void WriteAllSoftware(String program)
+        internal static void WriteAllSoftware(String program)
         {
             //false is overwrite - create if not exists!
             using (System.IO.StreamWriter file =
@@ -73,7 +73,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public static void DeleteLogs()
+        internal static void DeleteLogs()
         {
             try
             {

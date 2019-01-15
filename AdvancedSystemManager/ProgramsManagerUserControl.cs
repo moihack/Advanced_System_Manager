@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace AdvancedSystemManager
 {
-    public partial class ProgramsManagerUserControl : UserControl
+    internal partial class ProgramsManagerUserControl : UserControl
     {
-        public ProgramsManagerUserControl()
+        internal ProgramsManagerUserControl()
         {
             InitializeComponent();
         }
@@ -20,7 +20,7 @@ namespace AdvancedSystemManager
             backgroundWorker1.RunWorkerAsync();
         }
 
-        public void MarkForRemoval()
+        internal void MarkForRemoval()
         { 
             listView1.Items.Clear();
 
@@ -42,7 +42,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public void MarkAll()
+        internal void MarkAll()
         {
             foreach (ListViewItem item in listView1.Items)
             {
@@ -50,7 +50,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public void MarkNone()
+        internal void MarkNone()
         {
             foreach (ListViewItem item in listView1.Items)
             {
@@ -58,7 +58,7 @@ namespace AdvancedSystemManager
             }
         }
 
-        public void SaveList()
+        internal void SaveList()
         {
             foreach (ListViewItem item in listView1.Items)
             {

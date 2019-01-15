@@ -7,8 +7,8 @@ namespace AdvancedSystemManager
 {
     class ServiceManager
     {
-        public static List<WindowsService> servicesList = new List<WindowsService>();
-        public static void GetServices()
+        internal static List<WindowsService> servicesList = new List<WindowsService>();
+        internal static void GetServices()
         {
             // get list of Windows services
             ServiceController[] services = ServiceController.GetServices();
